@@ -13,9 +13,10 @@ Questa repository su Git è stata aperta per provare a sviluppare assieme una ap
  
  * Quando vorrete caricare le vostre modifiche ai sorgenti, chiaramente è tedioso dover accedere al sito, per questo esistono delle add-ons per gli IDE più diffusi che si integrano con Git, di modo che aprendo (per esempio) il vostro **Eclipse** abbiate automaticamente l'ultima versione e potrete dallo stesso programma caricare i vostri file.
  * Come fare il setup di Git su Eclipse [qua](http://wiki.eclipse.org/EGit/User_Guide#Getting_Started)
- * In questa [guida](http://www.geo.uzh.ch/microsite/reproducible_research/post/rr-eclipse-git/) sono riassunti i concetti di *Commit* e *Push*.
+ * In questa [guida](http://www.geo.uzh.ch/microsite/reproducible_research/post/rr-eclipse-git/) sono riassunti i concetti di *Commit* e *Push* e come usarli con Eclipse.
  * questo punto l'ho aggiunto modificando il documento da Eclipse, se nell'editor volete vedere delle finestre che danno informazioni utili andate su Window->Show View->Other...->Digitate 'git' dove dice *type filter text* e poi selezionate quali finestre di aiuto Git volete vedere, almeno "Git Repositories" è sicuramente utile.
  * Ancora più comodo in alto a sinistra selezionate la *prospettiva git* e avrete tutte le finistre già aperte.
+ * Se quando provate a fare il push di una vostra modifica ottenere in risposta l'errore 401, probabimente è un noto bug di eclipse. Andata su Help->Install New Software...->aggiungete il sito"http://download.eclipse.org/mpc/releases/1.5.1a/" e installate l'aggiornamento di Eclipse Market place. A questo punto dovrebbe sere risolto il problema. (Conflitto fra MarketPlace e eGit in Eclipse) 
 
 ## Licenza: GPLv3
 
