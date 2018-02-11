@@ -5,4 +5,4 @@ Target: Studenti e Professori
 Che funzioni deve avere:
 	
 	* Diffondere informazioni importanti (circolari, eventi, gare)
-	*  ??? aggiungete qualcosa anche voi
+	* Dare la possibilità ai professori di comunicare con alunni interessati ai loro progetti
