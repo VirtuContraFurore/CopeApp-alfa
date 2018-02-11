@@ -10,6 +10,7 @@ Questa repository su Git è stata aperta per provare a sviluppare assieme una ap
  Come funziona Git e cos'è una *repository*? Iniziamo con un [HelloWord](https://guides.github.com/activities/hello-world/)!
  * Quello che dovrete fare voi, una volta studiato, è crearvi un account su GitHub e aggregarvi a questo progetto.
  * Quando vorrete caricare le vostre modifiche ai sorgenti, chiaramente è tedioso dover accedere al sito, per questo esistono delle add-ons per gli IDE più diffusi che si integrano con Git, di modo che aprendo (per esempio) il vostro **Eclipse** abbiate automaticamente l'ultima versione e potrete dallo stesso programma caricare i vostri file.
+ * Come fare il setup di Git su Eclipse [qua](http://wiki.eclipse.org/EGit/User_Guide#Getting_Started)
 
 
 ## Licenza: GPLv3
