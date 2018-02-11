@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular.min.js"></script>
+ </head>
+ <body ng-app="myapp">
+ <div ng-controller="HelloController" >
+ 
+ <form name="LoginForm" novalidate>
+	 
+	 <input name="user" type="text" ng-model="user" required>
+	 <br/>
+	 <input name="password" type="text" ng-model="password" required>
+	 <br/>
+	 <button ng-click="reset()">Reset</button>
+	<!-- <button ng-click="login()" ng-disabled="!(LoginForm.user.$dirty && LoginForm.password.$dirty)">Login</button> -->
+	 <button ng-click="login()" ng-disabled="LoginForm.$invalid">Login</button>
+
+	 {{LoginForm.$error}}
+	 
+ </form>
+ 
+ </div>
+ <script>
+ angular.module("myapp", []).controller("HelloController", 
+ function($scope) {
+  $scope.user='';
+  $scope.password='';
+  
+  $scope.reset = function() {
+	    $scope.user='';
+		$scope.password='';
+	  
+	  };
+  
+ });
+ </script>
+ </body>
+</html>

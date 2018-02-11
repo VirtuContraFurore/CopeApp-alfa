@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular.min.js"></script>
+ </head>
+ <body ng-app="myapp">
+ <div ng-controller="HelloController" >
+ <h2>Welcome {{helloTo.title}} to the world of Tutorialspoint!</h2>
+ <p ng-show = "visualizzaOrario">{{pippo}}</p>
+ <a ng-click = "calcolaOrario('vincenzobello',2,true)">click me</a>
+ 
+ <p>Enter your Name: <input type="text" ng-model="name"></p>
+ 
+ <p>Hello <span ng-bind="name"></span>!</p>
+ 
+ <h2 ng-repeat="utente in utenti">Questo e' <span ng-bind="utente.nome"></span> {{utente.cognome | uppercase}}</h2>
+
+ <table style="border: 1px solid red;">
+	<tr> 
+		<th style="border: 1px solid blue;">Nome aaaaaaaaaaaaaaaaaa</th>
+		<th style="border: 1px solid blue;">Cognome</th>
+	</tr>
+	<tr ng-repeat="utente in utenti">
+		<td style="border: 1px solid blue;">{{ utente.nome }}</td>
+		<td style="border: 1px solid blue;">{{ utente.cognome }}</td>
+	</tr>
+ </table>
+ 
+  
+ </div>
+ <script>
+ angular.module("myapp", []).controller("HelloController", 
+ function($scope) {
+ $scope.helloTo = new Object();
+ $scope.helloTo.title = "AngularJS";
+ $scope.pippo = "pluto";
+ $scope.calcolaOrario = function (testo,numero){
+	$scope.pippo = "giovanni";
+	$scope.visualizzaOrario = 0;
+	
+	$scope.name = "Orario";
+
+ };
+ $scope.visualizzaOrario = 1;
+ 
+ $scope.name = "luca";
+ 
+ $scope.utenti = [{nome: 'luca', cognome: 'ceragioli'}, {nome: 'Erica', cognome: 'Poretti'}];
+ 
+  
+ });
+ </script>
+ </body>
+</html>

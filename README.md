@@ -29,7 +29,9 @@ Stiamo ancora lavorando al concept dell'applicazione, che sarà:
   * useremo le librerie grafiche JavaScript [Angular](https://angularjs.org/)
   * il target è il liceo Copernico (BO)
 
-Nella cartella *concept* inizieremo ad mettere le nostre idee a riguardo.  
+Nella cartella *concept*  inizieremo ad mettere le nostre idee a riguardo.  
+ 
+Nella cartella *tutorial*  ci sono diverse cose utili.
 
 
 ## Authors
