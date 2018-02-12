@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Cope App</title>
+		<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="stile.css">
+	</head>
+	<body ng-app = "myapp">
+		<div ng-controller="HelloController" class="login_div">
+			<table>
+				<tr>
+					<td colspan="2"><span align="center">Benvenuto su Cope App</span></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="email" required="required" placeholder="email" /></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="password" required="required" placeholder="password" /></td>
+				</tr>
+				<tr>
+					<td style="width:50%"><input type="submit" value="log in" /></td>
+					<td style="width:50%"><input type="submit" value="sing up" /></td>
+				</tr>
+			</table>
+		</div>
+		<script>
+			angular.module("myapp", [])
+			.controller("HelloController", function($scope) {
+				
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,14 @@
+.login_div{
+width:50%; 
+height:80%; 
+margin:0 auto;
+}
+
+.login_div input{
+width:100%; 
+height:100%;
+}
+
+.login_div table{
+margin:0 auto;
+}
