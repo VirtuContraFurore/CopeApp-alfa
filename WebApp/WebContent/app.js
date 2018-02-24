@@ -1,0 +1,1 @@
+angular.module("CopeApp", ["ngMaterial","ngMessages","ngAnimate","ngSanitize","ngAria"])
