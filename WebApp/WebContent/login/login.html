@@ -1,0 +1,20 @@
+<div ng-controller="LoginCtrl">
+<md-content class="md-no-momentum" layout="column" layout-align="null center" flex-md>
+
+    <md-input-container class="md-icon-float md-block">
+      <label>Username</label>
+      <md-icon md-menu-origin class="material-icons">person</md-icon>
+      <input ng-model="user.name" type="text">
+    </md-input-container>
+    
+    <md-input-container class="md-icon-float md-block">    
+      <label>Password</label>
+      <md-icon md-menu-origin class="material-icons">security</md-icon>
+      <input ng-model="user.password" type="password">
+    </md-input-container>   
+     
+	<md-button class="md-raised" ng-click="goto('home')">Login</md-button>
+</md-content>
+
+
+</div>
