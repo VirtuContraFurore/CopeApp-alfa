@@ -10,7 +10,11 @@ function LoginCtrl($scope, $state){
 			name: '',
 			password: ''	
 	}
-	$scope.goto= function(state){
-		$state.go(state);
-	}
+	var pattern = Trianglify({
+		width: window.innerWidth+10,
+		height: window.innerHeight+10,
+		variance: 1
+	});
+	var a= pattern.png();
+	$('#loginBackground').css('background-image', 'url(' + a + ')');
 }

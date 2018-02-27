@@ -1,20 +1,31 @@
-<div ng-controller="LoginCtrl">
-<md-content class="md-no-momentum" layout="column" layout-align="null center" flex-md>
-
-    <md-input-container class="md-icon-float md-block">
-      <label>Username</label>
-      <md-icon md-menu-origin class="material-icons">person</md-icon>
-      <input ng-model="user.name" type="text">
-    </md-input-container>
-    
-    <md-input-container class="md-icon-float md-block">    
-      <label>Password</label>
-      <md-icon md-menu-origin class="material-icons">security</md-icon>
-      <input ng-model="user.password" type="password">
-    </md-input-container>   
-     
-	<md-button class="md-raised" ng-click="goto('home')">Login</md-button>
-</md-content>
-
-
+<div ng-controller="LoginCtrl" id="loginBackground" layout="column" flex>
+	<div flex="35">
+		
+	</div>
+	<div flex="65" layout="row">
+		<div flex="15">
+		</div>
+		<div flex>
+			<form layout="column" name="loginForm" layout-align="start streth">
+				<md-input-container class="md-icon-float md-block">
+			      	<label>Username</label>
+				    <md-icon class="material-icons">person_outline</md-icon>
+				    <input required type="text">
+		    		</md-input-container>
+		    		<md-input-container class="md-icon-float md-block">
+			      	<label>Password</label>
+				    <md-icon class="material-icons">lock_outline</md-icon>
+				    <input required type="password">
+		    		</md-input-container>
+		    		<md-checkbox>
+            			Ricordati di me
+          		</md-checkbox>
+          		<md-button type="submit" class="md-raised" ng-disabled="loginForm.$invalid">
+          			Sign in
+          		</md-button>
+    			</form>
+		</div>
+		<div flex="15">
+		</div>
+	</div>
 </div>
