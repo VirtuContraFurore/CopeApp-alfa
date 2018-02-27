@@ -1,5 +1,9 @@
 app.controller("MainCtrl", MainCtrl);
-function MainCtrl($scope){
-	$scope.loggedin=true;
+
+function MainCtrl($scope, $mdSidenav){
+	
+	$scope.sidenavToggle = function() {
+		$mdSidenav("leftSidenav").toggle();
+	}
 	
 }

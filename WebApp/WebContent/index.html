@@ -25,11 +25,12 @@
 	<script type="text/javascript" src="index.js"></script>
 	<script type="text/javascript" src="main/main.js"></script>
 	<script type="text/javascript" src="main/header/header.js"></script>
+	<script type="text/javascript" src="main/sidenav/sidenav.js"></script>
 	<script type="text/javascript" src="home/home.js"></script>
 	<script type="text/javascript" src="cambia_password/cambia_password.js"></script>
 	<script type="text/javascript" src="login/login.js"></script>
 
-	<md-content ng-if="loggedin" ng-include="'main/main.html'"></md-content>
+	<md-content ng-if="loggedin" ng-include="'main/main.html'" layout="column"></md-content>
 	<md-content ng-if="!loggedin" ng-include="'login/login.html'" layout="column" flex></md-content>
 	
 </body>

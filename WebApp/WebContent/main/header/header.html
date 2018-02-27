@@ -1,25 +1,4 @@
-<md-toolbar class="md-hue-2 md-toolbar-tools" layout="row" ng-controller="MainHeaderCtrl"> 
-  <md-menu>
-      <md-button class="md-icon-button" ng-click="$mdMenu.open()">
-        <md-icon md-menu-origin class="material-icons">more_vert</md-icon>
-      </md-button>
-      <md-menu-content width="4">
-        <md-menu-item>
-          <md-button ng-click="goto('login')">
-            login
-          </md-button>
-        </md-menu-item>      
-        <md-menu-item>
-          <md-button ng-click="goto('cambia_password')">
-            cambia password
-          </md-button>
-        </md-menu-item>
-        <md-menu-item>
-          <md-button ng-click="goto('home')">
-            home
-          </md-button>
-        </md-menu-item>
-      </md-menu-content>
-    </md-menu>
-<h2 flex>{{title}}</h2>
-</md-toolbar>
+<md-button class="md-icon-button" ng-click="sidenavToggle()">
+	<md-icon class="material-icons">menu</md-icon>
+</md-button>
+<h2 flex>CopeApp</h2>
