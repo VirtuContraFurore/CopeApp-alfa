@@ -1,5 +1,5 @@
-@charset "UTF-8";
-#loginBackground {
+@charset "ISO-8859-1";
+#firstEntryBackground {
 	background-position: center;
 	background-size: cover;
 	margin: -4%;
@@ -9,10 +9,11 @@
 	height: 108%;
 }
 #formContainer {
-    margin: 25px;
+	margin: 25px;
     margin-top: 5px;
+    margin-bottom: 5px;
 }
-#formBorder {
+.formBorder {
 	padding: 7px;
     border: #2b2b2b54;
     border-style: solid;

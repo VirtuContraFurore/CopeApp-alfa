@@ -1,6 +1,6 @@
-<div ng-controller="MainCtrl">
+<div ng-controller="MainCtrl" layout="column">
 	<md-toolbar class="md-hue-2 md-toolbar-tools" layout="row" ng-controller="MainHeaderCtrl" ng-include="'main/header/header.html'"></md-toolbar>
-	<md-sidenav class="md-sidenav-left" md-component-id="leftSidenav" md-whiteframe="4" ng-controller="MainSidenavCtrl" ng-include="'main/sidenav/sidenav.html'"></md-sidenav>
+	<md-sidenav class="md-sidenav-left" md-component-id="leftSidenav" md-whiteframe="4" ng-controller="MainSidenavCtrl" ng-include="'main/sidenav/sidenav.html'" layout="column"></md-sidenav>
 	<md-content flex layout-padding ui-view>
 		
 	</md-content>

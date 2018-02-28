@@ -1,3 +1,4 @@
-<md-button>
-
+<md-button ng-repeat="page in pages" ng-click="goto(page.routerStatus)">
+	<md-icon class="material-icons">{{page.pageIcon}}</md-icon>
+	{{page.displayName}}
 </md-button>
