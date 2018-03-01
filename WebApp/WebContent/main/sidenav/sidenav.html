@@ -1,4 +1,8 @@
-<md-button ng-repeat="page in pages" ng-click="goto(page.routerStatus)">
-	<md-icon class="material-icons">{{page.pageIcon}}</md-icon>
-	{{page.displayName}}
+<md-content layout="column" layout-align="start start">
+<md-content ng-include="'main/sidenav/sidenavHeader/sidenavHeader.html'"> </md-content>
+<md-button class="menu-buttons" ng-repeat="page in pages" ng-click="goto(page.routerStatus); sidenavToggle();">
+	<md-icon class="menu-icons material-icons">{{page.pageIcon}}</md-icon>
+	<h class="menu-items">{{page.displayName}}</h>
 </md-button>
+</md-content>
+

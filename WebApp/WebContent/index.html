@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="login/login.css">
 		<link rel="stylesheet" href="firstEntry/firstEntry.css">
+		<link rel="stylesheet" href="main/sidenav/sidenav.css">
 	</head>
 	<body ng-app="CopeApp" ng-cloak style="overflow:hidden;" layout="column" ng-controller="IndexCtrl">
 	
@@ -24,6 +25,7 @@
 		<script type="text/javascript" src="node_modules/angular-messages/angular-messages.min.js"></script>
 		<script type="text/javascript" src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
 		<script type="text/javascript" src="node_modules/angular-material/angular-material.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/1.1.0/trianglify.min.js"></script>
 		<script type="text/javascript" src="app.js"></script>
 		<script type="text/javascript" src="index.js"></script>
 		<script type="text/javascript" src="login/login.js"></script>
@@ -31,8 +33,11 @@
 		<script type="text/javascript" src="main/main.js"></script>
 		<script type="text/javascript" src="main/header/header.js"></script>
 		<script type="text/javascript" src="main/sidenav/sidenav.js"></script>
+		<script type="text/javascript" src="main/sidenav/sidenavHeader/sidenavHeader.js"></script>
 		<script type="text/javascript" src="home/home.js"></script>
+		<script type="text/javascript" src="news/news.js"></script>
 		<script type="text/javascript" src="cambia_password/cambia_password.js"></script>
+		
 	
 		<md-content ng-if="!loggedin" ng-include="'login/login.html'" flex layout="column"></md-content>
 		<md-content ng-if="loggedin && firstEntry" ng-include="'firstEntry/firstEntry.html'" flex layout="column"></md-content>

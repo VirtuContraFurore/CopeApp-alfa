@@ -1,0 +1,33 @@
+md-sidenav, md-backdrop {
+	position: fixed !important;
+	z-index: 1000; /*sidenav sempre in primo piano*/
+}
+md-sidenav {
+	min-width: 280	px !important;
+    width: 290px !important;
+    max-width: 340px !important;	
+}
+
+.menu-icons {
+	padding: 0 5px;
+}
+
+.menu-items {
+	padding: 0 10px;
+}
+
+div[name="userInfoSidenav"]{
+	position: relative; 
+	horizontal-align:center;
+}
+
+img[name="profilePicture"]{
+	position: absolute; 
+	left: 0px;	
+	padding: 0px 15px
+}
+
+h1[name="username"] {
+	position: absolute;
+	padding: 0px 15px;
+}

@@ -9,9 +9,9 @@ function IndexCtrl($scope,$state, localStorageService){
 	
 	//gestione user loggato
 	$scope.user={
-			name: '',
+			name: 'Pierfilippo',  //giusto per mostrare l'immagine profilo
 			password: '',
-			remember: false
+			remember: false,
 	}
 	$scope.getUser = function() {
 		return $scope.user;
@@ -21,7 +21,7 @@ function IndexCtrl($scope,$state, localStorageService){
 	}
 	
 	//gestione login
-	$scope.loggedin = false;
+	$scope.loggedin = true;
 	$scope.setLoggedin = function(set) {
 		$scope.loggedin = set;
 	}
@@ -29,7 +29,7 @@ function IndexCtrl($scope,$state, localStorageService){
 		return $scope.loggedin;
 	}
 	//gestione first entry
-	$scope.firstEntry = true;
+	$scope.firstEntry = false;
 	$scope.setFirstEntry = function(set) {
 		$scope.firstEntry = set;
 	}
@@ -42,6 +42,10 @@ function IndexCtrl($scope,$state, localStorageService){
 	$scope.screenSize = "1080x1920";
 	$scope.backgroundTag = "landscape";
 	$scope.backgroundBlur = 15;
+	$scope.customs = {
+			userImage: "https://ui-avatars.com/api/?length=1&rounded=true&name="+$scope.user.name,
+			userWallpaper: 'default'
+	}
 	$scope.pages = [{
 		displayName: "Home",
 		routerStatus: "home",
