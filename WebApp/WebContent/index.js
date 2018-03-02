@@ -43,7 +43,7 @@ function IndexCtrl($scope,$state, localStorageService){
 	$scope.backgroundTag = "landscape";
 	$scope.backgroundBlur = 15;
 	$scope.customs = {
-			userImage: "https://ui-avatars.com/api/?length=1&rounded=true&name="+$scope.user.name,
+			userImage: "https://ui-avatars.com/api/?length=1&rounded=true&name=",
 			userWallpaper: 'default'
 	}
 	$scope.items = [{
