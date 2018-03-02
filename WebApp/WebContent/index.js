@@ -46,17 +46,30 @@ function IndexCtrl($scope,$state, localStorageService){
 			userImage: "https://ui-avatars.com/api/?length=1&rounded=true&name="+$scope.user.name,
 			userWallpaper: 'default'
 	}
-	$scope.pages = [{
+	$scope.items = [{
 		displayName: "Home",
 		routerStatus: "home",
-		pageIcon: "home"
+		pageIcon: "home",
+		itemType: "page"
 	}, {
 		displayName: "News",
 		routerStatus: "news",
-		pageIcon: "whatshot"
+		pageIcon: "whatshot",
+		itemType: "page"
+	}, {
+		displayName: "divbar01",
+		routerStatus: "-",
+		pageIcon: "-",
+		itemType: "divbar"
+	}, {
+		displayName: "Impostazioni",
+		routerStatus: "-",
+		pageIcon: "-",
+		itemType: "title"
 	}, {
 		displayName: "Settings",
 		routerStatus: "settings",
-		pageIcon: "settings"
+		pageIcon: "settings",
+		itemType: "page"
 	}];
 }

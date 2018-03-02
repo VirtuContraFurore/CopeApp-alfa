@@ -1,8 +1,16 @@
 <md-content layout="column" layout-align="start start" flex id="sidenavContent" ng-controller="MainSidenavCtrl">
 	<md-content ng-include="'main/sidenav/sidenavHeader/sidenavHeader.html'" flex="25" style="width:100%;" layout="column"></md-content>
-	<md-button style="margin: 4px 0px; width: 100%; padding-top: 7px; padding-bottom: 7px;" layout="row" class="menu-button" ng-repeat="page in pages" ng-click="goto(page.routerStatus); sidenavToggle();">
-		<md-icon class="menu-icons material-icons">{{page.pageIcon}}</md-icon>
-		<p flex>{{page.displayName}}</p>
-	</md-button>
+	<div ng-repeat="item in items">
+		<md-button
+			style="margin: 4px 0px; width: 100%; padding-top: 7px; padding-bottom: 7px;"
+			layout="row" class="menu-button"
+			ng-click="goto(item.routerStatus); sidenavToggle();"
+			ng-if="item.itemType=='page'"> 
+			<md-icon class="menu-icons material-icons">{{item.pageIcon}}</md-icon>
+		<p flex>{{item.displayName}}</p>
+		</md-button>
+		<md-divider ng-if="item.itemType=='divbar'"></md-divider>
+		<h3 ng-if="item.itemType=='title'"> {{item.displayName}} </h3>
+	</div>
 </md-content>
 
