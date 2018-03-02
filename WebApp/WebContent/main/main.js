@@ -1,9 +1,11 @@
 app.controller("MainCtrl", MainCtrl);
 
-function MainCtrl($scope, $mdSidenav){
+function MainCtrl($scope, $mdSidenav, $timeout){
 	
 	$scope.sidenavToggle = function() {
-		$mdSidenav("leftSidenav").toggle();
+		$timeout(function() {
+			$mdSidenav("leftSidenav").toggle();
+		}, 250);
 	}
 	
 }
