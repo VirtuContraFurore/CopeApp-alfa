@@ -9,7 +9,7 @@ function IndexCtrl($scope,$state, localStorageService){
 	
 	//gestione user loggato
 	$scope.user={
-			name: 'Pierfilippo',  //giusto per mostrare l'immagine profilo
+			name: 'Lucio',  //giusto per mostrare l'immagine profilo
 			password: '',
 			remember: false,
 	}
