@@ -62,11 +62,6 @@ function IndexCtrl($scope,$state, localStorageService){
 		pageIcon: "-",
 		itemType: "divbar"
 	}, {
-		displayName: "Impostazioni",
-		routerStatus: "-",
-		pageIcon: "-",
-		itemType: "title"
-	}, {
 		displayName: "Settings",
 		routerStatus: "settings",
 		pageIcon: "settings",
