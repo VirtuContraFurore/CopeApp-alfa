@@ -41,7 +41,7 @@
 	
 		<md-content ng-if="!loggedin" ng-include="'login/login.html'" flex layout="column"></md-content>
 		<md-content ng-if="loggedin && firstEntry" ng-include="'firstEntry/firstEntry.html'" flex layout="column"></md-content>
-		<md-content ng-if="loggedin && !firstEntry" ng-include="'main/main.html'" layout="column"></md-content>
+		<md-content ng-if="loggedin && !firstEntry" ng-include="'main/main.html'" layout="column" flex></md-content>
 		
 	</body>
 </html>
