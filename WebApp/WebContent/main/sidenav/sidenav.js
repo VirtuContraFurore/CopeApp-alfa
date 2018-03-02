@@ -1,5 +1,5 @@
 app.controller("MainSidenavCtrl", MainSidenavCtrl);
 
-function MainSidenavCtrl($scope, $mdSidenav){
-	
+function MainSidenavCtrl($scope){
+		
 }
