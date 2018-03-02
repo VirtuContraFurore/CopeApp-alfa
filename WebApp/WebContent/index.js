@@ -21,7 +21,7 @@ function IndexCtrl($scope,$state, localStorageService){
 	}
 	
 	//gestione login
-	$scope.loggedin = false; //set to false to show Login Page
+	$scope.loggedin = true; //set to false to show Login Page
 	$scope.setLoggedin = function(set) {
 		$scope.loggedin = set;
 	}
@@ -29,7 +29,7 @@ function IndexCtrl($scope,$state, localStorageService){
 		return $scope.loggedin;
 	}
 	//gestione first entry
-	$scope.firstEntry = true;  //set to true to show firstLogin Page
+	$scope.firstEntry = false;  //set to true to show firstLogin Page
 	$scope.setFirstEntry = function(set) {
 		$scope.firstEntry = set;
 	}
