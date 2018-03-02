@@ -8,16 +8,3 @@
 	width: 108%;
 	height: 108%;
 }
-#formContainer {
-	margin: 25px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-.formBorder {
-	padding: 7px;
-    border: #2b2b2b54;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 15px;
-    background: #00000059;
-}
