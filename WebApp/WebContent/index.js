@@ -59,9 +59,9 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 	}
 	
 	//variabili globali
-	$scope.screenSize = "1080x1920";
-	$scope.backgroundTag = "landscape";
-	$scope.backgroundBlur = 15;
+	$scope.screenSize = window.innerWidth+"x"+window.innerHeight;
+	$scope.backgroundTag = "architecture";
+	$scope.backgroundBlur = 10;
 	$scope.customs = {
 			userImage: "https://ui-avatars.com/api/?length=1&rounded=true&name=",
 			userWallpaper: 'default'
