@@ -1,10 +1,22 @@
 app.controller("IndexCtrl", IndexCtrl);
 
-function IndexCtrl($scope,$state, localStorageService){
+function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 	
 	//funzione globale cambio stato
 	$scope.goto= function(state){
 		$state.go(state);
+	}
+	
+	//call string function
+	$scope.callFunction = function(func) {
+		eval("$scope."+func);
+	}
+	
+	//sidenav toggle
+	$scope.sidenavToggle = function() {
+		$timeout(function() {
+			$mdSidenav("leftSidenav").toggle();
+		}, 250);
 	}
 	
 	//gestione user loggato
@@ -20,14 +32,23 @@ function IndexCtrl($scope,$state, localStorageService){
 		$scope.user=set;
 	}
 	
+	//gestione logout
+	$scope.logout = function() {
+		$timeout(function() {
+			$scope.goto("home")
+			$scope.setLoggedin(false);
+		}, 250);
+	}
+	
 	//gestione login
-	$scope.loggedin = true; //set to false to show Login Page
+	$scope.loggedin = false; //set to false to show Login Page
 	$scope.setLoggedin = function(set) {
 		$scope.loggedin = set;
 	}
 	$scope.getLoggedin = function() {
 		return $scope.loggedin;
 	}
+	
 	//gestione first entry
 	$scope.firstEntry = false;  //set to true to show firstLogin Page
 	$scope.setFirstEntry = function(set) {
@@ -36,7 +57,6 @@ function IndexCtrl($scope,$state, localStorageService){
 	$scope.getFirstEntry = function() {
 		return $scope.firstEntry;
 	}
-	
 	
 	//variabili globali
 	$scope.screenSize = "1080x1920";
@@ -66,5 +86,15 @@ function IndexCtrl($scope,$state, localStorageService){
 		routerStatus: "settings",
 		pageIcon: "settings",
 		itemType: "page"
+	}, {
+		displayName: "divbar02",
+		routerStatus: "-",
+		pageIcon: "-",
+		itemType: "divbar"
+	}, {
+		displayName: "Log out",
+		routerStatus: "logout()",
+		pageIcon: "exit_to_app",
+		itemType: "function"
 	}];
 }

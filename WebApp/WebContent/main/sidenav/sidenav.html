@@ -7,7 +7,15 @@
 			ng-click="goto(item.routerStatus); sidenavToggle();"
 			ng-if="item.itemType=='page'"> 
 			<md-icon class="menu-icons material-icons">{{item.pageIcon}}</md-icon>
-		<p flex>{{item.displayName}}</p>
+			<p flex>{{item.displayName}}</p>
+		</md-button>
+		<md-button
+			style="margin: 4px 0px; width: 100%; padding-top: 7px; padding-bottom: 7px;"
+			layout="row" class="menu-button"
+			ng-click="callFunction(item.routerStatus)"
+			ng-if="item.itemType=='function'"> 
+			<md-icon class="menu-icons material-icons">{{item.pageIcon}}</md-icon>
+			<p flex>{{item.displayName}}</p>
 		</md-button>
 		<md-divider ng-if="item.itemType=='divbar'"></md-divider>
 	</div>

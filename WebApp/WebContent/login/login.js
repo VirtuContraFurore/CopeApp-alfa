@@ -20,7 +20,6 @@ function LoginCtrl($scope, localStorageService){
 			localStorageService.set("credentials", null);
 		}
 		$scope.setLoggedin(true);
-		$scope.setFirstEntry(true);
 	}
 	
 	$('#loginBackground').css('background-image', 'url(http://source.unsplash.com/'+$scope.screenSize+'/?'+$scope.backgroundTag+')');
