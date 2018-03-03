@@ -21,15 +21,26 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 	
 	//gestione user loggato
 	$scope.user={
-			name: 'Lucio',  //giusto per mostrare l'immagine profilo
+			name: '',  
 			password: '',
 			remember: false,
+			image: ''
 	}
 	$scope.getUser = function() {
 		return $scope.user;
 	}
 	$scope.setUser = function(set) {
 		$scope.user=set;
+	}
+	if (localStorageService.get("credentials") != null) {
+		$scope.setUser(localStorageService.get("credentials"));
+	} else {
+		$scope.setUser({
+				name: 'Username', //giusto per mostrare l'immagine profilo
+				password: 'password',
+				remember: false,
+				image: ''
+		})
 	}
 	
 	//gestione logout
@@ -41,7 +52,7 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 	}
 	
 	//gestione login
-	$scope.loggedin = false; //set to false to show Login Page
+	$scope.loggedin = true; //set to false to show Login Page
 	$scope.setLoggedin = function(set) {
 		$scope.loggedin = set;
 	}
@@ -63,8 +74,12 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 	$scope.backgroundTag = "architecture";
 	$scope.backgroundBlur = 10;
 	$scope.customs = {
-			userImage: "https://ui-avatars.com/api/?length=1&rounded=true&name=",
-			userWallpaper: 'default'
+			userImage: $scope.user.image,
+			userWallpaper: 'default',
+			shape: "round"
+	}
+	if($scope.user.image == '') {
+		$scope.customs.userImage = $scope.user.name;
 	}
 	$scope.items = [{
 		displayName: "Home",

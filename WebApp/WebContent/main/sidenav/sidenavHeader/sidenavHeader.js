@@ -15,7 +15,7 @@ function SHCtrl($scope){
 	} else {
 		$scope.userWallpaper = $scope.customs.userWallpaper;
 	}
-	$("#backgroundContainer").css("background-image", "url("+$scope.userWallpaper+")")
 	
+	$("#backgroundContainer").css("background-image", "url("+$scope.userWallpaper+")");
 	
 }

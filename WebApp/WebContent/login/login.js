@@ -1,16 +1,6 @@
 app.controller("LoginCtrl", LoginCtrl);
 
 function LoginCtrl($scope, localStorageService){
-
-	if (localStorageService.get("credentials") != null) {
-		$scope.setUser(localStorageService.get("credentials"));
-	} else {
-		$scope.setUser({
-				name: '',
-				password: '',
-				remember: false
-		})
-	}
 	
 	$scope.login = function() {
 		//chiamata di controllo al server
