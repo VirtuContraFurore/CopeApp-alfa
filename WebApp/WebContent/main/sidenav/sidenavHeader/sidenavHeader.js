@@ -3,7 +3,7 @@ app.controller("SidenavHeaderCtrl",SHCtrl);
 function SHCtrl($scope){
 	var sidenavWidth = $("#leftSidenav").width();
 	var sidenavHeight = $("#leftSidenav").height();
-	$scope.username = $scope.getUser().name;
+	$scope.username = $scope.getUser().nickname;
 	if($scope.customs.userWallpaper=='default'){
 			var pattern = Trianglify({
 					width: sidenavWidth,

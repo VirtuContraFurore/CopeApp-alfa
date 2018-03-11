@@ -21,10 +21,9 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 	
 	//gestione user loggato
 	$scope.user={
-			name: '',  
-			password: '',
-			remember: false,
-			image: ''
+			mail: '',
+			nickname: '',
+			password: 'ungu'
 	}
 	$scope.getUser = function() {
 		return $scope.user;
@@ -52,7 +51,7 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 	}
 	
 	//gestione login
-	$scope.loggedin = true; //set to false to show Login Page
+	$scope.loggedin = false; //set to false to show Login Page
 	$scope.setLoggedin = function(set) {
 		$scope.loggedin = set;
 	}
@@ -71,15 +70,21 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 	
 	//variabili globali
 	$scope.screenSize = window.innerWidth+"x"+window.innerHeight;
-	$scope.backgroundTag = "architecture";
+	$scope.backgroundTag = "school";
 	$scope.backgroundBlur = 10;
 	$scope.customs = {
-			userImage: $scope.user.image,
+			userImage: '',
 			userWallpaper: 'default',
 			shape: "round"
 	}
-	if($scope.user.image == '') {
-		$scope.customs.userImage = $scope.user.name;
+	if($scope.customs.userImage == '') {
+		$scope.customs.userImage = $scope.user.nickname;
+	}
+	function setUserImage(image) {
+		$scope.customs.userImage = image;
+	}
+	function getUserImage() {
+		return $scope.customs.userImage;
 	}
 	$scope.items = [{
 		displayName: "Home",
