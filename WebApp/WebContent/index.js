@@ -1,10 +1,20 @@
 app.controller("IndexCtrl", IndexCtrl);
 
-function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
+function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $timeout, UserService){
 	
 	//funzione globale cambio stato
-	$scope.goto= function(state){
+	$scope.goto = function(state){
 		$state.go(state);
+	}
+	
+	//funzione mostra toast
+	$scope.showSimpleToast = function(msg, pos, timeout) {
+		$mdToast.show(
+		      $mdToast.simple()
+		        .textContent(msg)
+		        .position(pos)
+		        .hideDelay(timeout)
+		    );
 	}
 	
 	//call string function
@@ -19,73 +29,32 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 		}, 250);
 	}
 	
-	//gestione user loggato
-	$scope.user={
-			mail: '',
-			nickname: '',
-			password: 'ungu'
-	}
-	$scope.getUser = function() {
-		return $scope.user;
-	}
-	$scope.setUser = function(set) {
-		$scope.user=set;
-	}
-	if (localStorageService.get("credentials") != null) {
-		$scope.setUser(localStorageService.get("credentials"));
-	} else {
-		$scope.setUser({
-				name: 'Username', //giusto per mostrare l'immagine profilo
-				password: 'password',
-				remember: false,
-				image: ''
-		})
-	}
-	
 	//gestione logout
 	$scope.logout = function() {
 		$timeout(function() {
 			$scope.goto("home")
-			$scope.setLoggedin(false);
+			$scope.setLoggedIn(false);
 		}, 250);
 	}
 	
 	//gestione login
-	$scope.loggedin = false; //set to false to show Login Page
-	$scope.setLoggedin = function(set) {
-		$scope.loggedin = set;
-	}
-	$scope.getLoggedin = function() {
-		return $scope.loggedin;
-	}
+//	$scope.loggedIn = false; decommentare per attivare la login
+	$scope.loggedIn = true; //togliere per attivare la login
+	$scope.getLoggedIn = function() {return $scope.loggedIn}
+	$scope.setLoggedIn = function(set) {$scope.loggedIn = set}
 	
-	//gestione first entry
-	$scope.firstEntry = false;  //set to true to show firstLogin Page
-	$scope.setFirstEntry = function(set) {
-		$scope.firstEntry = set;
-	}
-	$scope.getFirstEntry = function() {
-		return $scope.firstEntry;
-	}
+	//gestione user
+//	$scope.user;  decommentare per attivare la login
+	UserService.login("cerammerda@gioli.it", "vinciogay").then(function(user) {$scope.user = user}); //togliere per attivare la login
+	$scope.getUser = function() {return $scope.user}
+	$scope.setUser = function(set) {$scope.user = set}
 	
 	//variabili globali
 	$scope.screenSize = window.innerWidth+"x"+window.innerHeight;
-	$scope.backgroundTag = "school";
-	$scope.backgroundBlur = 10;
-	$scope.customs = {
-			userImage: '',
-			userWallpaper: 'default',
-			shape: "round"
-	}
-	if($scope.customs.userImage == '') {
-		$scope.customs.userImage = $scope.user.nickname;
-	}
-	function setUserImage(image) {
-		$scope.customs.userImage = image;
-	}
-	function getUserImage() {
-		return $scope.customs.userImage;
-	}
+	$scope.backgroundTag = "landscape";
+	$scope.backgroundBlur = 15;
+	
+	//pagine di menu
 	$scope.items = [{
 		displayName: "Home",
 		routerStatus: "home",
@@ -95,6 +64,11 @@ function IndexCtrl($scope, $state, localStorageService, $mdSidenav, $timeout){
 		displayName: "News",
 		routerStatus: "news",
 		pageIcon: "whatshot",
+		itemType: "page"
+	}, {
+		displayName: "Appunti",
+		routerStatus: "appunti",
+		pageIcon: "inbox",
 		itemType: "page"
 	}, {
 		displayName: "divbar01",

@@ -1,6 +1,6 @@
 <md-content flex layout="column"ng-controller="SidenavHeaderCtrl" id="backgroundContainer">
 	<div flex name="userInfoSidenav" style="overflow:hidden;" layout="column" layout-padding layout-align="center start">
-		<ng-letter-avatar data="{{user.nickname}}" dynamic="true" shape="{{customs.shape}}"></ng-letter-avatar>
-		<h1 name="username" style="margin: 0px;"> {{username}} </h1>    <!-- occorre fare il testo ridimensionabile se il nome è troppo lungo -->
+		<ng-letter-avatar data="{{user.username}}" dynamic="true" shape="round"></ng-letter-avatar>
+		<h1 name="{{user.username}}" style="margin: 0px;"> {{user.username}} </h1>    <!-- occorre fare il testo ridimensionabile se il nome è troppo lungo -->
 	</div>
 </md-content>

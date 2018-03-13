@@ -7,18 +7,20 @@ function UserService($q) {
 			if (mail != 'errore@gmail.com') {
 				resolve({
 					userId : '0',
-					mail : 'a@a.it',
-					firstname : 'Andrea',
-					lastname : '',
-					nickname : 'shish',
-					classe : "4",
-					sezione : "C",
-					password : 'ungu',
-					roles : [ 'studente', 'moderatore', 'admin' ],
-					imageUrl : ''
+					mail : 'cerammerda@gioli.it',
+					firstname : 'Luca',
+					lastname : 'Ceragioli',
+					username : 'Cerammerda',
+					classe : "5",
+					sezione : "F",
+					password : 'vinciogay',
+					roles : ['studente', 'moderatore', 'admin'],
+					imageUrl : '',
+					wallpaper : 'default',
+					firstEntry: false /*mettere su true per mostrare la pagina di first entry*/
 				});
 			} else {
-				reject(null)
+				reject("Errore interno al server");
 			}
 		});
 	}

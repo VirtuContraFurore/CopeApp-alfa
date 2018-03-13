@@ -41,10 +41,9 @@
 		<script type="text/javascript" src="news/news.js"></script>
 		<script type="text/javascript" src="cambia_password/cambia_password.js"></script>
 		
-	
-		<md-content ng-if="!loggedin" ng-include="'login/login.html'" flex layout="column"></md-content>
-		<md-content ng-if="loggedin && firstEntry" ng-include="'firstEntry/firstEntry.html'" flex layout="column"></md-content>
-		<md-content ng-if="loggedin && !firstEntry" ng-include="'main/main.html'" layout="column" flex></md-content>
+		<md-content ng-if="!loggedIn" ng-include="'login/login.html'" flex layout="column"></md-content>
+		<md-content ng-if="loggedIn && user.firstEntry" ng-include="'firstEntry/firstEntry.html'" flex layout="column"></md-content>
+		<md-content ng-if="loggedIn && !user.firstEntry" ng-include="'main/main.html'" layout="column" flex></md-content>
 		
 	</body>
 </html>

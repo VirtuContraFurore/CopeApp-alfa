@@ -3,21 +3,30 @@ app.controller("LoginCtrl", LoginCtrl);
 function LoginCtrl($scope, localStorageService, UserService){
 	
 	$scope.login = function() {
-		var p = UserService.login($scope.getUser().mail, $scope.getUser().password);
-		p.then(function onSuccess(user) {
+		var loginPromise = UserService.login($scope.username, $scope.password);
+		loginPromise.then(function onSuccess(user) {
 			$scope.setUser(user);
-			if ($scope.user.remember) {
-				localStorageService.set("credentials", $scope.getUser());
+			if ($scope.remember) {
+				localStorageService.remove("credentials");
+				localStorageService.set("credentials", {username: $scope.username, password: $scope.password, remember: $scope.remember});
 			} else {
-				localStorageService.set("credentials", null);
+				localStorageService.remove("credentials");
 			}
-			$scope.setLoggedin(true);
-		}, 
-		function onFailure(error) {
-			alert(error);
+			$scope.setLoggedIn(true);
+		}, function onReject(error) {
+			$scope.showSimpleToast(error, "bottom right", 2000);
 		});
-		//chiamata di controllo al server
-		
+	}
+	if (localStorageService.get("credentials") == null) {
+		//cambiare queste variabili per impostare le credenziali di default
+		$scope.username = "";
+		$scope.password = "";
+		$scope.remember = true;
+	} else {
+		var user = localStorageService.get("credentials");
+		$scope.username = user.username;
+		$scope.password = user.password;
+		$scope.remember = user.remember;
 	}
 	
 	$('#loginBackground').css('background-image', 'url(http://source.unsplash.com/'+$scope.screenSize+'/?'+$scope.backgroundTag+')');

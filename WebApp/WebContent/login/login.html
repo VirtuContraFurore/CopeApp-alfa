@@ -4,9 +4,9 @@
 	<div flex="55" id="formContainer" layout="column">
 		<form id="formBorder" ng-submit="login()" name="loginForm">
 			<md-input-container class="md-block">
-				<label style="color: white;">Username</label>
+				<label style="color: white;">Username o Email</label>
 				<md-icon class="material-icons" style="color: white;">person_outline</md-icon>
-				<input md-no-asterisk required type="email" name="username" ng-model="user.mail" style="color: white;">
+				<input md-no-asterisk required type="text" name="username" ng-model="username" style="color: white;">
 				<div ng-messages="loginForm.username.$error">
 		        	<div ng-message="required">Username is required.</div>
 		        </div>
@@ -14,13 +14,13 @@
 			<md-input-container class="md-block">
 				<label style="color: white;">Password</label>
 				<md-icon class="material-icons" style="color: white;">lock_outline</md-icon>
-				<input style="color: white;" md-no-asterisk required minlength="8" type="password" name="password" ng-model="user.password">
+				<input style="color: white;" md-no-asterisk required minlength="8" type="password" name="password" ng-model="password">
 				<div ng-messages="loginForm.password.$error">
 		        	<div ng-message="required">Password is required.</div>
 		        	<div ng-message="minlength">The password should be at least 8 characters long</div>
 		        </div>
 			</md-input-container>
-			<md-switch style="color: white;" class="md-primary" ng-model="user.remember">
+			<md-switch style="color: white;" class="md-primary" ng-model="remember">
 	    		Remember me
 			</md-switch>
 			<div layout="row">
