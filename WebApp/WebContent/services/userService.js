@@ -2,7 +2,7 @@ app.service('UserService', UserService);
 
 function UserService($q) {
 
-	this.login = function(mail, password) {
+	/*this.login = function(mail, password) {
 		return $q(function(resolve, reject) {
 			if (mail != 'errore@gmail.com') {
 				resolve({
@@ -17,11 +17,29 @@ function UserService($q) {
 					roles : ['studente', 'moderatore', 'admin'],
 					imageUrl : '',
 					wallpaper : 'default',
-					firstEntry: false /*mettere su true per mostrare la pagina di first entry*/
+					firstEntry: false //mettere su true per mostrare la pagina di first entry
 				});
 			} else {
 				reject("Errore interno al server");
 			}
 		});
+	} */
+	this.login = function(mail,password) {
+		var loginDTO = new Object();
+		loginDTO.mail = mail;
+		loginDTO.password = password;
+		//var toSend = JSON.stringify(loginDTO);
+		var req = {
+				method: 'POST',
+				url: 'http://localhost:8080/CopeApp/rest/login',
+				headers: {
+					'Content-Type': "text/JSON"
+				},
+				data: loginDTO
+		}
+
+		return $http(req);
+
 	}
+
 }

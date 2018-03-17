@@ -39,7 +39,7 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	
 	//gestione login
 //	$scope.loggedIn = false; decommentare per attivare la login
-	$scope.loggedIn = true; //togliere per attivare la login
+	$scope.loggedIn = false; //togliere per attivare la login
 	$scope.getLoggedIn = function() {return $scope.loggedIn}
 	$scope.setLoggedIn = function(set) {$scope.loggedIn = set}
 	
@@ -51,7 +51,7 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	
 	//variabili globali
 	$scope.screenSize = window.innerWidth+"x"+window.innerHeight;
-	$scope.backgroundTag = "landscape";
+	$scope.backgroundTag = "school";
 	$scope.backgroundBlur = 15;
 	
 	//pagine di menu
