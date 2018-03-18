@@ -1,6 +1,6 @@
 app.service('UserService', UserService);
 
-function UserService($q) {
+function UserService($q, $http) {
 
 	/*this.login = function(mail, password) {
 		return $q(function(resolve, reject) {
@@ -37,9 +37,7 @@ function UserService($q) {
 				},
 				data: loginDTO
 		}
-
 		return $http(req);
-
 	}
 
 }
