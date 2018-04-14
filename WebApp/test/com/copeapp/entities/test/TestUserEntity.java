@@ -20,6 +20,7 @@ public class TestUserEntity {
 		entitymanager.getTransaction().begin();
 
 		Query query = entitymanager.createQuery("Select r from Role r", Role.class);
+		
 		@SuppressWarnings("unchecked")
 		List<Role> roles = query.getResultList();
 		

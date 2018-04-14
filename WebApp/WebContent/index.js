@@ -38,13 +38,13 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	}
 	
 	//gestione login
-//	$scope.loggedIn = false; decommentare per attivare la login
-	$scope.loggedIn = true; //togliere per attivare la login
+	$scope.loggedIn = false; //decommentare per attivare la login
+//	$scope.loggedIn = true; //togliere per attivare la login
 	$scope.getLoggedIn = function() {return $scope.loggedIn}
 	$scope.setLoggedIn = function(set) {$scope.loggedIn = set}
 	
 	//gestione user
-//	$scope.user;  decommentare per attivare la login
+	$scope.user;  //decommentare per attivare la login
 	UserService.login("cerammerda@gioli.it", "vinciogay").then(function(user) {$scope.user = user}); //togliere per attivare la login
 	$scope.getUser = function() {return $scope.user}
 	$scope.setUser = function(set) {$scope.user = set}
