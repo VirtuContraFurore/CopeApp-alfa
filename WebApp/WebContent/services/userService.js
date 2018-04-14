@@ -37,9 +37,7 @@ function UserService($q, $http) {
 				},
 				data: loginDTO
 		}
-
 		return $http(req);
-
 	}
 
 }

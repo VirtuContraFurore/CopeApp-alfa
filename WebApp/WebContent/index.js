@@ -39,7 +39,7 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	
 	//gestione login
 //	$scope.loggedIn = false; decommentare per attivare la login
-	$scope.loggedIn = false; //togliere per attivare la login
+	$scope.loggedIn = true; //togliere per attivare la login
 	$scope.getLoggedIn = function() {return $scope.loggedIn}
 	$scope.setLoggedIn = function(set) {$scope.loggedIn = set}
 	
@@ -69,6 +69,21 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 		displayName: "Appunti",
 		routerStatus: "appunti",
 		pageIcon: "inbox",
+		itemType: "page"
+	}, {
+		displayName: "divbar01",
+		routerStatus: "-",
+		pageIcon: "-",
+		itemType: "divbar"
+	}, {
+		displayName: "Annuario",
+		routerStatus: "annuario",
+		pageIcon: "book",
+		itemType: "page"
+	}, {
+		displayName: "Market",
+		routerStatus: "market",
+		pageIcon: "shopping_basket",
 		itemType: "page"
 	}, {
 		displayName: "divbar01",
