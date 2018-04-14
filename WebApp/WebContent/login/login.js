@@ -4,8 +4,8 @@ function LoginCtrl($scope, localStorageService, UserService){
 	
 	$scope.login = function() {
 		var loginPromise = UserService.login($scope.username, $scope.password);
-		loginPromise.then(function onSuccess(user) {
-			$scope.setUser(user);
+		loginPromise.then(function onSuccess(loginResponse) {
+			$scope.setUser(loginResponse.data.user);
 			if ($scope.remember) {
 				localStorageService.remove("credentials");
 				localStorageService.set("credentials", {username: $scope.username, password: $scope.password, remember: $scope.remember});
@@ -13,8 +13,8 @@ function LoginCtrl($scope, localStorageService, UserService){
 				localStorageService.remove("credentials");
 			}
 			$scope.setLoggedIn(true);
-		}, function onReject(error) {
-			$scope.showSimpleToast(error, "bottom right", 2000);
+		}, function onReject(loginResponse) {
+			$scope.showSimpleToast(loginResponse, "bottom right", 2000);
 		});
 	}
 	if (localStorageService.get("credentials") == null) {

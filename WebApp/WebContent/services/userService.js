@@ -1,6 +1,6 @@
 app.service('UserService', UserService);
 
-function UserService($q) {
+function UserService($q, $http) {
 
 	/*this.login = function(mail, password) {
 		return $q(function(resolve, reject) {
@@ -24,11 +24,11 @@ function UserService($q) {
 			}
 		});
 	} */
+	
 	this.login = function(mail,password) {
 		var loginDTO = new Object();
 		loginDTO.mail = mail;
 		loginDTO.password = password;
-		//var toSend = JSON.stringify(loginDTO);
 		var req = {
 				method: 'POST',
 				url: 'http://localhost:8080/CopeApp/rest/login',
