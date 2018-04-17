@@ -1,5 +1,7 @@
 package com.copeapp.entities;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,23 +14,30 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "market_elements")
-public class MarketElement {
-
+@Table(name = "markets")
+public class Market {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="marketElementGenerator")
-	@SequenceGenerator(name="marketElementGenerator", sequenceName="market_elements_sequence")
-	private int marketElementId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="marketGenerator")
+	@SequenceGenerator(name="marketGenerator", sequenceName="market_sequence")
+	private int marketId;
 	
 	@Column(nullable = false)
 	private String name = null;
-	
+
 	@Column(nullable = true)
-	private String description = null;
+	private String description;
 	
 	@Column(nullable = false)
-	private int price = 0;
+	private Date openDate = null;
 	
 	@Column(nullable = false)
-	private String image = null;
+	private Date expireDate = null;
+	
+	/*
+	@Column(nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "marketId")
+	private User owner = null;
+	*/
 }

@@ -7,7 +7,7 @@ public class TestMarketElementEntity {
 	public static void main(String[] args) {
 		
 		MarketElement marketElement = new MarketElement();
-		marketElement.setName("Ciaone");
+		marketElement.setName("Bela");
 	}
 
 }
