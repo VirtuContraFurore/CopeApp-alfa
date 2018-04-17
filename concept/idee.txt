@@ -3,6 +3,12 @@ Contesto: liceo
 Target: Studenti e Professori
 
 Che funzioni deve avere:
-	
-	* Diffondere informazioni importanti (circolari, eventi, gare)
-	* Dare la possibilità ai professori di comunicare con alunni interessati ai loro progetti
+
+	* Diffondere informazioni importanti (circolari, eventi, gare, messaggi mirati da professori a studenti)
+	* Canale di comunicazione tra professori e alunni partecipanti a progetti degli stessi
+	* Porre le basi per un utilizzo di pagine che non necessitano la login - aperte a tutti
+	* Sistema che gestisca la biblioteca
+	* Gruppi, gerarchie tra loggati: preside, studenti, professori, rappresentanti, comitati...
+	* Sondaggi
+	* Market
+	* Gestione OpenDay (non prioritario)
