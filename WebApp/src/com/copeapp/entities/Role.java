@@ -15,24 +15,24 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="rolesGenerator")
 	@SequenceGenerator(name="rolesGenerator", sequenceName="roles_sequence")
 	private int roleId;
-	
 	private String role;
 	private String description;
 	
-	public Role() {
-		super();
-	}
+	public Role() { super(); }
+	
 	public Role(int roleId, String role, String description) {
 		super();
 		this.roleId = roleId;
 		this.role = role;
 		this.description = description;
 	}
+	
 	public Role(String role, String description) {
 		super();
 		this.role = role;
 		this.description = description;
 	}
+	
 	public int getRoleId() {
 		return roleId;
 	}
