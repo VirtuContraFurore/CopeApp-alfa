@@ -38,13 +38,13 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	}
 	
 	//gestione login
-	$scope.loggedIn = false; //decommentare per attivare la login
-//	$scope.loggedIn = true; //togliere per attivare la login
+//	$scope.loggedIn = false; //decommentare per attivare la login
+	$scope.loggedIn = true; //togliere per attivare la login
 	$scope.getLoggedIn = function() {return $scope.loggedIn}
 	$scope.setLoggedIn = function(set) {$scope.loggedIn = set}
 	
 	//gestione user
-	$scope.user;  //decommentare per attivare la login
+//	$scope.user;  //decommentare per attivare la login
 	UserService.login("cerammerda@gioli.it", "vinciogay").then(function(user) {$scope.user = user}); //togliere per attivare la login
 	$scope.getUser = function() {return $scope.user}
 	$scope.setUser = function(set) {$scope.user = set}
@@ -78,7 +78,7 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	}, {
 		displayName: "Annuario",
 		routerStatus: "annuario",
-		pageIcon: "book",
+		pageIcon: "recent_actors",
 		itemType: "page"
 	}, {
 		displayName: "Market",
@@ -94,7 +94,18 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 		displayName: "Settings",
 		routerStatus: "settings",
 		pageIcon: "settings",
-		itemType: "page"
+		itemType: "subMenu",
+		subMenuElements: [{
+			displayName: "Account settings",
+			routerStatus: "accountSettings",
+			pageIcon: "fingerprint",
+			itemType: "page"
+		}, {
+			displayName: "General settings",
+			routerStatus: "generalSettings",
+			pageIcon: "settings",
+			itemType: "page"
+		}]
 	}, {
 		displayName: "divbar02",
 		routerStatus: "-",
