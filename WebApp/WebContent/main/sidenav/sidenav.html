@@ -3,7 +3,7 @@
 	<md-content flex="75" style="margin: 4px 0px; width: 100%; padding-top: 7px; padding-bottom: 7px;">
 		<div ng-repeat="item in items" style="width: 100%;">
 			<md-button flex
-				style="width: 100%; margin: 0px; padding: 5px 0px;"
+				style="width: 100%; margin: 5px 0px; padding: 0px 0px;"
 				layout="row" class="menu-button"
 				ng-click="goto(item.routerStatus); sidenavToggle();"
 				ng-if="item.itemType=='page'"> 
@@ -11,14 +11,14 @@
 				<p flex>{{item.displayName}}</p>
 			</md-button>
 			<md-button flex
-				style="width: 100%; margin: 0px; padding: 5px 0px;"
+				style="width: 100%; margin: 5px 0px; padding: 0px 0px;"
 				layout="row" class="menu-button"
 				ng-click="callFunction(item.routerStatus)"
 				ng-if="item.itemType=='function'"> 
 				<md-icon class="menu-icons material-icons">{{item.pageIcon}}</md-icon>
 				<p flex>{{item.displayName}}</p>
 			</md-button>
-			<md-divider flex ng-if="item.itemType=='divbar'"></md-divider>
+			<md-divider flex style="width:100%" ng-if="item.itemType=='divbar'"></md-divider>
 		</div>
 	</md-content>
 </md-content>

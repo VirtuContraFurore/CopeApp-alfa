@@ -17,12 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.copeapp.dto.commons.GenericErrorDTO;
 import com.copeapp.dto.commons.RoleDTO;
 import com.copeapp.dto.commons.UserDTO;
 import com.copeapp.dto.login.LoginRequestDTO;
 import com.copeapp.dto.login.LoginResponseDTO;
 import com.copeapp.entities.Role;
 import com.copeapp.entities.User;
+import com.copeapp.tomcat9Misc.StartupOperations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -40,8 +42,7 @@ public class Login extends HttpServlet {
 		LoginRequestDTO loginRequest = om.readValue(request.getInputStream(), LoginRequestDTO.class);		
 		LoginResponseDTO loginResponse = new LoginResponseDTO();
 		
-		EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("CopeApp");
-		EntityManager entitymanager = emfactory.createEntityManager();
+		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
 		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
 		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE (u.mail = :mail OR u.username = :mail) AND (u.password = :password)", User.class);
 		query.setParameter("mail", loginRequest.getMail());
@@ -56,18 +57,22 @@ public class Login extends HttpServlet {
 			}
 			UserDTO ret = new UserDTO(user.getUserId(), user.getMail(), user.getFirstname(), user.getLastname(), user.getUsername(), user.getClasse(), user.getSezione(), user.getPassword(), userRoles, user.getImageUrl(), user.getWallpaper(), user.isFirstEntry());
 			loginResponse.setUser(ret);
+			om.writeValue(response.getOutputStream(), loginResponse);
 		} catch (NoResultException nre) {
+			GenericErrorDTO errorResponse = new GenericErrorDTO(nre.getStackTrace(), 401, "Utente non trovato");
 			response.setStatus(401);
+			om.writeValue(response.getOutputStream(), errorResponse);
 		} catch (IllegalAccessException e) {
+			GenericErrorDTO errorResponse = new GenericErrorDTO(e.getStackTrace(), 500, "Acceso al database negato");
 			e.printStackTrace();
+			om.writeValue(response.getOutputStream(), errorResponse);
 		} catch (InvocationTargetException e) {
+			GenericErrorDTO errorResponse = new GenericErrorDTO(e.getStackTrace(), 500, "Errore interno al server");
 			e.printStackTrace();
+			om.writeValue(response.getOutputStream(), errorResponse);
 		}
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
-		emfactory.close();
-		
-		om.writeValue(response.getOutputStream(), loginResponse);
 		
 	}
 
