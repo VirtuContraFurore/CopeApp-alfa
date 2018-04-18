@@ -32,7 +32,7 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	//gestione logout
 	$scope.logout = function() {
 		$timeout(function() {
-			$scope.goto("home")
+			$scope.goto("home");
 			$scope.setLoggedIn(false);
 		}, 250);
 	}
@@ -45,7 +45,9 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	
 	//gestione user
 //	$scope.user;  //mettere per attivare la login
-	UserService.login("cerammerda@gioli.it", "vinciogay").then(function(user) {$scope.user = user}); //togliere per attivare la login
+	UserService.login("Cerammerda", "VincioGay").then(function(response) {
+		$scope.user = response.data.user
+	}); //togliere per attivare la login
 	$scope.getUser = function() {return $scope.user}
 	$scope.setUser = function(set) {$scope.user = set}
 	
@@ -83,7 +85,7 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	}, {
 		displayName: "Negozio",
 		routerStatus: "market",
-		pageIcon: "shopping_basket",
+		pageIcon: "shopping_cart",
 		itemType: "page"
 	}, {
 		displayName: "divbar01",

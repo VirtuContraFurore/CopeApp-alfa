@@ -8,7 +8,7 @@
 				<md-icon class="material-icons" style="color: white;">person_outline</md-icon>
 				<input md-no-asterisk required type="text" name="username" ng-model="username" style="color: white;">
 				<div ng-messages="loginForm.username.$error">
-		        	<div ng-message="required">Username is required.</div>
+		        	<div ng-message="required">Lo username è obbligatorio</div>
 		        </div>
 			</md-input-container>
 			<md-input-container class="md-block">
@@ -16,15 +16,15 @@
 				<md-icon class="material-icons" style="color: white;">lock_outline</md-icon>
 				<input style="color: white;" md-no-asterisk required minlength="8" type="password" name="password" ng-model="password">
 				<div ng-messages="loginForm.password.$error">
-		        	<div ng-message="required">Password is required.</div>
-		        	<div ng-message="minlength">The password should be at least 8 characters long</div>
+		        	<div ng-message="required">La password è obbligatoria</div>
+		        	<div ng-message="minlength">La password deve essere lunga almeno 8 caratteri</div>
 		        </div>
 			</md-input-container>
 			<md-switch style="color: white;" class="md-primary" ng-model="remember">
-	    		Remember me
+	    		Ricordati di me
 			</md-switch>
 			<div layout="row">
-				<a href="" flex md-truncate style="color: white;"><p style="font-size: smaller">Forgot your password?</p></a>
+				<a href="" flex md-truncate style="color: white;"><p style="font-size: smaller">Password dimenticata?</p></a>
 				<md-button class="md-primary md-raised" type="submit" ng-disabled="loginForm.$invalid">Log in</md-button>
 			</div>
 		</form>
