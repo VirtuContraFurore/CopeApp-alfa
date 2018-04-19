@@ -53,7 +53,7 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	
 	//variabili globali
 	$scope.screenSize = window.innerWidth+"x"+window.innerHeight;
-	$scope.backgroundTag = "school";
+	$scope.backgroundTag = "girl";
 	$scope.backgroundBlur = 15;
 	
 	//pagine di menu

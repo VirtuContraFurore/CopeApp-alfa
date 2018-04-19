@@ -24,9 +24,10 @@ public class TestUserEntity {
 		@SuppressWarnings("unchecked")
 		List<Role> roles = query.getResultList();
 		
-		User user = new User(0, "cerammerda@gioli.it", "Luca", "Ceragioli", 
-				"Cerammerda", "5", "F", "VincioGay", roles,
-				"", "default", false);
+		User user = new User("Luca", "Ceragioli", "Cerammerda", "5", "F", "VincioGay", roles, false);
+		user.setMail("cerammerda@gioli.it");
+		user.setImageUrl("");
+		user.setImageUrl("default");
 
 		entitymanager.persist(user);
 		entitymanager.getTransaction().commit();
