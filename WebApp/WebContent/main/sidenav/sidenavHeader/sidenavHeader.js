@@ -20,10 +20,5 @@ function SHCtrl($scope){
 			$("#backgroundContainer").css("background-image", "url("+$scope.userWallpaper+")");
 		}
 	);
-	if ($scope.getUser().imageUrl != "") {
-		$scope.userImageData = $scope.getUser().imageUrl
-	} else {
-		$scope.userImageData = $scope.getUser().username
-	}
 	
 }
