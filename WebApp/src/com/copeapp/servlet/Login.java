@@ -5,9 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,7 +53,7 @@ public class Login extends HttpServlet {
 				BeanUtils.copyProperties(tmp, r);
 				userRoles.add(tmp);
 			}
-			UserDTO ret = new UserDTO(user.getUserId(), user.getMail(), user.getFirstname(), user.getLastname(), user.getUsername(), user.getClasse(), user.getSezione(), user.getPassword(), userRoles, user.getImageUrl(), user.getWallpaper(), user.isFirstEntry());
+			UserDTO ret = new UserDTO(user.getUserId(), user.getMail(), user.getFirstname(), user.getLastname(), user.getUsername(), user.getClasse(), user.getSezione(), user.getPassword(), userRoles, user.getImageUrl(), user.getWallpaper(), user.getFirstEntry());
 			loginResponse.setUser(ret);
 			om.writeValue(response.getOutputStream(), loginResponse);
 		} catch (NoResultException nre) {

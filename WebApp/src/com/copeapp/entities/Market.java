@@ -2,7 +2,6 @@ package com.copeapp.entities;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,9 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@Data
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "markets")
 public class Market {
@@ -20,19 +26,19 @@ public class Market {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="marketGenerator")
 	@SequenceGenerator(name="marketGenerator", sequenceName="market_sequence")
-	private int marketId;
+	private Integer marketId;
 	
-	@Column(nullable = false)
-	private String name = null;
+	@NonNull
+	private String name;
 
-	@Column(nullable = true)
+	@NonNull
 	private String description;
 	
-	@Column(nullable = false)
-	private Date openDate = null;
+	@NonNull
+	private Date openDate;
 	
-	@Column(nullable = false)
-	private Date expireDate = null;
+	@NonNull
+	private Date expireDate;
 	
 	/*
 	@Column(nullable = false)
