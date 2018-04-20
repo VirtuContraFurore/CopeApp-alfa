@@ -54,6 +54,9 @@ public class Login extends HttpServlet {
 				userRoles.add(tmp);
 			}
 			UserDTO ret = new UserDTO(user.getUserId(), user.getMail(), user.getFirstname(), user.getLastname(), user.getUsername(), user.getClasse(), user.getSezione(), user.getPassword(), userRoles, user.getImageUrl(), user.getWallpaper(), user.getFirstEntry());
+			if (ret.getImageUrl().isEmpty() || ret.getImageUrl() == null) {
+				ret.setImageUrl(ret.getMail());
+			}
 			loginResponse.setUser(ret);
 			om.writeValue(response.getOutputStream(), loginResponse);
 		} catch (NoResultException nre) {
