@@ -10,5 +10,6 @@ Che funzioni deve avere:
 	* Sistema che gestisca la biblioteca
 	* Gruppi, gerarchie tra loggati: preside, studenti, professori, rappresentanti, comitati...
 	* Sondaggi
-	* Market
+	* Market (io farei aperto H24/7)
 	* Gestione OpenDay (non prioritario)
+	* Gestione caricamento appunti magari con un sistema di ricompense basato su una valutazione
