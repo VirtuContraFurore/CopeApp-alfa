@@ -8,58 +8,56 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.copeapp.dto.commons.AnswerDTO;
 import com.copeapp.dto.commons.GenericErrorDTO;
 import com.copeapp.dto.commons.RoleDTO;
-import com.copeapp.dto.commons.UserDTO;
-import com.copeapp.dto.login.LoginRequestDTO;
-import com.copeapp.dto.login.LoginResponseDTO;
 import com.copeapp.entities.Role;
-import com.copeapp.entities.User;
+import com.copeapp.entities.Survey;
+import com.copeapp.survey.SurveyRequestListDTO;
+import com.copeapp.survey.SurveyResponseListDTO;
 import com.copeapp.tomcat9Misc.StartupOperations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+public class SurveyList extends HttpServlet{
 
-@WebServlet("/rest/login")
-public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-    public Login() {
-        super();
-    }
-    
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ObjectMapper om = new ObjectMapper();
-		LoginRequestDTO loginRequest = om.readValue(request.getInputStream(), LoginRequestDTO.class);		
-		LoginResponseDTO loginResponse = new LoginResponseDTO();
+		SurveyRequestListDTO loginRequest = om.readValue(request.getInputStream(), SurveyRequestListDTO.class);		
+		SurveyResponseListDTO loginResponse = new SurveyResponseListDTO();
 		
 		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
 		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
-		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE (u.mail = :mail OR u.username = :mail) AND (u.password = :password)", User.class);
-		query.setParameter("mail", loginRequest.getMail());
-		query.setParameter("password", loginRequest.getPassword());
+		Query query = entitymanager.createQuery("SELECT s FROM Survey u WHERE (u.closeSurveyDate > current_date) order by date(u.closeSurveyDate) desc ", Survey.class);
+		query.setMaxResults(5);
+		ArrayList<Survey> survey = new ArrayList<Survey>();
 		try {
-			User user = (User) query.getSingleResult();
-			ArrayList<RoleDTO> userRoles = new ArrayList<RoleDTO>();
+		survey = (ArrayList<Survey>) query.getResultList();
+		for (Survey s : survey) { //per ogni elemento aggiungi una votersRole
+			ArrayList<RoleDTO> surveyVotersRoles = new ArrayList<RoleDTO>();
 			RoleDTO tmp = new RoleDTO();
-			for (Role r : user.getRoles()) {
+			for (Role r : s.getSurveyVotersRoles()) {
 				BeanUtils.copyProperties(tmp, r);
-				userRoles.add(tmp);
+				surveyVotersRoles.add(tmp);
 			}
-			UserDTO ret = new UserDTO(user.getUserId(), user.getMail(), user.getFirstname(), user.getLastname(), user.getUsername(), user.getClasse(), user.getSezione(), user.getPassword(), userRoles, user.getImageUrl(), user.getWallpaper(), user.getFirstEntry());
-			if (ret.getImageUrl().isEmpty() || ret.getImageUrl() == null) {
-				ret.setImageUrl(ret.getMail());
+			ArrayList<RoleDTO> surveyViewersRoles = new ArrayList<RoleDTO>();
+			RoleDTO tmp1 = new RoleDTO();
+			for (Role r : s.getSurveyViewersRoles()) {
+				BeanUtils.copyProperties(tmp1, r);
+				surveyVotersRoles.add(tmp1);
 			}
-			loginResponse.setUser(ret);
-			om.writeValue(response.getOutputStream(), loginResponse);
-		} catch (NoResultException nre) {
+			ArrayList<AnswerDTO> tmp2 = new ArrayList<AnswerDTO>();
+			
+		}
+		} catch  (NoResultException nre) {
 			GenericErrorDTO errorResponse = new GenericErrorDTO(nre.getStackTrace(), 401, "Utente non trovato");
 			response.setStatus(401);
 			om.writeValue(response.getOutputStream(), errorResponse);
@@ -72,9 +70,8 @@ public class Login extends HttpServlet {
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
 		}
+		
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
-		
 	}
-
 }
