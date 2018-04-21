@@ -52,6 +52,7 @@ function AccountSettingsCtrl($scope, FileUploader) {
 			var position = 5;
 			var output = [result.slice(0, position), item._file.type, result.slice(position)].join('');
 			$scope.newProfilePicture = output;
+			//richiesta server
 		}
 	}
 }

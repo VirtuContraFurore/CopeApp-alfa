@@ -83,6 +83,11 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 		pageIcon: "recent_actors",
 		itemType: "page"
 	}, {
+		displayName: "Sondaggi",
+		routerStatus: "surveys",
+		pageIcon: "pie_chart",
+		itemType: "page"
+	}, {
 		displayName: "Negozio",
 		routerStatus: "market",
 		pageIcon: "shopping_cart",
