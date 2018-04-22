@@ -1,22 +1,27 @@
 package com.copeapp.dto.commons;
 
+import java.util.Date;
 import java.util.List;
-
-import com.copeapp.dto.commons.AnswerDTO;
-import com.copeapp.survey.SurveyResponseMiniDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class SurveyDTO {
 
-private SurveyResponseMiniDTO miniDTO;
+	private int surveyId;
 	
 	@NonNull
-	private String description;
+	private String question;
+	
+	@NonNull
+	private Date closeSurveyDate;
+	
+	private int voters;
 	
 	@NonNull
 	private List<RoleDTO> surveyViewersRoles;
@@ -25,7 +30,7 @@ private SurveyResponseMiniDTO miniDTO;
 	private List<RoleDTO> surveyVotersRoles;
 	
 	@NonNull
-	private UserDTO insertUser;
+	private String insertUsername;	//mandare solo lo username è più comodo
 	
 	private int answersNumber;
 	

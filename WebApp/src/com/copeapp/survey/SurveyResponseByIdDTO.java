@@ -1,4 +1,6 @@
-package com.copeapp.dto.commons;
+package com.copeapp.survey;
+
+import com.copeapp.dto.commons.SurveyDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,10 +10,8 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AnswerDTO {
+public class SurveyResponseByIdDTO {
 	
 	@NonNull
-	private String answerContent;
-	
-	private int votesNumber;
+	private SurveyDTO surveyDTO;
 }

@@ -21,6 +21,7 @@ import com.copeapp.entities.Role;
 import com.copeapp.entities.Survey;
 import com.copeapp.survey.SurveyRequestListDTO;
 import com.copeapp.survey.SurveyResponseListDTO;
+import com.copeapp.survey.SurveyResponseMiniDTO;
 import com.copeapp.tomcat9Misc.StartupOperations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,41 +37,29 @@ public class SurveyList extends HttpServlet{
 		
 		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
 		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
-		Query query = entitymanager.createQuery("SELECT s FROM Survey u WHERE (u.closeSurveyDate > current_date) order by date(u.closeSurveyDate) desc ", Survey.class);
-		query.setMaxResults(5);
-		ArrayList<Survey> survey = new ArrayList<Survey>();
-		try {
-		survey = (ArrayList<Survey>) query.getResultList();
-		for (Survey s : survey) { //per ogni elemento aggiungi una votersRole
-			ArrayList<RoleDTO> surveyVotersRoles = new ArrayList<RoleDTO>();
-			RoleDTO tmp = new RoleDTO();
-			for (Role r : s.getSurveyVotersRoles()) {
-				BeanUtils.copyProperties(tmp, r);
-				surveyVotersRoles.add(tmp);
-			}
-			ArrayList<RoleDTO> surveyViewersRoles = new ArrayList<RoleDTO>();
-			RoleDTO tmp1 = new RoleDTO();
-			for (Role r : s.getSurveyViewersRoles()) {
-				BeanUtils.copyProperties(tmp1, r);
-				surveyVotersRoles.add(tmp1);
-			}
-			ArrayList<AnswerDTO> tmp2 = new ArrayList<AnswerDTO>();
-			
+		Query query;
+		if	(loginRequest.isTipo()) {
+			query = entitymanager.createQuery("SELECT s FROM surveys u WHERE (s.closeSurveyDate > current_date) order by date(s.closeSurveyDate) desc ", Survey.class);
+		} else {
+			query = entitymanager.createQuery("SELECT s FROM surveys u WHERE (s.closeSurveyDate < current_date) order by date(s.closeSurveyDate) desc ", Survey.class);
 		}
-		} catch  (NoResultException nre) {
+		query.setMaxResults(5);
+		//Survey survey = new Survey();
+		try {
+		ArrayList<Survey> survey = (ArrayList<Survey>) query.getResultList();
+		ArrayList<SurveyResponseMiniDTO> miniDTO= new ArrayList<SurveyResponseMiniDTO>();
+		for (Survey s : survey) {
+			//contare il numero di persone votanti
+			SurveyResponseMiniDTO tmp = new SurveyResponseMiniDTO(s.getSurveyId(), s.getQuestion(), s.getCloseSurveyDate(), 10);
+			miniDTO.add(tmp);
+		}
+		loginResponse.setSurveyMini(miniDTO);
+		om.writeValue(response.getOutputStream(), loginResponse);
+		} catch (NoResultException nre) {
 			GenericErrorDTO errorResponse = new GenericErrorDTO(nre.getStackTrace(), 401, "Utente non trovato");
 			response.setStatus(401);
 			om.writeValue(response.getOutputStream(), errorResponse);
-		} catch (IllegalAccessException e) {
-			GenericErrorDTO errorResponse = new GenericErrorDTO(e.getStackTrace(), 500, "Acceso al database negato");
-			e.printStackTrace();
-			om.writeValue(response.getOutputStream(), errorResponse);
-		} catch (InvocationTargetException e) {
-			GenericErrorDTO errorResponse = new GenericErrorDTO(e.getStackTrace(), 500, "Errore interno al server");
-			e.printStackTrace();
-			om.writeValue(response.getOutputStream(), errorResponse);
 		}
-		
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
 	}
