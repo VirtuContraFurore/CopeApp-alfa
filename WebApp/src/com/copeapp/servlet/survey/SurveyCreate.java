@@ -1,12 +1,12 @@
-package com.copeapp.servlet;
+package com.copeapp.servlet.survey;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,50 +15,47 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.copeapp.dto.commons.AnswerDTO;
 import com.copeapp.dto.commons.GenericErrorDTO;
 import com.copeapp.dto.commons.RoleDTO;
-import com.copeapp.dto.commons.UserDTO;
-import com.copeapp.dto.login.LoginRequestDTO;
-import com.copeapp.dto.login.LoginResponseDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
+import com.copeapp.entities.survey.Answer;
+import com.copeapp.entities.survey.Survey;
+import com.copeapp.survey.SurveyCreateRequestDTO;
 import com.copeapp.tomcat9Misc.StartupOperations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@WebServlet("/rest/surveycreate")
+public class SurveyCreate extends HttpServlet{
 
-@WebServlet("/rest/login")
-public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-    public Login() {
-        super();
-    }
-    
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		ObjectMapper om = new ObjectMapper();
-		LoginRequestDTO loginRequest = om.readValue(request.getInputStream(), LoginRequestDTO.class);		
-		LoginResponseDTO loginResponse = new LoginResponseDTO();
-		
-		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
-		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
-		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE (u.mail = :mail OR u.username = :mail) AND (u.password = :password)", User.class);
-		query.setParameter("mail", loginRequest.getMail());
-		query.setParameter("password", loginRequest.getPassword());
-		try {
-			User user = (User) query.getSingleResult();
-			ArrayList<RoleDTO> userRoles = new ArrayList<RoleDTO>();
-			RoleDTO tmp = new RoleDTO();
-			for (Role r : user.getRoles()) {
+		SurveyCreateRequestDTO surveyUpdateRequest = om.readValue(request.getInputStream(), SurveyCreateRequestDTO.class);		
+		try {	//creare entity da mettere nel db
+			ArrayList<Role> viewersRoles = new ArrayList<Role>();
+			Role tmp = new Role();
+			for (RoleDTO r : surveyUpdateRequest.getSurveyViewersRoles()) {
 				BeanUtils.copyProperties(tmp, r);
-				userRoles.add(tmp);
+				viewersRoles.add(tmp);
 			}
-			UserDTO ret = new UserDTO(user.getUserId(), user.getMail(), user.getFirstname(), user.getLastname(), user.getUsername(), user.getClasse(), user.getSezione(), user.getPassword(), userRoles, user.getImageUrl(), user.getWallpaper(), user.getFirstEntry());
-			if (ret.getImageUrl().isEmpty() || ret.getImageUrl() == null) {
-				ret.setImageUrl(ret.getMail());
+			ArrayList<Role> votersRoles = new ArrayList<Role>();
+			Role tmp1 = new Role();
+			for (RoleDTO r : surveyUpdateRequest.getSurveyVotersRoles()) {
+				BeanUtils.copyProperties(tmp, r);
+				votersRoles.add(tmp);
 			}
-			loginResponse.setUser(ret);
-			om.writeValue(response.getOutputStream(), loginResponse);
+			ArrayList<Answer> answer = new ArrayList<Answer>();
+			Answer tmp2 = new Answer();
+			for (AnswerDTO a : surveyUpdateRequest.getAnswers()) {
+				BeanUtils.copyProperties(tmp2, a);
+				answer.add(tmp2);
+			}
+			//manca lo user e la data di inserimento
+			Survey survey = new Survey(surveyUpdateRequest.getQuestion(), surveyUpdateRequest.getCloseSurveyDate(), new Date(), new User(), votersRoles, viewersRoles, answer);
+			//non ho idea di come si faccia la create sul db
 		} catch (NoResultException nre) {
 			GenericErrorDTO errorResponse = new GenericErrorDTO(nre.getStackTrace(), 401, "Utente non trovato");
 			response.setStatus(401);
@@ -72,9 +69,10 @@ public class Login extends HttpServlet {
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
 		}
+		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		entitymanager.getTransaction().begin();
+
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
-		
 	}
-
 }

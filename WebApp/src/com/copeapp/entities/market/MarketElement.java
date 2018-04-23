@@ -30,4 +30,5 @@ public class MarketElement {
 	private Double price = null;
 	
 	private String image = null;
+	
 }

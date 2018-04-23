@@ -1,4 +1,4 @@
-package com.copeapp.servlet;
+package com.copeapp.servlet.survey;
 
 import java.io.IOException;
 import java.util.ArrayList;
