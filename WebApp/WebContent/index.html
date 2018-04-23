@@ -34,6 +34,7 @@
 		
 		<!-- Spazio per i services -->
 		<script type="text/javascript" src="services/userService.js"></script>
+		<script type="text/javascript" src="services/surveyService.js"></script>
 		<!-- Spazio per i controllers -->
 		<script type="text/javascript" src="index.js"></script>
 		<script type="text/javascript" src="login/login.js"></script>
@@ -45,6 +46,7 @@
 		<script type="text/javascript" src="home/home.js"></script>
 		<script type="text/javascript" src="news/news.js"></script>
 		<script type="text/javascript" src="accountSettings/accountSettings.js"></script>
+		<script type="text/javascript" src="surveys/surveys.js"></script>
 		
 		<md-content ng-if="!loggedIn" ng-include="'login/login.html'" flex layout="column"></md-content>
 		<md-content ng-if="loggedIn && user.firstEntry" ng-include="'firstEntry/firstEntry.html'" flex layout="column"></md-content>

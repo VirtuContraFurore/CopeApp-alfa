@@ -85,7 +85,7 @@ function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $t
 	}, {
 		displayName: "Sondaggi",
 		routerStatus: "surveys",
-		pageIcon: "pie_chart",
+		pageIcon: "data_usage",
 		itemType: "page"
 	}, {
 		displayName: "Negozio",
