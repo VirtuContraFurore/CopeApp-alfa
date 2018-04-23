@@ -1,4 +1,4 @@
-package com.copeapp.entities;
+package com.copeapp.entities.survey;
 
 import java.util.Date;
 import java.util.List;
@@ -12,10 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.copeapp.entities.common.Role;
+import com.copeapp.entities.common.User;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -70,4 +74,8 @@ public class Survey {
 				joinColumns = { @JoinColumn(name = "surveyId") },
 				inverseJoinColumns = { @JoinColumn(name = "roleId") } )
 	private List<Role> surveyViewersRoles;
+	
+	@NonNull
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Answer> answers;
 }

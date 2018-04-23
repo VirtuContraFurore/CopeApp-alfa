@@ -1,4 +1,4 @@
-package com.copeapp.entities;
+package com.copeapp.entities.market;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,16 +7,11 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.sun.istack.internal.NotNull;
 
-@NoArgsConstructor
-@RequiredArgsConstructor
-@Getter
-@Setter
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "market_elements")
 public class MarketElement {
@@ -26,15 +21,14 @@ public class MarketElement {
 	@SequenceGenerator(name="marketElementGenerator", sequenceName="market_elements_sequence")
 	private Integer marketElementId;
 	
-	@NonNull
-	private String name;
+	@NotNull
+	private String name = null;
 	
-	@NonNull
-	private String description;
+	private String description = null;
 	
-	@NonNull
-	private Integer price;
+	@NotNull
+	private Double price = null;
 	
-	@NonNull
-	private String image;
+	private String image = null;
+	
 }

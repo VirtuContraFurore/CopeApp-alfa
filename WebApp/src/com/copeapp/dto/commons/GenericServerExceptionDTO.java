@@ -1,6 +1,6 @@
 package com.copeapp.dto.commons;
  
-public class GenericErrorDTO {
+public class GenericServerExceptionDTO {
 
 	private StackTraceElement[] stackTrace;
 	private int httpStatus;
@@ -24,18 +24,18 @@ public class GenericErrorDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public GenericErrorDTO(int httpStatus, String description) {
+	public GenericServerExceptionDTO(int httpStatus, String description) {
 		super();
 		this.httpStatus = httpStatus;
 		this.description = description;
 	}
-	public GenericErrorDTO(StackTraceElement[] stackTrace, int httpStatus, String description) {
+	public GenericServerExceptionDTO(StackTraceElement[] stackTrace, int httpStatus, String description) {
 		super();
 		this.stackTrace = stackTrace;
 		this.httpStatus = httpStatus;
 		this.description = description;
 	}
-	public GenericErrorDTO() {
+	public GenericServerExceptionDTO() {
 		super();
 	}
 	

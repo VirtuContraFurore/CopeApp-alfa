@@ -1,4 +1,4 @@
-package com.copeapp.entities;
+package com.copeapp.entities.common;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

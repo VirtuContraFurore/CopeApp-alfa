@@ -1,4 +1,4 @@
-package com.copeapp.entities;
+package com.copeapp.entities.common;
 
 import java.util.List;
 
