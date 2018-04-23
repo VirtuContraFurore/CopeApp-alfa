@@ -6,10 +6,19 @@ app.config(function($stateProvider){
 });
 app.controller("SurveysCtrl", SurveysCtrl);
 
-function SurveysCtrl($scope, surveyService) {
+function SurveysCtrl($scope, $sce, $moment, surveyService) {
 	
-	surveyService.getSurveys($scope.user.userId, true).then(function(data) {
-		$scope.activeSurveys = data.surveyMini;
-	});
 	
+	$scope.$watch("user", function() {
+		surveyService.getSurveys($scope.user.userId, true).then(function(data) {
+			$scope.activeSurveys = data.surveyMini;
+		});
+	})
+	$scope.parseQuestion = function(question) {
+		return $sce.trustAsHtml(question)
+	}
+	$scope.calculateExpireDate = function(date) {
+		var remainingTime = $moment(date).fromNow();
+		return remainingTime;
+	}
 }

@@ -1,11 +1,31 @@
 app.controller("IndexCtrl", IndexCtrl);
 
-function IndexCtrl($scope, $state, $mdToast, localStorageService, $mdSidenav, $timeout, UserService){
+function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSidenav, $timeout, UserService){
 	
 	//funzione globale cambio stato
 	$scope.goto = function(state){
 		$state.go(state);
 	}
+	
+	//configurazione moment
+	$moment.updateLocale('en', {
+	    relativeTime : {
+	        future: "tra %s",
+	        past:   "%s fa",
+	        s  : 'pochi secondi',
+	        ss : '%d secondi',
+	        m:  "un minuto",
+	        mm: "%d minuti",
+	        h:  "un' ora",
+	        hh: "%d ore",
+	        d:  "un giorno",
+	        dd: "%d giorni",
+	        M:  "un mese",
+	        MM: "%d mesi",
+	        y:  "un anno",
+	        yy: "%d anni"
+	    }
+	});
 	
 	//funzione mostra toast
 	$scope.showSimpleToast = function(msg, pos, timeout) {
