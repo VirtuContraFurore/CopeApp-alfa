@@ -9,9 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.copeapp.dao.commons.UserDAO;
+import com.copeapp.dto.commons.GenericExceptionDTO;
 import com.copeapp.dto.market.CreateMarketRequestDTO;
 import com.copeapp.entities.common.User;
-import com.copeapp.exceptions.GenericServerException;
+import com.copeapp.exceptions.ExType;
+import com.copeapp.exceptions.ServerException;
+import com.copeapp.utilities.ExDescrForUserUtility;
 import com.copeapp.utilities.HttpUtility;
 import com.copeapp.utilities.ObjectsValidationUtility;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -28,20 +31,50 @@ public class CreateMarket extends HttpServlet {
     }
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		ObjectMapper objMap = new ObjectMapper();
 		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			CreateMarketRequestDTO createMarketRequest = objectMapper.readValue(request.getInputStream(), CreateMarketRequestDTO.class);	
+			CreateMarketRequestDTO createMarketRequest = objMap.readValue(request.getInputStream(), CreateMarketRequestDTO.class);	
 			if (!ObjectsValidationUtility.validateNotNullParameters(createMarketRequest)) {
-				throw new GenericServerException();
+				throw new ServerException(ExType.NOT_NULL_ANNOTATION_NOT_RESPECTED);
 			}
 			User creator = UserDAO.selectById(createMarketRequest.getCreatorId());
+			if (creator == null) {
+				throw new ServerException(ExType.WRONG_USER_ID);
+			}
 			
-		} catch (JsonParseException | JsonMappingException | GenericServerException e) {
-			e.printStackTrace();
-			response.setStatus(HttpUtility.httpStatusBadRequest);
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
-			response.setStatus(HttpUtility.httpStatusInternalServerError);
+		} catch (JsonParseException | JsonMappingException ex) {
+			ex.printStackTrace();
+			GenericExceptionDTO genSerEx = new GenericExceptionDTO(ex.getStackTrace(),
+																   HttpUtility.httpStatusBadRequest,
+																   ServerException.getExceptionDescription(ExType.JSON_FORMAT_ERROR),
+																   ExDescrForUserUtility.genericApplicationError);
+			response.setStatus(genSerEx.getHttpStatus());
+			objMap.writeValue(response.getOutputStream(), genSerEx);
+			
+		} catch (ServerException gSex) {
+			if (gSex.getExceptionType().equals(ExType.NOT_NULL_ANNOTATION_NOT_RESPECTED)) {
+				GenericExceptionDTO genSerEx = new GenericExceptionDTO(gSex,
+																	   HttpUtility.httpStatusBadRequest,
+																	   ExDescrForUserUtility.genericApplicationError);
+				response.setStatus(genSerEx.getHttpStatus());
+				objMap.writeValue(response.getOutputStream(), genSerEx);
+			}else if (gSex.getExceptionType().equals(ExType.WRONG_USER_ID)) {
+				GenericExceptionDTO genSerEx = new GenericExceptionDTO(gSex,
+						   HttpUtility.httpStatusBadRequest,
+						   ExDescrForUserUtility.genericApplicationError);
+				response.setStatus(genSerEx.getHttpStatus());
+				objMap.writeValue(response.getOutputStream(), genSerEx);
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			GenericExceptionDTO genSerEx = new GenericExceptionDTO(ex.getStackTrace(),
+																   HttpUtility.httpStatusInternalServerError,
+																   ServerException.getExceptionDescription(ExType.GENERIC_SERVER_ERROR),
+																   ExDescrForUserUtility.genericApplicationError);
+			response.setStatus(genSerEx.getHttpStatus());
+			objMap.writeValue(response.getOutputStream(), genSerEx);
 		}
 	}
 
