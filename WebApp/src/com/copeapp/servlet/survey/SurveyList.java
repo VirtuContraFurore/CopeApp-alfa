@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.copeapp.dto.commons.GenericErrorDTO;
+import com.copeapp.dto.commons.GenericServerExceptionDTO;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.survey.SurveyRequestListDTO;
 import com.copeapp.survey.SurveyResponseListDTO;
@@ -51,7 +51,7 @@ public class SurveyList extends HttpServlet{
 		
 		om.writeValue(response.getOutputStream(), new SurveyResponseListDTO(miniDTO));
 		} catch (NoResultException nre) {
-			GenericErrorDTO errorResponse = new GenericErrorDTO(nre.getStackTrace(), 401, "Utente non trovato");
+			GenericServerExceptionDTO errorResponse = new GenericServerExceptionDTO(nre.getStackTrace(), 401, "Utente non trovato");
 			response.setStatus(401);
 			om.writeValue(response.getOutputStream(), errorResponse);
 		}

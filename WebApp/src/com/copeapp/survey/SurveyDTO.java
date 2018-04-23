@@ -1,7 +1,9 @@
-package com.copeapp.dto.commons;
+package com.copeapp.survey;
 
 import java.util.Date;
 import java.util.List;
+
+import com.copeapp.dto.commons.RoleDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

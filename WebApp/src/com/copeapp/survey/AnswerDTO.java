@@ -1,4 +1,4 @@
-package com.copeapp.dto.commons;
+package com.copeapp.survey;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
