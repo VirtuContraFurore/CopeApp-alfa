@@ -33,6 +33,8 @@ public class Answer {
 	
 	private int votesNumber;
 	
+	private int votersNumber;
+	
 	@NonNull
 	@OneToMany(
 			fetch = FetchType.LAZY,
