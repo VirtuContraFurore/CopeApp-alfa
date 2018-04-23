@@ -1,4 +1,4 @@
-package com.copeapp.entities;
+package com.copeapp.entities.survey;
 
 import java.util.List;
 

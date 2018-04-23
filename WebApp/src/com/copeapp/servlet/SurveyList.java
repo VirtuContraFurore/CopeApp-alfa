@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.copeapp.dto.commons.GenericErrorDTO;
-import com.copeapp.entities.Survey;
+import com.copeapp.entities.survey.Survey;
 import com.copeapp.survey.SurveyRequestListDTO;
 import com.copeapp.survey.SurveyResponseListDTO;
 import com.copeapp.survey.SurveyResponseMiniDTO;

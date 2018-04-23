@@ -20,8 +20,8 @@ import com.copeapp.dto.commons.RoleDTO;
 import com.copeapp.dto.commons.UserDTO;
 import com.copeapp.dto.login.LoginRequestDTO;
 import com.copeapp.dto.login.LoginResponseDTO;
-import com.copeapp.entities.Role;
-import com.copeapp.entities.User;
+import com.copeapp.entities.common.Role;
+import com.copeapp.entities.common.User;
 import com.copeapp.tomcat9Misc.StartupOperations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

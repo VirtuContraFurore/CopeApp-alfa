@@ -7,8 +7,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import com.copeapp.entities.Role;
-import com.copeapp.entities.User;
+import com.copeapp.entities.common.Role;
+import com.copeapp.entities.common.User;
 
 public class TestUserEntity {
 

@@ -1,6 +1,6 @@
 package com.copeapp.entities.test;
 
-import com.copeapp.entities.User;
+import com.copeapp.entities.common.User;
 
 public class TestMarketElementEntity {
 	

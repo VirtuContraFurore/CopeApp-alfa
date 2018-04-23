@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.copeapp.entities.Role;
+import com.copeapp.entities.common.Role;
 
 public class TestRolesEntity {
 

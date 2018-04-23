@@ -1,4 +1,4 @@
-package com.copeapp.entities;
+package com.copeapp.entities.survey;
 
 import java.util.Date;
 import java.util.List;
@@ -17,6 +17,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.copeapp.entities.common.Role;
+import com.copeapp.entities.common.User;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
