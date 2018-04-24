@@ -4,30 +4,30 @@ import java.util.Date;
 import java.util.List;
 
 import com.copeapp.dto.commons.RoleDTO;
+import com.sun.istack.internal.NotNull;
 
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 public class SurveyCreateRequestDTO {
 	
-	@NonNull
-	private String question;
+	@NotNull
+	private String question = null;
 	
-	@NonNull
-	private Date closeSurveyDate;
+	@NotNull
+	private Date closeSurveyDate = null;
 	
-	@NonNull
-	private List<RoleDTO> surveyViewersRoles;
+	@NotNull
+	private List<RoleDTO> surveyViewersRoles = null;
 	
-	@NonNull
-	private List<RoleDTO> surveyVotersRoles;
+	@NotNull
+	private List<RoleDTO> surveyVotersRoles = null;
 	
-	@NonNull
-	private List<AnswerDTO> answers;
+	@NotNull
+	private List<AnswerDTO> answers = null;
 	
-	private int insertUserId;	//mandare solo lo username è più comodo
+	private Integer insertUserId = null;	//mandare solo lo username è più comodo
 	
-	private int answersNumber;
+	private Integer answersNumber = null;
 
 }

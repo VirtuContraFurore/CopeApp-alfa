@@ -10,7 +10,6 @@ public class LoginResponseDTO {
 	private UserDTO user = null;
 	
 	public LoginResponseDTO (UserDTO user) {
-		
 		this.user = user;
 	}
 }

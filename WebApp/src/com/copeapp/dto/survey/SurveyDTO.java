@@ -4,38 +4,36 @@ import java.util.Date;
 import java.util.List;
 
 import com.copeapp.dto.commons.RoleDTO;
+import com.sun.istack.internal.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class SurveyDTO {
 
-	private int surveyId;
+	private Integer surveyId = null;
 	
-	@NonNull
-	private String question;
+	@NotNull
+	private String question = null;
 	
-	@NonNull
-	private Date closeSurveyDate;
+	@NotNull
+	private Date closeSurveyDate = null;
 	
-	private int voters;
+	private Integer voters = null;
 	
-	@NonNull
-	private List<RoleDTO> surveyViewersRoles;
+	@NotNull
+	private List<RoleDTO> surveyViewersRoles = null;
 	
-	@NonNull
-	private List<RoleDTO> surveyVotersRoles;
+	@NotNull
+	private List<RoleDTO> surveyVotersRoles = null;
 	
-	@NonNull
-	private String insertUsername;	//mandare solo lo username è più comodo
+	@NotNull
+	private String insertUsername = null;//mandare solo lo username è più comodo
 	
-	private int answersNumber;
+	private Integer answersNumber = null;
 	
-	@NonNull
-	private List<AnswerDTO> answers;
+	@NotNull
+	private List<AnswerDTO> answer = null;
 }
