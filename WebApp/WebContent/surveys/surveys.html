@@ -3,14 +3,14 @@
 	
 		<md-tab label="Attivi">
 			<md-content layout-padding>
-				<md-card md-ink-ripple ng-repeat="activeSurvey in activeSurveys">
-					<md-card-content ng-bind-html="{{parseQuestion(activeSurvey.question)}}">
+				<md-card style="padding: 0px;" ng-repeat="activeSurvey in activeSurveys">
+					<md-card-content layout-padding md-ink-ripple style="max-height: 40vh" ng-bind-html="activeSurvey.question|trustAsHtml">
 					
 					</md-card-content>
-					<md-card-actions layout="row" child-align="end center">
-						<p class="md-subhead" flex md-truncate>{{activeSurvey.voters}}</p>
+					<md-card-actions style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" layout="row" child-align="end center">
+						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{activeSurvey.voters}}</p>
 						<p class="md-subhead md-warn">Scade {{calculateExpireDate(activeSurvey.closeSurveyDate)}}</p>
-						<md-button class="md-icon-button md-warn">
+						<md-button style="margin: auto;" class="md-icon-button md-warn">
 							<md-icon class="material-icons">delete_forever</md-icon>
 						</md-button>
 					</md-card-actions>
@@ -19,7 +19,18 @@
 		</md-tab>
 		<md-tab label="Scaduti">
 			<md-content layout-padding>
-			
+				<md-card style="padding: 0px;" ng-repeat="finishedSurvey in finishedSurveys">
+					<md-card-content layout-padding md-ink-ripple style="max-height: 40vh" ng-bind-html="finishedSurvey.question|trustAsHtml">
+					
+					</md-card-content>
+					<md-card-actions layout="row" style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" child-align="end center">
+						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{finishedSurvey.voters}}</p>
+						<p class="md-subhead md-warn">Scade {{calculateExpireDate(finishedSurvey.closeSurveyDate)}}</p>
+						<md-button style="margin: auto;" class="md-icon-button md-warn">
+							<md-icon class="material-icons">delete_forever</md-icon>
+						</md-button>
+					</md-card-actions>
+				</md-card>
 			</md-content>
 		</md-tab>
 	</md-tabs>

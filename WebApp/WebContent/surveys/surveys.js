@@ -14,9 +14,11 @@ function SurveysCtrl($scope, $sce, $moment, surveyService) {
 			$scope.activeSurveys = data.surveyMini;
 		});
 	})
-	$scope.parseQuestion = function(question) {
-		return $sce.trustAsHtml(question)
-	}
+	$scope.$watch("user", function() {
+		surveyService.getSurveys($scope.user.userId, false).then(function(data) {
+			$scope.finishedSurveys = data.surveyMini;
+		});
+	})
 	$scope.calculateExpireDate = function(date) {
 		var remainingTime = $moment(date).fromNow();
 		return remainingTime;

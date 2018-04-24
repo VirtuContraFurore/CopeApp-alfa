@@ -7,3 +7,8 @@ app.config(function($urlRouterProvider, localStorageServiceProvider){
 	localStorageServiceProvider.setPrefix('CopeApp');
 	localStorageServiceProvider.setDefaultToCookie(false);
 });
+app.filter('trustAsHtml',['$sce', function($sce) {
+	  return function(text) {
+	    return $sce.trustAsHtml(text);
+	  };
+	}]);
