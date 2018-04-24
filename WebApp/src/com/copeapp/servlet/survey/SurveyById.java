@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import com.copeapp.dto.commons.GenericServerExceptionDTO;
+import com.copeapp.dto.commons.GenericExceptionDTO;
 import com.copeapp.dto.commons.RoleDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
@@ -68,15 +68,15 @@ public class SurveyById extends HttpServlet{
 				om.writeValue(response.getOutputStream(), new SurveyResponseByIdDTO(surveyDTO));
 				
 		} catch  (NoResultException nre) {
-			GenericServerExceptionDTO errorResponse = new GenericServerExceptionDTO(nre.getStackTrace(), 401, "Utente non trovato");
+			GenericExceptionDTO errorResponse = new GenericExceptionDTO(nre.getStackTrace(), 401, "Utente non trovato");
 			response.setStatus(401);
 			om.writeValue(response.getOutputStream(), errorResponse);
 		} catch (IllegalAccessException e) {
-			GenericServerExceptionDTO errorResponse = new GenericServerExceptionDTO(e.getStackTrace(), 500, "Acceso al database negato");
+			GenericExceptionDTO errorResponse = new GenericExceptionDTO(e.getStackTrace(), 500, "Acceso al database negato");
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
 		} catch (InvocationTargetException e) {
-			GenericServerExceptionDTO errorResponse = new GenericServerExceptionDTO(e.getStackTrace(), 500, "Errore interno al server");
+			GenericExceptionDTO errorResponse = new GenericExceptionDTO(e.getStackTrace(), 500, "Errore interno al server");
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
 		}
