@@ -15,9 +15,9 @@ public class CreateMarketRequestDTO {
 	private String description = null;
 	@NotNull private Date openDate = null;
 	@NotNull private Date expireDate = null;
-	@NotNull private Data visibleDate = null;
-	@NotNull private Data hiddenDate = null;
-	@NotNull private Data creationDate = null;
+	@NotNull private Date visibleDate = null;
+	@NotNull private Date hiddenDate = null;
+	@NotNull private Date creationDate = null;
 	@NotNull private Integer creatorId = null;
 	@NotNull private List<Integer> marketElementsIds = null;
 }

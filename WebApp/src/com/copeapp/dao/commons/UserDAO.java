@@ -21,6 +21,14 @@ public class UserDAO {
 		}
 	}
 	
+	public static User selectByIdException (Integer userId) {
+		
+		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.userId = :userId", User.class);
+		query.setParameter("userId", userId);
+		return (User) query.getSingleResult();
+	}
+	
 	public static User selectByUsernameException (String username) {
 		
 		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();

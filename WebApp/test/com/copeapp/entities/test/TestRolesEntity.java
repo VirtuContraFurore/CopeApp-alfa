@@ -16,18 +16,18 @@ public static void main(String[] args) {
 
 		EntityManager entitymanager = emfactory.createEntityManager();
 		entitymanager.getTransaction().begin();
-
+/*
 		ArrayList<Role> roles = new ArrayList<Role>();
 		roles.add(new Role("studente", "Studente"));
 		roles.add(new Role("prof", "Professore"));
 		roles.add(new Role("moderatore", "Moderatore"));
 		roles.add(new Role("admin", "Amministratore"));
 		roles.add(new Role("redattore", "Redattore"));
-		roles.add(new Role("rappresentante", "Rappresentante"));
-		
+		roles.add(new Role("rappresentante", "Rappresentante"));*/
+		/*
 		for(Role r : roles)
 			entitymanager.persist(r);
-		entitymanager.getTransaction().commit();
+		entitymanager.getTransaction().commit();*/
 
 		entitymanager.close();
 		emfactory.close();
