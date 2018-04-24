@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.copeapp.entities.common.User;
 import com.sun.istack.internal.NotNull;
@@ -35,21 +37,27 @@ public class Market {
 	private String description = null;
 	
 	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date openDate = null;
 	
 	@NotNull
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date expireDate = null;
 	
 	@NotNull
-	private Data visibleDate = null;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date visibleDate = null;
 	
 	@NotNull
-	private Data hiddenDate = null;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date hiddenDate = null;
 	
 	@NotNull
-	private Data creationDate = null;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date creationDate = null;
 	
-	private Data eliminationDate = null;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date eliminationDate = null;
 	
 	@NotNull
 	@ManyToOne

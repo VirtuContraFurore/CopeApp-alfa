@@ -1,0 +1,26 @@
+<div ng-controller="SurveysCtrl">
+	<md-tabs md-dynamic-height md-border-bottom>
+	
+		<md-tab label="Attivi">
+			<md-content layout-padding>
+				<md-card md-ink-ripple ng-repeat="activeSurvey in activeSurveys">
+					<md-card-content ng-bind-html="{{parseQuestion(activeSurvey.question)}}">
+					
+					</md-card-content>
+					<md-card-actions layout="row" child-align="end center">
+						<p class="md-subhead" flex md-truncate>{{activeSurvey.voters}}</p>
+						<p class="md-subhead md-warn">Scade {{calculateExpireDate(activeSurvey.closeSurveyDate)}}</p>
+						<md-button class="md-icon-button md-warn">
+							<md-icon class="material-icons">delete_forever</md-icon>
+						</md-button>
+					</md-card-actions>
+				</md-card>
+			</md-content>
+		</md-tab>
+		<md-tab label="Scaduti">
+			<md-content layout-padding>
+			
+			</md-content>
+		</md-tab>
+	</md-tabs>
+</div>

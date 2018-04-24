@@ -12,6 +12,7 @@ public class StartupOperations implements ServletContextListener {
 	public static EntityManagerFactory emfactory;
 	
 	public StartupOperations() {
+		
 	}
 	
 	@Override
