@@ -12,16 +12,20 @@ public class UserDAO {
 	public static User selectById (Integer userId) {
 		
 		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
-		entitymanager.getTransaction().begin();
 		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.userId = :userId", User.class);
 		query.setParameter("userId", userId);
 		try {
 			return (User) query.getSingleResult();
 		}catch (NoResultException nrex) {
 			return null;
-		}finally{
-			entitymanager.getTransaction().commit();
-			entitymanager.close();
 		}
+	}
+	
+	public static User selectByUsernameException (String username) {
+		
+		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+		query.setParameter("username", username);
+		return (User) query.getSingleResult();
 	}
 }

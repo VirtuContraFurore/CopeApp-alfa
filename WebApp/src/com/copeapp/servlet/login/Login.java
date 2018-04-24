@@ -1,80 +1,70 @@
 package com.copeapp.servlet.login;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
-
-import com.copeapp.dto.commons.GenericExceptionDTO;
-import com.copeapp.dto.commons.RoleDTO;
+import com.copeapp.dao.commons.UserDAO;
+import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.dto.commons.UserDTO;
 import com.copeapp.dto.login.LoginRequestDTO;
 import com.copeapp.dto.login.LoginResponseDTO;
-import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
-import com.copeapp.tomcat9Misc.StartupOperations;
+import com.copeapp.utilities.HttpStatusUtility;
+import com.copeapp.utilities.ObjectsValidationUtility;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 @WebServlet("/rest/login")
 public class Login extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 	
-    public Login() {
-        super();
-    }
+    public Login() {  super(); }
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		ObjectMapper om = new ObjectMapper();
-		LoginRequestDTO loginRequest = om.readValue(request.getInputStream(), LoginRequestDTO.class);		
-		LoginResponseDTO loginResponse = new LoginResponseDTO();
-		
-		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
-		entitymanager.getTransaction().begin(); //dato che Ã¨ una select la transaction Ã¨ inutile
-		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE (u.mail = :mail OR u.username = :mail) AND (u.password = :password)", User.class);
-		query.setParameter("mail", loginRequest.getMail());
-		query.setParameter("password", loginRequest.getPassword());
+		ObjectMapper objMap = new ObjectMapper();
 		try {
-			User user = (User) query.getSingleResult();
-			ArrayList<RoleDTO> userRoles = new ArrayList<RoleDTO>();
-			RoleDTO tmp = new RoleDTO();
-			for (Role r : user.getRoles()) {
-				BeanUtils.copyProperties(tmp, r);
-				userRoles.add(tmp);
+			LoginRequestDTO loginRequest = objMap.readValue(request.getInputStream(), LoginRequestDTO.class);
+			if (!ObjectsValidationUtility.validateNotNullParameters(loginRequest)) {
+				response.setStatus(HttpStatusUtility.unauthorized);
+				ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.unauthorized, "Errore interno all'applicazione", "La richiesta è ben formatta ma presenta alcuni attributi nulli (che non devono esserlo)");
+				objMap.writeValue(response.getOutputStream(), errorResponse);
+			}else {
+				User user = UserDAO.selectByUsernameException(loginRequest.getMail());
+				if (!user.getPassword().equals(loginRequest.getPassword())){
+					response.setStatus(HttpStatusUtility.unauthorized);
+					ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.unauthorized, "Password errata");
+					objMap.writeValue(response.getOutputStream(), errorResponse);
+				}else {
+					//if (ret.getImageUrl().isEmpty() || ret.getImageUrl() == null) { ret.setImageUrl(ret.getMail()); }
+					response.setStatus(HttpStatusUtility.ok);
+					objMap.writeValue(response.getOutputStream(), new LoginResponseDTO(new UserDTO(user)));
+				}
 			}
-			UserDTO ret = new UserDTO(user.getUserId(), user.getMail(), user.getFirstname(), user.getLastname(), user.getUsername(), user.getClasse(), user.getSezione(), user.getPassword(), userRoles, user.getImageUrl(), user.getWallpaper(), user.getFirstEntry());
-			if (ret.getImageUrl().isEmpty() || ret.getImageUrl() == null) {
-				ret.setImageUrl(ret.getMail());
-			}
-			loginResponse.setUser(ret);
-			om.writeValue(response.getOutputStream(), loginResponse);
+		} catch (JsonParseException | JsonMappingException ex) {
+			ExceptionDTO errorResponse = new ExceptionDTO(ex.getStackTrace(), HttpStatusUtility.badRequest, "Errore interno all'applicazione", "La richiesta mandata è formattata male");
+			response.setStatus(HttpStatusUtility.badRequest);
+			objMap.writeValue(response.getOutputStream(), errorResponse);
+			
 		} catch (NoResultException nre) {
-			GenericExceptionDTO errorResponse = new GenericExceptionDTO(nre.getStackTrace(), 401, "Utente non trovato");
-			response.setStatus(401);
-			om.writeValue(response.getOutputStream(), errorResponse);
-		} catch (IllegalAccessException e) {
-			GenericExceptionDTO errorResponse = new GenericExceptionDTO(e.getStackTrace(), 500, "Acceso al database negato");
-			e.printStackTrace();
-			om.writeValue(response.getOutputStream(), errorResponse);
-		} catch (InvocationTargetException e) {
-			GenericExceptionDTO errorResponse = new GenericExceptionDTO(e.getStackTrace(), 500, "Errore interno al server");
-			e.printStackTrace();
-			om.writeValue(response.getOutputStream(), errorResponse);
+			ExceptionDTO errorResponse = new ExceptionDTO(nre.getStackTrace(), HttpStatusUtility.unauthorized, "Utente errato");
+			response.setStatus(HttpStatusUtility.unauthorized);
+			objMap.writeValue(response.getOutputStream(), errorResponse);
+			
+		} catch (Exception ex) {
+			ExceptionDTO errorResponse = new ExceptionDTO(ex.getStackTrace(), HttpStatusUtility.internalServerError, "Errore interno all'applicazione", "Avvenuto errore non previsto");
+			response.setStatus(HttpStatusUtility.internalServerError);
+			objMap.writeValue(response.getOutputStream(), errorResponse);
+			
 		}
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
-		
 	}
 
 }

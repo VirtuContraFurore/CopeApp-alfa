@@ -1,5 +1,7 @@
 package com.copeapp.dto.commons;
 
+import com.copeapp.entities.common.Role;
+
 public class RoleDTO {
 	
 	private int roleId;
@@ -8,6 +10,12 @@ public class RoleDTO {
 	
 	public RoleDTO() {
 		super();
+	}
+	public RoleDTO(Role role) {
+		super();
+		this.roleId = role.getRoleId();
+		this.role = role.getRole();
+		this.description = role.getDescription();
 	}
 	public RoleDTO(int roleId, String role, String description) {
 		super();

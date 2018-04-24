@@ -1,9 +1,12 @@
 package com.copeapp.dto.login;
 
+import com.sun.istack.internal.NotNull;
+
 import lombok.Data;
 
 @Data
 public class LoginRequestDTO {
-	String mail;
-	String password;
+	
+	@NotNull String mail = null;
+	@NotNull String password = null;
 }

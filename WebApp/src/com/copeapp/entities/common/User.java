@@ -2,6 +2,7 @@ package com.copeapp.entities.common;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,16 +13,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import com.sun.istack.internal.NotNull;
 
-@NoArgsConstructor
-@RequiredArgsConstructor
-@Getter
-@Setter
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name="users")
 public class User {
@@ -29,41 +25,43 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="usersGenerator")
 	@SequenceGenerator(name="usersGenerator", sequenceName="users_sequence")
-	private Integer userId;
+	private Integer userId = null;
 	
-	private String mail;
+	@Column(unique = true)
+	private String mail = null;
 	
-	@NonNull
-	private String firstname;
+	@NotNull
+	private String firstname = null;
 	
-	@NonNull
-	private String lastname;
+	@NotNull
+	private String lastname = null;
 	
-	@NonNull
-	private String username;
+	@NotNull
+	@Column(unique = true)
+	private String username = null;
 	
-	@NonNull
-	private String classe;
+	@NotNull
+	private String classe = null;
 	
-	@NonNull
-	private String sezione;
+	@NotNull
+	private String sezione = null;
 	
-	@NonNull
-	private String password;
+	@NotNull
+	private String password = null;
 	
-	@NonNull
+	@NotNull
 	@ManyToMany
 	@JoinTable( name = "users_roles",
 				joinColumns = { @JoinColumn(name = "userId") },
 				inverseJoinColumns = { @JoinColumn(name = "roleId") } )
-	private List<Role> roles;
+	private List<Role> roles = null;
 	
-	private String imageUrl;
+	private String imageUrl = null;
 	
-	private String wallpaper;
+	private String wallpaper = null;
 	
 	//Set firstEntry parameter as true to show FirstEntry page
-	@NonNull
-	private Boolean firstEntry;
+	@NotNull
+	private Boolean firstEntry = null;
 	
 }

@@ -7,5 +7,10 @@ import lombok.Data;
 @Data
 public class LoginResponseDTO {
 
-	private UserDTO user;
+	private UserDTO user = null;
+	
+	public LoginResponseDTO (UserDTO user) {
+		
+		this.user = user;
+	}
 }

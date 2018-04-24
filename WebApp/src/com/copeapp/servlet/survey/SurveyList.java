@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.copeapp.dto.commons.GenericExceptionDTO;
+import com.copeapp.dto.commons.ExceptionDTO;
+import com.copeapp.dto.survey.SurveyRequestListDTO;
+import com.copeapp.dto.survey.SurveyResponseListDTO;
+import com.copeapp.dto.survey.SurveyResponseMiniDTO;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.survey.SurveyRequestListDTO;
-import com.copeapp.survey.SurveyResponseListDTO;
-import com.copeapp.survey.SurveyResponseMiniDTO;
 import com.copeapp.tomcat9Misc.StartupOperations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -51,7 +51,7 @@ public class SurveyList extends HttpServlet{
 		
 		om.writeValue(response.getOutputStream(), new SurveyResponseListDTO(miniDTO));
 		} catch (NoResultException nre) {
-			GenericExceptionDTO errorResponse = new GenericExceptionDTO(nre.getStackTrace(), 401, "Utente non trovato");
+			ExceptionDTO errorResponse = new ExceptionDTO(nre.getStackTrace(), 401, "Utente non trovato");
 			response.setStatus(401);
 			om.writeValue(response.getOutputStream(), errorResponse);
 		}

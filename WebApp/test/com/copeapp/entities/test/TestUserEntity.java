@@ -8,7 +8,6 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import com.copeapp.entities.common.Role;
-import com.copeapp.entities.common.User;
 
 public class TestUserEntity {
 
@@ -24,12 +23,12 @@ public class TestUserEntity {
 		@SuppressWarnings("unchecked")
 		List<Role> roles = query.getResultList();
 		
-		User user = new User("Luca", "Ceragioli", "Cerammerda", "5", "F", "VincioGay", roles, false);
-		user.setMail("cerammerda@gioli.it");
-		user.setImageUrl("");
-		user.setImageUrl("default");
+		//User user = new User("Luca", "Ceragioli", "Cerammerda", "5", "F", "VincioGay", roles, false);
+		//user.setMail("cerammerda@gioli.it");
+		//user.setImageUrl("");
+		//user.setImageUrl("default");
 
-		entitymanager.persist(user);
+		//entitymanager.persist(user);
 		entitymanager.getTransaction().commit();
 
 		entitymanager.close();

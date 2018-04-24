@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.copeapp.dao.commons.UserDAO;
-import com.copeapp.dto.commons.GenericExceptionDTO;
+import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.dto.market.CreateMarketRequestDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.exceptions.ExType;
@@ -45,7 +45,7 @@ public class CreateMarket extends HttpServlet {
 			
 		} catch (JsonParseException | JsonMappingException ex) {
 			ex.printStackTrace();
-			GenericExceptionDTO genSerEx = new GenericExceptionDTO(ex.getStackTrace(),
+			ExceptionDTO genSerEx = new ExceptionDTO(ex.getStackTrace(),
 																   HttpUtility.httpStatusBadRequest,
 																   ServerException.getExceptionDescription(ExType.JSON_FORMAT_ERROR),
 																   ExDescrForUserUtility.genericApplicationError);
@@ -54,13 +54,13 @@ public class CreateMarket extends HttpServlet {
 			
 		} catch (ServerException gSex) {
 			if (gSex.getExceptionType().equals(ExType.NOT_NULL_ANNOTATION_NOT_RESPECTED)) {
-				GenericExceptionDTO genSerEx = new GenericExceptionDTO(gSex,
+				ExceptionDTO genSerEx = new ExceptionDTO(gSex,
 																	   HttpUtility.httpStatusBadRequest,
 																	   ExDescrForUserUtility.genericApplicationError);
 				response.setStatus(genSerEx.getHttpStatus());
 				objMap.writeValue(response.getOutputStream(), genSerEx);
 			}else if (gSex.getExceptionType().equals(ExType.WRONG_USER_ID)) {
-				GenericExceptionDTO genSerEx = new GenericExceptionDTO(gSex,
+				ExceptionDTO genSerEx = new ExceptionDTO(gSex,
 						   HttpUtility.httpStatusBadRequest,
 						   ExDescrForUserUtility.genericApplicationError);
 				response.setStatus(genSerEx.getHttpStatus());
@@ -69,7 +69,7 @@ public class CreateMarket extends HttpServlet {
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			GenericExceptionDTO genSerEx = new GenericExceptionDTO(ex.getStackTrace(),
+			ExceptionDTO genSerEx = new ExceptionDTO(ex.getStackTrace(),
 																   HttpUtility.httpStatusInternalServerError,
 																   ServerException.getExceptionDescription(ExType.GENERIC_SERVER_ERROR),
 																   ExDescrForUserUtility.genericApplicationError);

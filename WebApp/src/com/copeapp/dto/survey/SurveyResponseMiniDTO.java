@@ -1,4 +1,4 @@
-package com.copeapp.survey;
+package com.copeapp.dto.survey;
 
 import java.util.Date;
 
