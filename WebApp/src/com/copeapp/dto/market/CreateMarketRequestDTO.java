@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.sun.istack.internal.NotNull;
 
-import lombok.Data;
 import lombok.Getter;
 
 @Getter
