@@ -17,7 +17,6 @@ public class MarketElementDao {
 			queryElements.concat("'"+id +"',");
 		}
 		queryElements = queryElements.substring(0, queryElements.length()-2) + ")";
-		
 		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
 		TypedQuery<MarketElement> query = entitymanager.createQuery(queryElements, MarketElement.class);
 		
