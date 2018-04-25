@@ -1,7 +1,6 @@
 package com.copeapp.servlet.market;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -11,19 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 import com.copeapp.dao.commons.UserDAO;
+import com.copeapp.dao.market.MarketElementDao;
 import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.dto.market.CreateMarketRequestDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.market.Market;
-import com.copeapp.entities.market.MarketElement;
 import com.copeapp.tomcat9Misc.StartupOperations;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.ObjectsValidationUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 
 @WebServlet("/rest/createmarket")
 public class CreateMarket extends HttpServlet {
@@ -63,7 +59,7 @@ public class CreateMarket extends HttpServlet {
 
 				entitymanager.persist(market);
 				entitymanager.getTransaction().commit();
-				entitymanager.close();
+				response.setStatus(HttpStatusUtility.ok);
 			}
 		} catch (NoResultException nre) {
 			ExceptionDTO errorResponse = new ExceptionDTO(nre.getStackTrace(), HttpStatusUtility.unauthorized, "Errore nella creazione del Market", "Id utente creatore oppure id di uno dei market elements errati");
