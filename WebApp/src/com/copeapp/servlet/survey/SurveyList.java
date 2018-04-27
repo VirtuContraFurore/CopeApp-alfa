@@ -33,13 +33,13 @@ public class SurveyList extends HttpServlet{
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getEmfactory().createEntityManager();
 		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
 		Query query;
-		if	(surveyListRequest.isTipo()) {
+		if	(surveyListRequest.isActive()) {
 			query = entitymanager.createQuery("SELECT s FROM surveys u WHERE (s.closeSurveyDate > current_date) order by date(s.closeSurveyDate) desc ", Survey.class);
 		} else {
 			query = entitymanager.createQuery("SELECT s FROM surveys u WHERE (s.closeSurveyDate < current_date) order by date(s.closeSurveyDate) desc ", Survey.class);
 		}
-		query.setMaxResults(5);
-		//Survey survey = new Survey();
+		query.setFirstResult(surveyListRequest.getLastSurveyNumber());
+		query.setMaxResults(surveyListRequest.getNumberToRetrieve());
 		try {
 			@SuppressWarnings("unchecked")
 			ArrayList<Survey> survey = (ArrayList<Survey>) query.getResultList();

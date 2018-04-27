@@ -30,7 +30,7 @@ public class SurveyDTO {
 	private List<RoleDTO> surveyVotersRoles = null;
 	
 	@NotNull
-	private String insertUsername = null;//mandare solo lo username è più comodo
+	private String insertUsername = null; //mandare solo lo username è più comodo
 	
 	private Integer answersNumber = null;
 	
