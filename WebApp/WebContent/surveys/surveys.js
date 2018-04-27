@@ -8,13 +8,21 @@ app.controller("SurveysCtrl", SurveysCtrl);
 
 function SurveysCtrl($scope, $sce, $moment, surveyService) {
 	
+	$scope.setExtraButtonById(1);
 	
-	$scope.$watch("user", function() {
-		surveyService.getSurveys($scope.user.userId, true).then(function(data) {
-			$scope.activeSurveys = data.surveyMini;
+	$scope.$watch("user.userId", function() {
+		surveyService.getSurveys($scope.user.userId, true).then(function(response) {
+			$scope.activeSurveys = response.surveyMini;
 		});
 	})
-	$scope.$watch("user", function() {
+	
+	$scope.modifySurvey = function(surveyId) {
+		urveyService.getSurveyById(surveyId).then(function(response) {
+			//gestire risposta del server
+		});
+	}
+	
+	$scope.$watch("user.userId", function() {
 		surveyService.getSurveys($scope.user.userId, false).then(function(data) {
 			$scope.finishedSurveys = data.surveyMini;
 		});

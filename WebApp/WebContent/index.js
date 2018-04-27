@@ -4,8 +4,43 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	
 	//funzione globale cambio stato
 	$scope.goto = function(state){
+		$scope.currentButton = null;
 		$state.go(state);
 	}
+	
+	//configurazione extra button
+	$scope.possibleButtons = [{
+		id: 1,
+		name: "surveyModificateButton",
+		linkedFunction: "goto('accountSettings')",
+		buttonIcon: "edit",
+		roleCondition: "redattore"
+	}]
+
+	//set header extra button by ID
+	$scope.setExtraButtonById = function(id) {
+		for (var i = 0; i < $scope.possibleButtons.length; i++) {
+			if (id == $scope.possibleButtons[i].id) {
+				$scope.currentButton = $scope.possibleButtons[i];
+			} else if (i == $scope.possibleButtons.length - 1) {
+				$scope.currentButton = null;
+			}
+		}
+	}
+	$scope.setExtraButtonByName = function(name) {
+		for (var i = 0; i < $scope.possibleButtons.length; i++) {
+			if (name == $scope.possibleButtons[i].name) {
+				$scope.currentButton = $scope.possibleButtons[i];
+			} else if (i == $scope.possibleButtons.length - 1) {
+				$scope.currentButton = null;
+			}
+		}
+	}
+	$scope.resetExtraButton = function() {
+		$scope.currentButton = null;
+	}
+	
+	$scope.currentButton = null;
 	
 	//configurazione moment
 	$moment.updateLocale('en', {
@@ -66,7 +101,7 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	//gestione user
 //	$scope.user;  //mettere per attivare la login
 	UserService.login("Cerammerda", "VincioGay").then(function(response) {
-		$scope.user = response.data.user
+		$scope.user = response.data.user;
 	}); //togliere per attivare la login
 	$scope.getUser = function() {return $scope.user}
 	$scope.setUser = function(set) {$scope.user = set}

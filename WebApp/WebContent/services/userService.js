@@ -15,7 +15,7 @@ function UserService($q, $http) {
 //					sezione : "F",
 //					password : 'vinciogay',
 //					roles : ['studente', 'moderatore', 'admin'],
-//					imageUrl : '',
+//					imageUrl : 'Cerammerda',
 //					wallpaper : 'default',
 //					firstEntry: false //mettere su true per mostrare la pagina di first entry
 //				});
@@ -24,7 +24,7 @@ function UserService($q, $http) {
 //			}
 //		});
 //	}
-	
+//	
 	this.login = function(mail,password) {  //mettere per attivare la login
 		var loginDTO = new Object();
 		loginDTO.mail = mail;

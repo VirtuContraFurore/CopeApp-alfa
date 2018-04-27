@@ -5,13 +5,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.copeapp.entities.common.User;
-import com.copeapp.tomcat9Misc.StartupOperations;
-
+import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 public class UserDAO {
 	
 	public static User selectById (Integer userId) {
 		
-		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getEmfactory().createEntityManager();
 		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.userId = :userId", User.class);
 		query.setParameter("userId", userId);
 		try {
@@ -23,7 +22,7 @@ public class UserDAO {
 	
 	public static User selectByIdException (Integer userId) {
 		
-		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getEmfactory().createEntityManager();
 		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.userId = :userId", User.class);
 		query.setParameter("userId", userId);
 		return (User) query.getSingleResult();
@@ -31,7 +30,7 @@ public class UserDAO {
 	
 	public static User selectByUsernameException (String username) {
 		
-		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getEmfactory().createEntityManager();
 		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
 		query.setParameter("username", username);
 		return (User) query.getSingleResult();

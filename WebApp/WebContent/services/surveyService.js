@@ -19,8 +19,8 @@ function SurveyService($q, $http) {
 							voters: 11202
 						}]
 					}
-				data.surveyMini[0].closeSurveyDate.setTime(1524562828000);
-				data.surveyMini[1].closeSurveyDate.setTime(1547284040000);
+				data.surveyMini[0].closeSurveyDate.setTime(1525562828000);
+				data.surveyMini[1].closeSurveyDate.setTime(1526562828000);
 				resolve(data);
 			});
 		} else {
@@ -38,11 +38,20 @@ function SurveyService($q, $http) {
 							voters: 11202
 						}]
 					}
-				data.surveyMini[0].closeSurveyDate.setTime(1524562828000);
-				data.surveyMini[1].closeSurveyDate.setTime(1547284040000);
+				data.surveyMini[0].closeSurveyDate.setTime(1522075305000);
+				data.surveyMini[1].closeSurveyDate.setTime(1518446505000);
 				resolve(data);
 			});
 		}
+		
+	}
+	
+	this.getSurveyById = function(sufveyId) {
+		
+		return $q(function(resolve, reject) {
+			var data;
+			resolve(data);
+		});
 		
 	}
 	

@@ -44,7 +44,7 @@ public class Login extends HttpServlet {
 					ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.unauthorized, "Password errata");
 					objMap.writeValue(response.getOutputStream(), errorResponse);
 				}else {
-					//if (ret.getImageUrl().isEmpty() || ret.getImageUrl() == null) { ret.setImageUrl(ret.getMail()); }
+					if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }
 					response.setStatus(HttpStatusUtility.ok);
 					objMap.writeValue(response.getOutputStream(), new LoginResponseDTO(new UserDTO(user)));
 				}
