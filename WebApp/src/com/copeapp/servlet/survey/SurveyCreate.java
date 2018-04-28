@@ -23,7 +23,7 @@ import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.tomcat9Misc.StartupOperations;
+import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveycreate")
@@ -32,8 +32,10 @@ public class SurveyCreate extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		ObjectMapper om = new ObjectMapper();
 		SurveyCreateRequestDTO surveyUpdateRequest = om.readValue(request.getInputStream(), SurveyCreateRequestDTO.class);		
+		
 		try {	//creare entity da mettere nel db
 			ArrayList<Role> viewersRoles = new ArrayList<Role>();
 			Role tmp = new Role();
@@ -57,19 +59,19 @@ public class SurveyCreate extends HttpServlet{
 			Survey survey = new Survey(surveyUpdateRequest.getQuestion(), surveyUpdateRequest.getCloseSurveyDate(), new Date(), new User(), votersRoles, viewersRoles, answer);
 			//non ho idea di come si faccia la create sul db
 		} catch (NoResultException nre) {
-			ExceptionDTO errorResponse = new ExceptionDTO(nre.getStackTrace(), 401, "Utente non trovato");
+			ExceptionDTO errorResponse = new ExceptionDTO(nre, 401, "Utente non trovato");
 			response.setStatus(401);
 			om.writeValue(response.getOutputStream(), errorResponse);
 		} catch (IllegalAccessException e) {
-			ExceptionDTO errorResponse = new ExceptionDTO(e.getStackTrace(), 500, "Acceso al database negato");
+			ExceptionDTO errorResponse = new ExceptionDTO(e, 500, "Acceso al database negato");
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
 		} catch (InvocationTargetException e) {
-			ExceptionDTO errorResponse = new ExceptionDTO(e.getStackTrace(), 500, "Errore interno al server");
+			ExceptionDTO errorResponse = new ExceptionDTO(e, 500, "Errore interno al server");
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
 		}
-		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		entitymanager.getTransaction().begin();
 
 		entitymanager.getTransaction().commit();

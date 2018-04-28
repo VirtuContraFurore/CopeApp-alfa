@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class SurveyRequestListDTO {
 	
-	private boolean isActive; //true=attivi false=chiusi
+	private boolean active; //true=attivi false=chiusi
 	
 	private String keyword;
 	
@@ -14,6 +14,4 @@ public class SurveyRequestListDTO {
 	private int lastSurveyNumber;
 	
 	private int numberToRetrieve;
-	
-	//possibile implementazione dei filtri
 }

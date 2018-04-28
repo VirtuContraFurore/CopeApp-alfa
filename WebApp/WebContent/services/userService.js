@@ -33,7 +33,7 @@ function UserService($q, $http) {
 				method: 'POST',
 				url: 'http://localhost:8080/CopeApp/rest/login',
 				headers: {
-					'Content-Type': "text/JSON"
+					'Content-Type': "application/json"
 				},
 				data: loginDTO
 		}

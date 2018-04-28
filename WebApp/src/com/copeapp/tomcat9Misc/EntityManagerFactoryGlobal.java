@@ -7,19 +7,19 @@ import lombok.Getter;
 
 public class EntityManagerFactoryGlobal {
 
-	public static EntityManagerFactoryGlobal instance = new EntityManagerFactoryGlobal();
+	private static EntityManagerFactoryGlobal instance = new EntityManagerFactoryGlobal();
 	@Getter
-	private static EntityManagerFactory emfactory;
+	private EntityManagerFactory emfactory;
 	
-	protected EntityManagerFactoryGlobal() {}
+	private EntityManagerFactoryGlobal() {}
 	
 	public static EntityManagerFactoryGlobal getInstance() {
 		return instance;
 	}
-	public static void createEMFactory() {
+	public void createEMFactory() {
 		emfactory = Persistence.createEntityManagerFactory("CopeApp");
 	}
-	public static void destroyEMFactory() {
+	public void destroyEMFactory() {
 		emfactory.close();
 		emfactory = null;
 	}

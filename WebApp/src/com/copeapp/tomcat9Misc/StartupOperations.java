@@ -12,14 +12,14 @@ public class StartupOperations implements ServletContextListener {
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
 		//execute commands before shutdown
-		EntityManagerFactoryGlobal.destroyEMFactory();
+		EntityManagerFactoryGlobal.getInstance().destroyEMFactory();
 		System.out.println("Server shut down");
 	}
 	
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		System.out.println("Server started up");
-		EntityManagerFactoryGlobal.createEMFactory();
+		EntityManagerFactoryGlobal.getInstance().createEMFactory();
 		//execute commands after startup
 	}
 	

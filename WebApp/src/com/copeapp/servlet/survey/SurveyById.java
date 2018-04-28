@@ -25,7 +25,7 @@ import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.tomcat9Misc.StartupOperations;
+import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SurveyById extends HttpServlet{
@@ -37,7 +37,7 @@ public class SurveyById extends HttpServlet{
 		ObjectMapper om = new ObjectMapper();
 		SurveyRequestByIdDTO loginRequest = om.readValue(request.getInputStream(), SurveyRequestByIdDTO.class);		
 
-		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
 		Query query = entitymanager.createQuery("SELECT s FROM surveys s WHERE (s.surveyId = :surveyId) order by date(s.closeSurveyDate) desc ", Survey.class);
 		query.setParameter("surveyId", loginRequest.getSurveyId());
@@ -68,15 +68,15 @@ public class SurveyById extends HttpServlet{
 				om.writeValue(response.getOutputStream(), new SurveyResponseByIdDTO(surveyDTO));
 				
 		} catch  (NoResultException nre) {
-			ExceptionDTO errorResponse = new ExceptionDTO(nre.getStackTrace(), 401, "Utente non trovato");
+			ExceptionDTO errorResponse = new ExceptionDTO(nre, 401, "Utente non trovato");
 			response.setStatus(401);
 			om.writeValue(response.getOutputStream(), errorResponse);
 		} catch (IllegalAccessException e) {
-			ExceptionDTO errorResponse = new ExceptionDTO(e.getStackTrace(), 500, "Acceso al database negato");
+			ExceptionDTO errorResponse = new ExceptionDTO(e, 500, "Acceso al database negato");
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
 		} catch (InvocationTargetException e) {
-			ExceptionDTO errorResponse = new ExceptionDTO(e.getStackTrace(), 500, "Errore interno al server");
+			ExceptionDTO errorResponse = new ExceptionDTO(e, 500, "Errore interno al server");
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
 		}

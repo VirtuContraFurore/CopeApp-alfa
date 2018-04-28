@@ -16,6 +16,7 @@ import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.dto.market.CreateMarketRequestDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.market.Market;
+import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.copeapp.tomcat9Misc.StartupOperations;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.ObjectsValidationUtility;
@@ -33,7 +34,7 @@ public class CreateMarket extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ObjectMapper objMap = new ObjectMapper();
-		EntityManager entitymanager = StartupOperations.emfactory.createEntityManager();
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		try {
 			CreateMarketRequestDTO createMarketRequest = objMap.readValue(request.getInputStream(), CreateMarketRequestDTO.class);
 			if (!ObjectsValidationUtility.validateNotNullParameters(createMarketRequest)) {
@@ -62,12 +63,12 @@ public class CreateMarket extends HttpServlet {
 				response.setStatus(HttpStatusUtility.ok);
 			}
 		} catch (NoResultException nre) {
-			ExceptionDTO errorResponse = new ExceptionDTO(nre.getStackTrace(), HttpStatusUtility.unauthorized, "Errore nella creazione del Market", "Id utente creatore oppure id di uno dei market elements errati");
+			ExceptionDTO errorResponse = new ExceptionDTO(nre, HttpStatusUtility.unauthorized, "Errore nella creazione del Market", "Id utente creatore oppure id di uno dei market elements errati");
 			response.setStatus(HttpStatusUtility.unauthorized);
 			objMap.writeValue(response.getOutputStream(), errorResponse);
 		
 		} catch (Exception ex) {
-			ExceptionDTO errorResponse = new ExceptionDTO(ex.getStackTrace(), HttpStatusUtility.internalServerError, "Errore interno all'applicazione", "Avvenuto errore non previsto");
+			ExceptionDTO errorResponse = new ExceptionDTO(ex, HttpStatusUtility.internalServerError, "Errore interno all'applicazione", "Avvenuto errore non previsto");
 			response.setStatus(HttpStatusUtility.internalServerError);
 			objMap.writeValue(response.getOutputStream(), errorResponse);
 		
