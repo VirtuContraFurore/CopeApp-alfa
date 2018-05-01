@@ -6,18 +6,30 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
-import org.hibernate.cache.spi.access.UnknownAccessTypeException;
-
 import com.copeapp.entities.common.User;
 import com.copeapp.exception.InvalidAuthTokenException;
+import com.copeapp.exception.LoginFailedException;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
+
 public class UserDAO {
 	
 	public static User selectById (Integer userId) {
 		
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		return entitymanager.find(User.class, userId); // tiè vincio del cazzo
+	}
+	
+	public static User selectByUsername (String username) throws LoginFailedException{
+		
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
+		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.username = :username OR u.mail = :username", User.class);
+		query.setParameter("username", username);
+		User ret = (User) query.getSingleResult();
+		if (ret == null) {
+			throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Utente non trovato");
+		}
+		return ret;
 	}
 	
 	public static User selectByIdException (Integer userId) {
@@ -39,7 +51,7 @@ public class UserDAO {
 	public static User selectByBasicAuthTokenException (String authHeader) throws InvalidAuthTokenException {
 		
 		if (authHeader == null) {
-			throw new InvalidAuthTokenException(HttpStatusUtility.unauthorized, "Invalid header");
+			throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Invalid header");
 		}
 		authHeader = authHeader.substring(6);
 		String token = new String(Base64.getDecoder().decode(authHeader));
@@ -51,11 +63,11 @@ public class UserDAO {
 		try {
 			User ret = (User)query.getSingleResult();
 			if (!ret.getPassword().equals(tokens[1])) {
-				throw new InvalidAuthTokenException(HttpStatusUtility.unauthorized, "Invalid password");
+				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Invalid password");
 			}
 			return ret;
 		} catch (NoResultException nre){
-			throw new InvalidAuthTokenException(HttpStatusUtility.unauthorized, "User not found", nre);
+			throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "User not found", nre);
 		}
 	}
 	

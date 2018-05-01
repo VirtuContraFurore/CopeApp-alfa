@@ -36,8 +36,8 @@ public class ErrorManagementFilter implements Filter{
 			om.writeValue(res.getOutputStream(), errorResponse);
 		} catch (Throwable e) {
 			ObjectMapper om = new ObjectMapper();
-			res.setStatus(HttpStatusUtility.internalServerError);
-			ExceptionDTO errorResponse = new ExceptionDTO(e, HttpStatusUtility.internalServerError, "internal server error");
+			res.setStatus(HttpStatusUtility.INTERNAL_SERVER_ERROR);
+			ExceptionDTO errorResponse = new ExceptionDTO(e, HttpStatusUtility.INTERNAL_SERVER_ERROR, "internal server error");
 			om.writeValue(res.getOutputStream(), errorResponse);
 		}
 		System.out.println("Post");

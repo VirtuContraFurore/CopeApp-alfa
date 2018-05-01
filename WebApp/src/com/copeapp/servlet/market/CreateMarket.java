@@ -38,8 +38,8 @@ public class CreateMarket extends HttpServlet {
 		try {
 			CreateMarketRequestDTO createMarketRequest = objMap.readValue(request.getInputStream(), CreateMarketRequestDTO.class);
 			if (!ObjectsValidationUtility.validateNotNullParameters(createMarketRequest)) {
-				response.setStatus(HttpStatusUtility.unauthorized);
-				ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.unauthorized, "Errore interno all'applicazione", "La richiesta è ben formatta ma presenta alcuni attributi nulli (che non devono esserlo)");
+				response.setStatus(HttpStatusUtility.UNAUTHORIZED);
+				ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.UNAUTHORIZED, "Errore interno all'applicazione", "La richiesta è ben formatta ma presenta alcuni attributi nulli (che non devono esserlo)");
 				objMap.writeValue(response.getOutputStream(), errorResponse);
 			}else {
 				entitymanager.getTransaction().begin();
@@ -60,16 +60,16 @@ public class CreateMarket extends HttpServlet {
 
 				entitymanager.persist(market);
 				entitymanager.getTransaction().commit();
-				response.setStatus(HttpStatusUtility.ok);
+				response.setStatus(HttpStatusUtility.OK);
 			}
 		} catch (NoResultException nre) {
-			ExceptionDTO errorResponse = new ExceptionDTO(nre, HttpStatusUtility.unauthorized, "Errore nella creazione del Market", "Id utente creatore oppure id di uno dei market elements errati");
-			response.setStatus(HttpStatusUtility.unauthorized);
+			ExceptionDTO errorResponse = new ExceptionDTO(nre, HttpStatusUtility.UNAUTHORIZED, "Errore nella creazione del Market", "Id utente creatore oppure id di uno dei market elements errati");
+			response.setStatus(HttpStatusUtility.UNAUTHORIZED);
 			objMap.writeValue(response.getOutputStream(), errorResponse);
 		
 		} catch (Exception ex) {
-			ExceptionDTO errorResponse = new ExceptionDTO(ex, HttpStatusUtility.internalServerError, "Errore interno all'applicazione", "Avvenuto errore non previsto");
-			response.setStatus(HttpStatusUtility.internalServerError);
+			ExceptionDTO errorResponse = new ExceptionDTO(ex, HttpStatusUtility.UNAUTHORIZED, "Errore interno all'applicazione", "Avvenuto errore non previsto");
+			response.setStatus(HttpStatusUtility.INTERNAL_SERVER_ERROR);
 			objMap.writeValue(response.getOutputStream(), errorResponse);
 		
 		} finally {

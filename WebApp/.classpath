@@ -48,5 +48,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang3-3.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/httpcore-4.4.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/httpcore-ab-4.4.9.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/httpcore-nio-4.4.9.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -31,13 +31,12 @@ public class Login extends HttpServlet {
 		ObjectMapper objMap = new ObjectMapper();
 		LoginRequestDTO loginRequest = objMap.readValue(request.getInputStream(), LoginRequestDTO.class);
 		ObjectsValidationUtility.validateNotNullParameters(loginRequest);
-		
-		User user = UserDAO.selectByUsernameException(loginRequest.getMail()); //TODO crea un metodo senza eccezione e if null throw login failed exception
+		User user = UserDAO.selectByUsername(loginRequest.getMail());
 		if (!user.getPassword().equals(loginRequest.getPassword())){
-			throw new LoginFailedException(HttpStatusUtility.unauthorized, "Wrong password");
+			throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Wrong password");
 		} else {
 			if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }
-			response.setStatus(HttpStatusUtility.ok);
+			response.setStatus(HttpStatusUtility.OK);
 			objMap.writeValue(response.getOutputStream(), new LoginResponseDTO(new UserDTO(user)));
 		}
 	}
