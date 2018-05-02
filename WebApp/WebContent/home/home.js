@@ -7,4 +7,6 @@ app.config(function($stateProvider){
 app.controller("HomeCtrl", HomeCtrl);
 function HomeCtrl($scope){
 
+	$scope.setExtraButtonById(0);
+	
 }
