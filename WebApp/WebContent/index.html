@@ -32,6 +32,8 @@
 		<script type="text/javascript" src="node_modules/angular-file-upload/dist/angular-file-upload.js"></script>
 		<script type="text/javascript" src="node_modules/momentjs/moment.js"></script>
 		<script type="text/javascript" src="node_modules/angular-momentjs/angular-momentjs.js"></script>
+		<script type="text/javascript" src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+		<script type="text/javascript" src="node_modules/ui-tinymce-master/dist/tinymce.min.js"></script>
 		<script type="text/javascript" src="app.js"></script>
 		<!-- Spazio per le directives -->
 		
@@ -50,6 +52,7 @@
 		<script type="text/javascript" src="news/news.js"></script>
 		<script type="text/javascript" src="accountSettings/accountSettings.js"></script>
 		<script type="text/javascript" src="surveys/surveys.js"></script>
+		<script type="text/javascript" src="surveys/createSurvey/createSurvey.js"></script>
 		
 		<md-content ng-if="!loggedIn" ng-include="'login/login.html'" flex layout="column"></md-content>
 		<md-content ng-if="loggedIn && user.firstEntry" ng-include="'firstEntry/firstEntry.html'" flex layout="column"></md-content>

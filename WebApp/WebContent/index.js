@@ -10,11 +10,23 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	
 	//configurazione extra button
 	$scope.possibleButtons = [{
+		id: 0,
+		name: "homeQuickLogout",
+		linkedFunction: "logout()",
+		buttonIcon: "exit_to_app",
+		roleCondition: ""
+	}, {
 		id: 1,
 		name: "surveyModificateButton",
-		linkedFunction: "goto('accountSettings')",
+		linkedFunction: "goto('createSurvey')",
 		buttonIcon: "edit",
 		roleCondition: "redattore"
+	}, {
+		id: 2,
+		name: "backToSurvey",
+		linkedFunction: "goto('surveys')",
+		buttonIcon: "arrow_back",
+		roleCondition: ""
 	}]
 
 	//set header extra button by ID
@@ -22,8 +34,10 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 		for (var i = 0; i < $scope.possibleButtons.length; i++) {
 			if (id == $scope.possibleButtons[i].id) {
 				$scope.currentButton = $scope.possibleButtons[i];
+				break;
 			} else if (i == $scope.possibleButtons.length - 1) {
 				$scope.currentButton = null;
+				break;
 			}
 		}
 	}
@@ -31,8 +45,10 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 		for (var i = 0; i < $scope.possibleButtons.length; i++) {
 			if (name == $scope.possibleButtons[i].name) {
 				$scope.currentButton = $scope.possibleButtons[i];
+				break;
 			} else if (i == $scope.possibleButtons.length - 1) {
 				$scope.currentButton = null;
+				break;
 			}
 		}
 	}

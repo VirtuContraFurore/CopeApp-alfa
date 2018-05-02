@@ -8,7 +8,7 @@ app.controller("SurveysCtrl", SurveysCtrl);
 
 function SurveysCtrl($scope, $sce, $moment, surveyService) {
 	
-	$scope.setExtraButtonById(1);
+	$scope.setExtraButtonById(1); //Controllare il rolecondition o impedire la visualizzazione
 	
 	$scope.$watch("user.userId", function() {
 		surveyService.getSurveys($scope.user.userId, true).then(function(response) {
@@ -27,6 +27,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService) {
 			$scope.finishedSurveys = data.surveyMini;
 		});
 	})
+	
 	$scope.calculateExpireDate = function(date) {
 		var remainingTime = $moment(date).fromNow();
 		return remainingTime;
