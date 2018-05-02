@@ -111,6 +111,14 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	$scope.backgroundTag = "girl";
 	$scope.backgroundBlur = 15;
 	
+	$scope.checkRoles = function(buttonRole) {
+		for(var a in $scope.getUser.roles) {
+			if(a.role.equals(buttonRole)) {
+				return true;
+			}
+		}
+	}
+
 	//pagine di menu
 	$scope.items = [{
 		displayName: "Home",
