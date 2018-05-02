@@ -37,11 +37,12 @@ public class CreateMarket extends HttpServlet {
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		try {
 			CreateMarketRequestDTO createMarketRequest = objMap.readValue(request.getInputStream(), CreateMarketRequestDTO.class);
-			if (!ObjectsValidationUtility.validateNotNullParameters(createMarketRequest)) {
+//			if (!ObjectsValidationUtility.validateNotNullParameters(createMarketRequest)) {
+			if (false) {
 				response.setStatus(HttpStatusUtility.UNAUTHORIZED);
 				ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.UNAUTHORIZED, "Errore interno all'applicazione", "La richiesta è ben formatta ma presenta alcuni attributi nulli (che non devono esserlo)");
 				objMap.writeValue(response.getOutputStream(), errorResponse);
-			}else {
+			} else {
 				entitymanager.getTransaction().begin();
 				
 				User user = UserDAO.selectById(createMarketRequest.getCreatorId());
