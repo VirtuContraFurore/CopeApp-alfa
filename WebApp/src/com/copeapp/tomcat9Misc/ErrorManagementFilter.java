@@ -22,7 +22,6 @@ public class ErrorManagementFilter implements Filter{
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println("Pre");
 		
 		HttpServletResponse res= (HttpServletResponse) response;
 		res.setHeader("Content-Type", "application/json");
@@ -40,7 +39,6 @@ public class ErrorManagementFilter implements Filter{
 			ExceptionDTO errorResponse = new ExceptionDTO(e, HttpStatusUtility.INTERNAL_SERVER_ERROR, "internal server error");
 			om.writeValue(res.getOutputStream(), errorResponse);
 		}
-		System.out.println("Post");
 	}
 
 	

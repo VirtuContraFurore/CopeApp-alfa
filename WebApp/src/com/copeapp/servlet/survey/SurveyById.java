@@ -15,17 +15,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.dto.commons.RoleDTO;
 import com.copeapp.dto.survey.AnswerDTO;
 import com.copeapp.dto.survey.SurveyDTO;
 import com.copeapp.dto.survey.SurveyRequestByIdDTO;
+import com.copeapp.dto.survey.SurveyRequestListDTO;
 import com.copeapp.dto.survey.SurveyResponseByIdDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
+import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class SurveyById extends HttpServlet{
@@ -35,25 +38,30 @@ public class SurveyById extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ObjectMapper om = new ObjectMapper();
-		SurveyRequestByIdDTO loginRequest = om.readValue(request.getInputStream(), SurveyRequestByIdDTO.class);		
+		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
+		SurveyRequestByIdDTO surveyRequestById = om.readValue(request.getInputStream(), SurveyRequestByIdDTO.class);		
 
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
+		entitymanager.getTransaction().begin();
 		Query query = entitymanager.createQuery("SELECT s FROM surveys s WHERE (s.surveyId = :surveyId) order by date(s.closeSurveyDate) desc ", Survey.class);
-		query.setParameter("surveyId", loginRequest.getSurveyId());
+		query.setParameter("surveyId", surveyRequestById.getSurveyId());
+		Survey s = (Survey) query.getSingleResult();
 		try {
-				Survey s = (Survey) query.getSingleResult();
-				ArrayList<RoleDTO> surveyVotersRoles = new ArrayList<RoleDTO>();	//create votersRoles
+			SurveyDTO surveyDTO;
+			ArrayList<RoleDTO> surveyViewersRoles = new ArrayList<RoleDTO>(); //create viewersRoles
+			RoleDTO tmp1 = new RoleDTO();
+			for (Role r : s.getSurveyViewersRoles()) {
+				BeanUtils.copyProperties(tmp1, r);
+				surveyViewersRoles.add(tmp1);
+			}
+			ArrayList<RoleDTO> commonRole = new ArrayList<RoleDTO>(surveyViewersRoles);
+			commonRole.retainAll(currentUser.getRoles());
+			if (!commonRole.isEmpty()) {
+				ArrayList<RoleDTO> surveyVotersRoles = new ArrayList<RoleDTO>();	//create votersRoles		
 				RoleDTO tmp = new RoleDTO();
 				for (Role r : s.getSurveyVotersRoles()) {
 					BeanUtils.copyProperties(tmp, r);
 					surveyVotersRoles.add(tmp);
-				}
-				ArrayList<RoleDTO> surveyViewersRoles = new ArrayList<RoleDTO>(); //create viewersRoles
-				RoleDTO tmp1 = new RoleDTO();
-				for (Role r : s.getSurveyViewersRoles()) {
-					BeanUtils.copyProperties(tmp1, r);
-					surveyVotersRoles.add(tmp1);
 				}
 				ArrayList<AnswerDTO> answers = new ArrayList<AnswerDTO>(); //create answer list
 				AnswerDTO tmp2 = new AnswerDTO();
@@ -61,26 +69,17 @@ public class SurveyById extends HttpServlet{
 					BeanUtils.copyProperties(tmp2, an);
 					answers.add(tmp2);
 				}
-				User u = (User) s.getDeleteUser();	//al posto che lo user mando il username
+				User u = (User) s.getInsertUser();	//al posto che lo user mando il username
 				String username = u.getUsername();
-				SurveyDTO surveyDTO = new SurveyDTO(s.getSurveyId(), s.getQuestion(), s.getCloseSurveyDate(), 10, surveyViewersRoles, surveyVotersRoles, username , s.getAnswersNumber(), answers);	
-				
-				om.writeValue(response.getOutputStream(), new SurveyResponseByIdDTO(surveyDTO));
-				
-		} catch  (NoResultException nre) {
-			ExceptionDTO errorResponse = new ExceptionDTO(nre, 401, "Utente non trovato");
-			response.setStatus(401);
-			om.writeValue(response.getOutputStream(), errorResponse);
-		} catch (IllegalAccessException e) {
-			ExceptionDTO errorResponse = new ExceptionDTO(e, 500, "Acceso al database negato");
+				surveyDTO = new SurveyDTO(s.getSurveyId(), s.getQuestion(), s.getCloseSurveyDate(), 10, surveyViewersRoles, surveyVotersRoles, username , s.getAnswersNumber(), answers);	
+			} else {
+				response.setStatus(HttpStatusUtility.UNAUTHORIZED);
+				surveyDTO = new SurveyDTO();	//TODO gestione della non visibilità
+			}
+			om.writeValue(response.getOutputStream(), new SurveyResponseByIdDTO(surveyDTO));
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
-			om.writeValue(response.getOutputStream(), errorResponse);
-		} catch (InvocationTargetException e) {
-			ExceptionDTO errorResponse = new ExceptionDTO(e, 500, "Errore interno al server");
-			e.printStackTrace();
-			om.writeValue(response.getOutputStream(), errorResponse);
 		}
-
 		entitymanager.getTransaction().commit();
 		entitymanager.close();
 	}
