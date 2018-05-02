@@ -32,4 +32,9 @@ function SurveysCtrl($scope, $sce, $moment, surveyService) {
 		var remainingTime = $moment(date).fromNow();
 		return remainingTime;
 	}
+	$scope.role = "";
+	
+	$scope.$watch("user", function() {
+		$scope.role = $scope.checkRoles("admin");
+	})
 }

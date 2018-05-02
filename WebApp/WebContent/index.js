@@ -128,11 +128,14 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	$scope.backgroundBlur = 15;
 	
 	$scope.checkRoles = function(buttonRole) {
-		for(var a in $scope.getUser.roles) {
-			if(a.role.equals(buttonRole)) {
-				return true;
+		if ($scope.user != null) {
+			for (var i = 0; i < $scope.getUser().roles.length; i++) {
+				if ($scope.getUser().roles[i].role == buttonRole) {
+					return true;
+				}
 			}
 		}
+		return false
 	}
 
 	//pagine di menu

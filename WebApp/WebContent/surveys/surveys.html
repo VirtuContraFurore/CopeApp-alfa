@@ -9,7 +9,7 @@
 					<md-card-actions style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" layout="row" child-align="end center">
 						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{activeSurvey.voters}}</p>
 						<p class="md-subhead md-warn">Scade {{calculateExpireDate(activeSurvey.closeSurveyDate)}}</p>
-						<md-button style="margin: auto;" ng-if="canDeleteSurveys()" class="md-icon-button md-warn">
+						<md-button style="margin: auto;" ng-if="role" class="md-icon-button md-warn">
 							<md-icon class="material-icons">delete_forever</md-icon>
 						</md-button>
 					</md-card-actions>
@@ -25,7 +25,7 @@
 					<md-card-actions layout="row" style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" child-align="end center">
 						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{finishedSurvey.voters}}</p>
 						<p class="md-subhead md-warn">Scaduto {{calculateExpireDate(finishedSurvey.closeSurveyDate)}}</p>
-						<md-button style="margin: auto;" class="md-icon-button md-warn">
+						<md-button style="margin: auto;" ng-if="role" class="md-icon-button md-warn">
 							<md-icon class="material-icons">delete_forever</md-icon>
 						</md-button>
 					</md-card-actions>
