@@ -1,12 +1,14 @@
 package com.copeapp.servlet.survey;
 
 import java.io.IOException;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +28,7 @@ import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@WebServlet("/rest/surveyvote")
 public class SurveyVote extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
@@ -41,7 +44,6 @@ public class SurveyVote extends HttpServlet{
 		Query query = entitymanager.createQuery("SELECT s FROM surveys s WHERE (s.surveyId = :surveyId) order by date(s.closeSurveyDate) desc ", Survey.class);
 		query.setParameter("surveyId", surveyRequestVote.getSurveyId());
 		Survey survey = (Survey) query.getSingleResult();
-		boolean isAllowed = false;
 		try {
 			ArrayList<RoleDTO> surveyVotersRoles = new ArrayList<RoleDTO>();	//create votersRoles		
 			RoleDTO tmp = new RoleDTO();
@@ -51,9 +53,9 @@ public class SurveyVote extends HttpServlet{
 			}
 			ArrayList<RoleDTO> commonRole = new ArrayList<RoleDTO>(surveyVotersRoles);
 			commonRole.retainAll(currentUser.getRoles());
-			isAllowed = (commonRole.isEmpty())? false : true;
+			//isAllowed = (commonRole.isEmpty())? false : true; molto utile
 
-			if (isAllowed) {
+			if (!commonRole.isEmpty()) {
 				ArrayList<Answer> answer = new ArrayList<Answer>();
 				Answer tmp2 = new Answer();
 				for (AnswerDTO a : surveyRequestVote.getAnswers()) {

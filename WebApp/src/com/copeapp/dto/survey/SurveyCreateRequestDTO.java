@@ -26,8 +26,10 @@ public class SurveyCreateRequestDTO {
 	@NonNull
 	private List<AnswerDTO> answers = null;
 	
-	private Integer insertUserId = null;	//mandare solo lo username è più comodo
+	@NonNull
+	private Date creationDate = null;
 	
+	@NonNull
 	private Integer answersNumber = null;
 
 }

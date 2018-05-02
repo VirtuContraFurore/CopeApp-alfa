@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.dto.commons.RoleDTO;
 import com.copeapp.dto.survey.AnswerDTO;
@@ -32,11 +33,12 @@ public class SurveyCreate extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
 		ObjectMapper om = new ObjectMapper();
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		SurveyCreateRequestDTO surveyUpdateRequest = om.readValue(request.getInputStream(), SurveyCreateRequestDTO.class);		
 		
-		try {	//creare entity da mettere nel db
+		try {	
 			ArrayList<Role> viewersRoles = new ArrayList<Role>();
 			Role tmp = new Role();
 			for (RoleDTO r : surveyUpdateRequest.getSurveyViewersRoles()) {
@@ -49,32 +51,22 @@ public class SurveyCreate extends HttpServlet{
 				BeanUtils.copyProperties(tmp, r);
 				votersRoles.add(tmp);
 			}
-			ArrayList<Answer> answer = new ArrayList<Answer>();
+			ArrayList<Answer> answers = new ArrayList<Answer>();
 			Answer tmp2 = new Answer();
 			for (AnswerDTO a : surveyUpdateRequest.getAnswers()) {
 				BeanUtils.copyProperties(tmp2, a);
-				answer.add(tmp2);
+				answers.add(tmp2);
 			}
-			//manca lo user e la data di inserimento
-			Survey survey = new Survey(surveyUpdateRequest.getQuestion(), surveyUpdateRequest.getCloseSurveyDate(), new Date(), new User(), votersRoles, viewersRoles, answer);
-			//non ho idea di come si faccia la create sul db
-		} catch (NoResultException nre) {
-			ExceptionDTO errorResponse = new ExceptionDTO(nre, 401, "Utente non trovato");
-			response.setStatus(401);
-			om.writeValue(response.getOutputStream(), errorResponse);
-		} catch (IllegalAccessException e) {
+			Survey survey = new Survey(surveyUpdateRequest.getQuestion(), surveyUpdateRequest.getCloseSurveyDate(), surveyUpdateRequest.getCreationDate(), currentUser, votersRoles, viewersRoles, answers);
+			entitymanager.getTransaction().begin();
+			entitymanager.persist(survey);
+			entitymanager.getTransaction().commit();
+			entitymanager.close();
+			
+		} catch (IllegalAccessException | InvocationTargetException e) {
 			ExceptionDTO errorResponse = new ExceptionDTO(e, 500, "Acceso al database negato");
 			e.printStackTrace();
 			om.writeValue(response.getOutputStream(), errorResponse);
-		} catch (InvocationTargetException e) {
-			ExceptionDTO errorResponse = new ExceptionDTO(e, 500, "Errore interno al server");
-			e.printStackTrace();
-			om.writeValue(response.getOutputStream(), errorResponse);
 		}
-		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		entitymanager.getTransaction().begin();
-
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
 	}
 }

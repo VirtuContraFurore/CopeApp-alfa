@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Entity
 @Table(name="surveys")
+//@Indexed   //indexing per hibernate.search
 public class Survey {
 
 	@Id
@@ -39,6 +40,7 @@ public class Survey {
 	private int surveyId; 
 	
 	@NonNull
+	//@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String question;
 	
 	private int answersNumber;
