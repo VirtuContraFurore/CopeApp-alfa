@@ -60,7 +60,10 @@ public class SurveyList extends HttpServlet{
 //				  .matching(surveyListRequest.getKeyword())
 //				  .createQuery();
 //				query = fullTextEntityManager.createFullTextQuery(luceneQuery, Survey.class);
-				query = entitymanager.createQuery("SELECT s FROM Survey s WHERE to_tsvector(s.question) @@ to_tsquery(':keyword'", Survey.class);
+			
+// ------->     l'obiettivo è eliminare questo e mettere quello sopra funzionante
+			
+				query = entitymanager.createQuery("SELECT s FROM Survey s WHERE to_tsvector(s.question) @@ to_tsquery(':keyword')", Survey.class);
 				query.setParameter("keyword", surveyListRequest.getKeyword());
 		}
 		query.setFirstResult(surveyListRequest.getLastSurveyNumber());

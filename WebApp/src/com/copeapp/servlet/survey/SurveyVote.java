@@ -25,14 +25,13 @@ import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.entities.survey.Vote;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
-import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveyvote")
 public class SurveyVote extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ObjectMapper om = new ObjectMapper();
@@ -67,9 +66,10 @@ public class SurveyVote extends HttpServlet{
 					entitymanager.persist(v);
 				}
 			} else {
-				response.setStatus(HttpStatusUtility.METHOD_NOT_ALLOWED);
+				//lanciare eccezione surveyException (da creare) cosicché il webFilter la catchi
 			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
+			//chiamare l'eccezione surveyException e lasciare fare al filtro il resto
 			e.printStackTrace();
 		}
 		entitymanager.getTransaction().commit();
