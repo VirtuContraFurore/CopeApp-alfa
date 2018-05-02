@@ -24,7 +24,9 @@ import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.entities.survey.Vote;
+import com.copeapp.exception.SurveyRequestFailedExcption;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
+import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveyvote")
@@ -43,6 +45,7 @@ public class SurveyVote extends HttpServlet{
 		Query query = entitymanager.createQuery("SELECT s FROM surveys s WHERE (s.surveyId = :surveyId) order by date(s.closeSurveyDate) desc ", Survey.class);
 		query.setParameter("surveyId", surveyRequestVote.getSurveyId());
 		Survey survey = (Survey) query.getSingleResult();
+		
 		try {
 			ArrayList<RoleDTO> surveyVotersRoles = new ArrayList<RoleDTO>();	//create votersRoles		
 			RoleDTO tmp = new RoleDTO();
@@ -50,10 +53,8 @@ public class SurveyVote extends HttpServlet{
 				BeanUtils.copyProperties(tmp, r);
 				surveyVotersRoles.add(tmp);
 			}
-			ArrayList<RoleDTO> commonRole = new ArrayList<RoleDTO>(surveyVotersRoles);
-			commonRole.retainAll(currentUser.getRoles());
-			//isAllowed = (commonRole.isEmpty())? false : true; molto utile
-
+			ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());
+			commonRole.retainAll(surveyVotersRoles);
 			if (!commonRole.isEmpty()) {
 				ArrayList<Answer> answer = new ArrayList<Answer>();
 				Answer tmp2 = new Answer();
@@ -66,11 +67,11 @@ public class SurveyVote extends HttpServlet{
 					entitymanager.persist(v);
 				}
 			} else {
-				//lanciare eccezione surveyException (da creare) cosicché il webFilter la catchi
+				throw new SurveyRequestFailedExcption(HttpStatusUtility.UNAUTHORIZED, "Non si dispone dei permessi necessari");
 			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
-			//chiamare l'eccezione surveyException e lasciare fare al filtro il resto
 			e.printStackTrace();
+			throw new SurveyRequestFailedExcption(HttpStatusUtility.INTERNAL_SERVER_ERROR, "Errore interno al server", e);
 		}
 		entitymanager.getTransaction().commit();
 		entitymanager.close();

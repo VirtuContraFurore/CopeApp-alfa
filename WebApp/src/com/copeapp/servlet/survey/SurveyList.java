@@ -12,14 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.hibernate.Hibernate;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
-
 import com.copeapp.dao.commons.UserDAO;
-import com.copeapp.dto.commons.RoleDTO;
 import com.copeapp.dto.survey.SurveyRequestListDTO;
 import com.copeapp.dto.survey.SurveyResponseListDTO;
 import com.copeapp.dto.survey.SurveyResponseMiniDTO;
@@ -54,6 +47,7 @@ public class SurveyList extends HttpServlet{
 				query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate <= current_timestamp) order by s.closeSurveyDate desc ", Survey.class);
 			}
 		} else {
+			//TODO in versione 2.0 multiple filters
 			//puoi fare cosi
 //			FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entitymanager);
 //			QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Survey.class).get();
@@ -64,8 +58,8 @@ public class SurveyList extends HttpServlet{
 //			query = entitymanager.createQuery("SELECT s FROM Survey s WHERE to_tsvector(s.question) @@ to_tsquery(':keyword')", Survey.class);
 //			query.setParameter("keyword", surveyListRequest.getKeyword());
 			
-			//o meglio puoi frare così
-			query = entitymanager.createQuery("SELECT s FROM Survey s WHERE s.question LIKE :keyword", Survey.class);
+			//o meglio puoi fare così
+			query = entitymanager.createQuery("SELECT s FROM Survey s WHERE s.question LIKE :keyword ORDER BY s.closeSurveyDate DESC", Survey.class);
 			query.setParameter("keyword", surveyListRequest.getKeyword());
 			
 		}
@@ -80,12 +74,13 @@ public class SurveyList extends HttpServlet{
 		for(Survey s : surveys) {
 			commonRole.retainAll(s.getSurveyViewersRoles());
 			if(!commonRole.isEmpty()) { //se lo user ha dei ruoli che intersecano quelli del survey... 
-					
 				int voteNumbers = 0;
 				for (Answer a : s.getAnswers()) {
 					voteNumbers += a.getVotesNumber();
 				}
 				miniDTO.add(new SurveyResponseMiniDTO(s.getSurveyId(), s.getQuestion(), s.getCloseSurveyDate(), voteNumbers)); // il survey appare nella lista 
+			} else {
+				//forse lanciare eccezione?
 			}
 		} 
 		

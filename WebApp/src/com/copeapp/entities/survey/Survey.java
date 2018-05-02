@@ -43,7 +43,8 @@ public class Survey {
 	//@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String question;
 	
-	private int answersNumber;
+	@NonNull
+	private Integer answersNumber;
 	
 	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
