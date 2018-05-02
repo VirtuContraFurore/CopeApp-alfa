@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Hibernate;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 
 import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dto.commons.RoleDTO;
@@ -43,7 +46,6 @@ public class SurveyList extends HttpServlet{
 		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
 		Query query;
 		/* TODO 
-		 * gestire le keyword hibernate.search e lucene
 		 * gestire visibilità dei sondaggi */
 		if(surveyListRequest.getKeyword().isEmpty()) {
 			if	(surveyListRequest.isActive()) {
@@ -52,19 +54,20 @@ public class SurveyList extends HttpServlet{
 				query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate <= current_timestamp) order by s.closeSurveyDate desc ", Survey.class);
 			}
 		} else {
-//			FullTextEntityManager fullTextEntityManager = org.hibernate.search.jpa.Search.getFullTextEntityManager(entitymanager);
-//				QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Survey.class).get();
-//				org.apache.lucene.search.Query luceneQuery = qb
-//				  .keyword()
-//				  .onFields("question")
-//				  .matching(surveyListRequest.getKeyword())
-//				  .createQuery();
-//				query = fullTextEntityManager.createFullTextQuery(luceneQuery, Survey.class);
+			//puoi fare cosi
+//			FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entitymanager);
+//			QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Survey.class).get();
+//			org.apache.lucene.search.Query luceneQuery = qb.keyword().onField("question").matching(surveyListRequest.getKeyword()).createQuery();
+//			query = fullTextEntityManager.createFullTextQuery(luceneQuery, Survey.class);
 			
-// ------->     l'obiettivo è eliminare questo e mettere quello sopra funzionante
+			//puoi fare così
+//			query = entitymanager.createQuery("SELECT s FROM Survey s WHERE to_tsvector(s.question) @@ to_tsquery(':keyword')", Survey.class);
+//			query.setParameter("keyword", surveyListRequest.getKeyword());
 			
-				query = entitymanager.createQuery("SELECT s FROM Survey s WHERE to_tsvector(s.question) @@ to_tsquery(':keyword')", Survey.class);
-				query.setParameter("keyword", surveyListRequest.getKeyword());
+			//o meglio puoi frare così
+			query = entitymanager.createQuery("SELECT s FROM Survey s WHERE s.question LIKE :keyword", Survey.class);
+			query.setParameter("keyword", surveyListRequest.getKeyword());
+			
 		}
 		query.setFirstResult(surveyListRequest.getLastSurveyNumber());
 		query.setMaxResults(surveyListRequest.getNumberToRetrieve());

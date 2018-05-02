@@ -34,4 +34,5 @@ public class Vote {
 	@NonNull
 	@ManyToOne
 	private User user;
+	
 }
