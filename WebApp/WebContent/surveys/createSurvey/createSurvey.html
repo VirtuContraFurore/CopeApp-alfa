@@ -1,3 +1,30 @@
 <div ng-controller="CreateSurveyCtrl">
-	<textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"></textarea>
+	<form>
+		<md-card layout="column">
+			<md-card-header>
+		        <md-card-header-text>
+		        	<span class="md-title">Informazioni generali</span>
+		        </md-card-header-text>
+	        </md-card-header>
+		    <textarea ui-tinymce="tinymceOptions" ng-model="question"></textarea>
+		    <div layout-padding layout="row" layout-align="start center">
+		    	<p style="padding: 0px">Data di chiusura:</p>
+		    	<md-datepicker required md-placeholder="seleziona data" ng-model="expireDate" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+		    </div>
+	    </md-card>
+	    <md-card layout="column">
+			<md-card-header>
+		        <md-card-header-text>
+		        	<span class="md-title">Informazioni utenti</span>
+		        </md-card-header-text>
+	        </md-card-header>
+	    </md-card>
+	    <md-card layout="column">
+			<md-card-header>
+		        <md-card-header-text>
+		        	<span class="md-title">Informazioni risposte</span>
+		        </md-card-header-text>
+	        </md-card-header>
+	    </md-card>
+    </form>
 </div>
