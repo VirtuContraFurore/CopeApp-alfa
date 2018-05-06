@@ -4,8 +4,9 @@ import lombok.Data;
 import lombok.NonNull;
 
 @Data
-public class SurveyResponseByIdDTO {
-
+public class SurveyRequestCreateDTO {
+	
 	@NonNull
 	private SurveyDTO surveyDTO;
+
 }

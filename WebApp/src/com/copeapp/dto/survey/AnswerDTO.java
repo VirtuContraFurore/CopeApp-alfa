@@ -1,17 +1,17 @@
 package com.copeapp.dto.survey;
 
-import com.sun.istack.internal.NotNull;
-
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 public class AnswerDTO {
 	
-	@NotNull
-	private int answerId; 
+	@NonNull
+	private Integer answerId; 
 	
-	@NotNull
-	private String answerContent = null;
+	@NonNull
+	private String answerContent;
 	
-	private Integer votesNumber = null;
+	@NonNull
+	private Integer votesNumber;
 }

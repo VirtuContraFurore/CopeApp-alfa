@@ -2,7 +2,6 @@
 package com.copeapp.servlet.survey;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
@@ -13,18 +12,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.mapstruct.factory.Mappers;
 
 import com.copeapp.dao.commons.UserDAO;
-import com.copeapp.dto.commons.RoleDTO;
-import com.copeapp.dto.survey.AnswerDTO;
 import com.copeapp.dto.survey.SurveyDTO;
 import com.copeapp.dto.survey.SurveyRequestByIdDTO;
 import com.copeapp.dto.survey.SurveyResponseByIdDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
-import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
+import com.copeapp.mappers.survey.SurveyMapper;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,11 +38,24 @@ public class SurveyById extends HttpServlet{
 		SurveyRequestByIdDTO surveyRequestById = objMap.readValue(request.getInputStream(), SurveyRequestByIdDTO.class);		
 
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		entitymanager.getTransaction().begin();
 		Query query = entitymanager.createQuery("SELECT s FROM surveys s WHERE (s.surveyId = :surveyId)", Survey.class);
 		query.setParameter("surveyId", surveyRequestById.getSurveyId());
 		Survey s = (Survey) query.getSingleResult();
-		try {
+
+		ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());
+		commonRole.retainAll(s.getSurveyViewersRoles());
+		SurveyResponseByIdDTO responseDTO;
+		if (!commonRole.isEmpty()) {
+			responseDTO = new SurveyResponseByIdDTO(Mappers.getMapper(SurveyMapper.class).surveyToSurveyDTO(s));
+			responseDTO.getSurveyDTO().setVoters(10); //TODO gestione dei votanti
+			response.setStatus(HttpStatusUtility.OK);
+		} else {
+			responseDTO = new SurveyResponseByIdDTO(new SurveyDTO()); //TODO mando vuoto o non mando?
+			response.setStatus(HttpStatusUtility.UNAUTHORIZED);
+		}
+		objMap.writeValue(response.getOutputStream(),responseDTO);
+
+		/*try {
 			SurveyDTO surveyDTO;
 			ArrayList<RoleDTO> surveyViewersRoles = new ArrayList<RoleDTO>(); //create viewersRoles
 			RoleDTO tmp1 = new RoleDTO();
@@ -78,9 +88,8 @@ public class SurveyById extends HttpServlet{
 			objMap.writeValue(response.getOutputStream(), new SurveyResponseByIdDTO(surveyDTO));
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
-		}
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
+		}*/
+
 	}
 }
 

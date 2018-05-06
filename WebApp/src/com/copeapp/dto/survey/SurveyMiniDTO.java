@@ -6,10 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 
-@AllArgsConstructor
 @Data
-public class SurveyResponseMiniDTO {
-		
+@AllArgsConstructor
+public class SurveyMiniDTO {
+
 	private int surveyId;
 	
 	@NonNull

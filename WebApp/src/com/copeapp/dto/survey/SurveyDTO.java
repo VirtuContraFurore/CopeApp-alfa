@@ -4,38 +4,53 @@ import java.util.Date;
 import java.util.List;
 
 import com.copeapp.dto.commons.RoleDTO;
-import com.sun.istack.internal.NotNull;
+import com.copeapp.entities.common.User;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(of="surveyId")
+@RequiredArgsConstructor
 @NoArgsConstructor
-@Data
 public class SurveyDTO {
 
-	private Integer surveyId = null;
+	@NonNull
+	private Integer surveyId;
+
+	@NonNull
+	private String question;
+
+	@NonNull
+	private Integer answersNumber;
 	
-	@NotNull
-	private String question = null;
+	@NonNull
+	private Date openSurveyDate;
 	
-	@NotNull
-	private Date closeSurveyDate = null;
+	@NonNull
+	private Date closeSurveyDate;
+
+	@NonNull
+	private Date insertDate;
 	
-	private Integer voters = null;
+	@NonNull
+	private User insertUser;
+
+	@NonNull
+	private List<RoleDTO> surveyVotersRoles;
+
+	@NonNull
+	private List<RoleDTO> surveyViewersRoles;
+
+	@NonNull
+	private List<AnswerDTO> answers;
 	
-	@NotNull
-	private List<RoleDTO> surveyViewersRoles = null;
+	@NonNull
+	private Integer voters;	//TODO voters è nel DTO ma non nella entity
 	
-	@NotNull
-	private List<RoleDTO> surveyVotersRoles = null;
-	
-	@NotNull
-	private String insertUsername = null; //mandare solo lo username è più comodo
-	
-	private Integer answersNumber = null;
-	
-	@NotNull
-	private List<AnswerDTO> answer = null;
 }

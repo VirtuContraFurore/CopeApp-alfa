@@ -11,5 +11,5 @@ import lombok.NonNull;
 public class SurveyResponseListDTO {
 	
 	@NonNull
-	private ArrayList<SurveyResponseMiniDTO> surveyMini= new ArrayList<SurveyResponseMiniDTO>();
+	private ArrayList<SurveyMiniDTO> surveyMini= new ArrayList<SurveyMiniDTO>();
 }
