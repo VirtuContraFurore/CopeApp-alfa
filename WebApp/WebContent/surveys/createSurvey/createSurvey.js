@@ -89,7 +89,6 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 			answerContent: ""
 		})
 		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
-		console.log($scope.maxNumberOfAnswers);
 	}
 	$scope.removeAnswer = function(index) {
 		$scope.answers.splice(index, 1);
@@ -113,22 +112,39 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 	
 	$scope.checkValidity = function() {	
 		var error = [];
-		if(question === "") { error.push("La domanda non contiene testo; ");}
-		if($scope.expireDate.getTime() < $scope.startDate.getTime()) { error.push("La scadenza è precedente alla pubblicazione; ");}
-		if($scope.answers.length < 1) { error.push("Non ci sono risposte; ");}
-		if($scope.selectedVoters.length < 1) { error.push("Nessuno potrà votare; ");}
-		if($scope.selectedViewers.length < 1) { error.push("Nessuno potrà vederlo; ");}
-		if($scope.answerNumber < 1) { error.push("Non si può rispondere; ");}
-		if (error === "") {error.push("Bravo");}
+		if(question === "") { error.push("La domanda non contiene testo");}
+		if($scope.expireDate.getTime() < $scope.startDate.getTime()) { error.push("La scadenza è precedente alla pubblicazione");}
+		if($scope.answers.length < 1) { error.push("Il sondaggio non contiene risposte");}
+		if($scope.selectedVoters.length < 1) { error.push("Nessuno potrà votare il sondaggio");}
+		if($scope.selectedViewers.length < 1) { error.push("Nessuno potrà vedere il sondaggio!");}
+		if($scope.answerNumber < 1) { error.push("Non è possibile esprimere preferenze");}
+		if (error.length == 0) {return true}
+		return error;
 	}
 	
 	$scope.uploadSurvey = function() {
-		if(checkValidity())
-			$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione.\n Vuoi davvero procedere al caricamento?", "bottom right", 5000, "OK", function(response) {
+		
+		var response = $scope.checkValidity()
+		if (response != true) {
+			$scope.showSimpleToast(response, "bottom right", 2500);
+		} else {
+			$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione. Vuoi davvero procedere al caricamento?", "bottom right", 7500, "OK", function(response) {
 				if ( response == 'ok' ) {
-					//upload to server
+					surveyService.uploadSurvey({
+						question: $scope.question,
+						answersNumber: $scope.answerNumber,
+						openSurveyDate: $scope.startDate,
+						closeSurveyDate: $scope.expireDate,
+						insertDate: new Date(),
+						insertUser: $scope.getUser(),
+						surveyVotersRoles: $scope.selectedVoters,
+						surveyViewersRoles: $scope.selectedViewers,
+						answers: $scope.answers
+					})
 				}
 			});
+		}
+		
 		
 	}
 	
