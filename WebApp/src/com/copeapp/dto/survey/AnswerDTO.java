@@ -5,6 +5,7 @@ import lombok.NonNull;
 
 @Data
 public class AnswerDTO {
+	//TODO rimuovere answerId cosicchè il client possa rispondere
 	
 	@NonNull
 	private Integer answerId; 

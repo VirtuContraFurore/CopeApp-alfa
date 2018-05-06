@@ -8,7 +8,7 @@ app.controller("CreateSurveyCtrl", CreateSurveyCtrl);
 
 function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 
-	$scope.question;
+	$scope.question = "";
 	$scope.minPublishDate = $moment(new Date).add(0, 'days').toDate();
 	$scope.maxPublishDate = $moment(new Date).add(9, 'months').toDate();
 	$scope.startDate = $moment(new Date).add(0, 'days').toDate();
@@ -111,14 +111,28 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 		$scope.maxNumberOfAnswers = 0;
 	}
 	
+	$scope.checkValidity = function(isValid) {
+		if((question === "") || 
+	       ($scope.expireDate.getTime() < $scope.startDate.getTime()) || 
+	       ($scope.answers.length < 1) ||
+	       ($scope.selectedVoters.length < 1) || 
+	       ($scope.selectedViewers.length < 1) || 
+	       ($scope.answerNumber < 1)) {
+				isValid = false;
+		} else {
+			isValid = true;
+		}
+	}
+	
 	$scope.uploadSurvey = function() {
-		
-		//controllare validità survey
-		$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione.\n Vuoi davvero procedere al caricamento?", "bottom right", 5000, "OK", function(response) {
-			if ( response == 'ok' ) {
-				//upload to server
-			}
-		});
+		var isValid;
+		checkValidity(isValid);
+		if(isValid)
+			$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione.\n Vuoi davvero procedere al caricamento?", "bottom right", 5000, "OK", function(response) {
+				if ( response == 'ok' ) {
+					//upload to server
+				}
+			});
 		
 	}
 	
