@@ -8,7 +8,7 @@
 					</md-card-content>
 					<md-card-actions style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" layout="row" child-align="end center">
 						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{activeSurvey.voters}}</p>
-						<p class="md-subhead md-warn">Scade {{calculateExpireDate(activeSurvey.closeSurveyDate)}}</p>
+						<p class="md-subhead md-warn">{{calculateExpireDate(activeSurvey.closeSurveyDate)}}</p>
 						<md-button style="margin: auto;" ng-if="checkRoles('admin')" class="md-icon-button md-warn">
 							<md-icon class="material-icons">delete_forever</md-icon>
 						</md-button>
@@ -24,7 +24,7 @@
 					</md-card-content>
 					<md-card-actions layout="row" style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" child-align="end center">
 						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{finishedSurvey.voters}}</p>
-						<p class="md-subhead md-warn">Scaduto {{calculateExpireDate(finishedSurvey.closeSurveyDate)}}</p>
+						<p class="md-subhead md-warn">{{calculateExpireDate(finishedSurvey.closeSurveyDate)}}</p>
 						<md-button style="margin: auto;" ng-if="checkRoles('admin')" class="md-icon-button md-warn">
 							<md-icon class="material-icons">delete_forever</md-icon>
 						</md-button>
@@ -39,13 +39,13 @@
 				</md-button>
 			</md-subheader>
 			<md-content layout-padding>
-				<md-card style="padding: 0px;" ng-repeat="finishedSurvey in finishedSurveys">
-					<md-card-content layout-padding style="max-height: 40vh" ng-bind-html="finishedSurvey.question|trustAsHtml">
+				<md-card style="padding: 0px;" ng-repeat="mySurvey in mySurveys">
+					<md-card-content layout-padding style="max-height: 40vh" ng-bind-html="mySurvey.question|trustAsHtml">
 					
 					</md-card-content>
 					<md-card-actions layout="row" style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" child-align="end center">
-						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{finishedSurvey.voters}}</p>
-						<p class="md-subhead md-warn">Scaduto {{calculateExpireDate(finishedSurvey.closeSurveyDate)}}</p>
+						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{mySurvey.voters}}</p>
+						<p class="md-subhead md-warn">{{calculateExpireDate(mySurvey.closeSurveyDate)}}</p>
 						<md-button style="margin: auto;" class="md-icon-button md-warn">
 							<md-icon class="material-icons">delete_forever</md-icon>
 						</md-button>

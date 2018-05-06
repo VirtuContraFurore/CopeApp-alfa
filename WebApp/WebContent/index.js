@@ -86,7 +86,6 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	
 	$scope.checkRoles = function(buttonRole) {
 		if ($scope.user != null) {
-			console.log(buttonRole);
 			for (var i = 0; i < $scope.getUser().roles.length; i++) {
 				if ($scope.getUser().roles[i].role == buttonRole) {
 					return true;

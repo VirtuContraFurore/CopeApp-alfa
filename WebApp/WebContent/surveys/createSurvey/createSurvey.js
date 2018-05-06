@@ -92,6 +92,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 	}
 	$scope.removeAnswer = function(index) {
 		$scope.answers.splice(index, 1);
+		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	}
 	$scope.getField = function(index) {
 		return eval("surveyCreateForm.answer_"+index+".$error");
@@ -112,12 +113,13 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 	
 	$scope.checkValidity = function() {	
 		var error = [];
-		if(question === "") { error.push("La domanda non contiene testo");}
-		if($scope.expireDate.getTime() < $scope.startDate.getTime()) { error.push("La scadenza è precedente alla pubblicazione");}
+		if($scope.question === "") { error.push("La domanda non contiene testo");}
+		var a = $moment(new Date()).startOf("day").toDate();
+		if($scope.expireDate.getTime() < $scope.startDate.getTime()) { error.push("La scadenza e' precedente alla pubblicazione");}
+		if($scope.selectedVoters.length < 1) { error.push("Nessuno potra' votare il sondaggio");}
+		if($scope.selectedViewers.length < 1) { error.push("Nessuno potra' vedere il sondaggio!");}
+		if($scope.answerNumber < 1) { error.push("Non e' possibile esprimere preferenze");}
 		if($scope.answers.length < 1) { error.push("Il sondaggio non contiene risposte");}
-		if($scope.selectedVoters.length < 1) { error.push("Nessuno potrà votare il sondaggio");}
-		if($scope.selectedViewers.length < 1) { error.push("Nessuno potrà vedere il sondaggio!");}
-		if($scope.answerNumber < 1) { error.push("Non è possibile esprimere preferenze");}
 		if (error.length == 0) {return true}
 		return error;
 	}
@@ -126,7 +128,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 		
 		var response = $scope.checkValidity()
 		if (response != true) {
-			$scope.showSimpleToast(response, "bottom right", 2500);
+			$scope.showSimpleToast(response[0], "bottom right", 2500);
 		} else {
 			$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione. Vuoi davvero procedere al caricamento?", "bottom right", 7500, "OK", function(response) {
 				if ( response == 'ok' ) {

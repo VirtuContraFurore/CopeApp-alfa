@@ -9,11 +9,23 @@ app.controller("SurveysCtrl", SurveysCtrl);
 function SurveysCtrl($scope, $sce, $moment, surveyService) {
 	
 	//TODO mettere bottone modifica
-	surveyService.getSurveys($scope.user.userId, true).then(function(response) {
-		$scope.activeSurveys = response.surveyMini;
+	$scope.activeSurveys = [];
+	surveyService.getSurveys($scope.user.userId, true, false, $scope.activeSurveys.length).then(function(response) {
+		for (var a = 0; a < data.surveyMini.length; a++) {
+			$scope.activeSurveys.push(data.surveyMini[a]);
+		}
 	});
-	surveyService.getSurveys($scope.user.userId, false).then(function(data) {
-		$scope.finishedSurveys = data.surveyMini;
+	$scope.finishedSurveys = [];
+	surveyService.getSurveys($scope.user.userId, false, false, $scope.finishedSurveys.length).then(function(data) {
+		for (var a = 0; a < data.surveyMini.length; a++) {
+			$scope.finishedSurveys.push(data.surveyMini[a]);
+		}
+	});
+	$scope.mySurveys = [];
+	surveyService.getSurveys($scope.user.userId, false, true, $scope.mySurveys.length).then(function(data) {
+		for (var a = 0; a < data.surveyMini.length; a++) {
+			$scope.mySurveys.push(data.surveyMini[a]);
+		}
 	});
 	
 	$scope.modifySurvey = function(surveyId) {
@@ -24,11 +36,11 @@ function SurveysCtrl($scope, $sce, $moment, surveyService) {
 	
 	$scope.calculateExpireDate = function(date) {
 		var remainingTime = $moment(date).fromNow();
+		if (remainingTime.startsWith("tra")) {
+			remainingTime = "Scade "+remainingTime;
+		} else {
+			remainingTime = "Scaduto "+remainingTime;
+		}
 		return remainingTime;
 	}
-	
-	$scope.init = function() {
-		console.log("controller survey creato "+$scope.user);
-	}
-	$scope.init();
 }
