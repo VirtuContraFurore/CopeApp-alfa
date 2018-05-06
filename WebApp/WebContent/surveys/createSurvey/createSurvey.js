@@ -100,12 +100,23 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 	
 	$scope.answers = [];
 	
+	$scope.resetAll = function() {
+		$scope.question = "";
+		$scope.startDate = $moment(new Date).add(0, 'days').toDate();
+		$scope.expireDate = $moment(new Date).add(1, "days").toDate();
+		$scope.answers.length = 0;
+		$scope.selectedVoters.length = 0;
+		$scope.selectedViewers.length = 0;
+		$scope.answerNumber = null;
+		$scope.maxNumberOfAnswers = 0;
+	}
+	
 	$scope.uploadSurvey = function() {
 		
 		//controllare validità survey
-		$scope.showActionToast("Il sondaggio sarà modificabile solo fino alla data di publicazione. Vuoi davvero procedere al caricamento?", "bottom right", 5000, "OK", function(response) {
+		$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione.\n Vuoi davvero procedere al caricamento?", "bottom right", 5000, "OK", function(response) {
 			if ( response == 'ok' ) {
-				alert('You clicked the \'OK\' action.');
+				//upload to server
 			}
 		});
 		
