@@ -14,8 +14,8 @@ function LoginCtrl($scope, localStorageService, UserService){
 			}
 			$scope.setLoggedIn(true);
 		}, function onReject(loginResponse) {
-			$scope.showSimpleToast(loginResponse.data.description, "bottom right", 2000);
-			console.error("errore n: "+loginResponse.data.httpStatus+"; StackTrace del server: //Da aggiungere");
+			$scope.showSimpleToast(loginResponse.data.descrptionForUser, "bottom right", 2000);
+			$scope.serverErrorCallback(loginResponse)
 		});
 	}
 	if (localStorageService.get("credentials") == null) {

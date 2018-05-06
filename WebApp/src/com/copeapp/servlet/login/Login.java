@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
 		if (!user.getPassword().equals(loginRequest.getPassword())){
 			throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Wrong password");
 		} else {
-			/* TODO: questo lo si fa a lato client
+			/* TODO: questo deve essere fatto a lato client
 			 * if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }
 			 */
 			response.setStatus(HttpStatusUtility.OK);
