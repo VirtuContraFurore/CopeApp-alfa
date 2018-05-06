@@ -34,38 +34,20 @@ public class SurveyList extends HttpServlet{
 		ObjectMapper om = new ObjectMapper();
 		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
 		SurveyRequestListDTO surveyListRequest = om.readValue(request.getInputStream(), SurveyRequestListDTO.class);
-		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-
-		/* TODO aggiungere alla query se � mio */
-		//TODO in versione 2.0 multiple filters
-		/*puoi fare cosi
-		FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entitymanager);
-		QueryBuilder qb = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(Survey.class).get();
-		org.apache.lucene.search.Query luceneQuery = qb.keyword().onField("question").matching(surveyListRequest.getKeyword()).createQuery();
-		query = fullTextEntityManager.createFullTextQuery(luceneQuery, Survey.class);			
-		puoi fare cos�
-		query = entitymanager.createQuery("SELECT s FROM Survey s WHERE to_tsvector(s.question) @@ to_tsquery(':keyword')", Survey.class);
-		query.setParameter("keyword", surveyListRequest.getKeyword());*/
-		/*	if(surveyListRequest.getKeyword().isEmpty()) {
-			if	(surveyListRequest.isActive()) {
-				query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate > current_timestamp) ORDER BY s.closeSurveyDate desc ", Survey.class);
-			} else {
-				query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate <= current_timestamp) ORDER BY s.closeSurveyDate desc ", Survey.class);
-			}
-		} else {
-
-			query = entitymanager.createQuery("SELECT s FROM Survey s WHERE s.question LIKE :keyword ORDER BY s.closeSurveyDate DESC", Survey.class);
-			query.setParameter("keyword", surveyListRequest.getKeyword());
-
-		}*/
-
-		//implementazione più cazzuta della query (come piace a gallo)
-		String keyword = (surveyListRequest.getKeyword().isEmpty())? "" : "LIKE ".concat(surveyListRequest.getKeyword());	
-		String active = (surveyListRequest.isActive())? ">": "<=";	
+		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();		
+		Query query;
 		
-		Query query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate "+active+" current_timestamp) "+keyword+" ORDER BY s.closeSurveyDate desc ");
-		query.setFirstResult(surveyListRequest.getLastSurveyNumber());
-		query.setMaxResults(surveyListRequest.getNumberToRetrieve());
+		if (!surveyListRequest.isMine()) {
+			String keyword = (surveyListRequest.getKeyword().isEmpty()) ? "" : "LIKE ".concat(surveyListRequest.getKeyword());
+			String active = (surveyListRequest.isActive()) ? ">" : "<=";
+			query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate "+ active + 
+					" current_timestamp) AND (s.openSurveyDate > current_timestamp) " + keyword + " ORDER BY s.closeSurveyDate desc ");
+			query.setFirstResult(surveyListRequest.getLastSurveyNumber());
+			query.setMaxResults(surveyListRequest.getNumberToRetrieve());
+		} else {
+			query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId) ORDER BY s.closeSurveyDate desc");
+			query.setParameter("userId" , currentUser.getUserId());
+		}
 		@SuppressWarnings("unchecked")
 		List<Survey> surveys = query.getResultList();
 
@@ -79,8 +61,6 @@ public class SurveyList extends HttpServlet{
 					voteNumbers += a.getVotesNumber();
 				}
 				miniDTO.add(new SurveyMiniDTO(s.getSurveyId(), s.getQuestion(), s.getCloseSurveyDate(), voteNumbers)); // il survey appare nella lista 
-			} else {
-				//TODO forse lanciare eccezione?
 			}
 		} 
 		response.setStatus(HttpStatusUtility.OK);

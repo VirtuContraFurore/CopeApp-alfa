@@ -1,13 +1,15 @@
 package com.copeapp.dto.survey;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class AnswerDTO {
-	//TODO rimuovere answerId cosicchè il client possa rispondere
-	
-	@NonNull
+		
 	private Integer answerId; 
 	
 	@NonNull

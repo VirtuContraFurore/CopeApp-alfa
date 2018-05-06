@@ -34,12 +34,13 @@ public class SurveyCreate extends HttpServlet{
 
 		boolean canAccess = false;
 		for (Role r : currentUser.getRoles()) {
-			if (r.toString()=="redattore" || r.toString()=="admin") {	//controllo se l'utente può creare survey
+			if (r.getDescription()=="redattore" || r.getDescription()=="admin") {	//controllo se l'utente può creare survey
 				canAccess=true;
 			}
 		}
 		if (canAccess) {
-			Survey survey = Mappers.getMapper(SurveyMapper.class).surveyDTOtoSurvey(SurveyDTO.getSurveyDTO());  //TODO non sono sicuro sia giusta come cosa
+			Survey survey = Mappers.getMapper(SurveyMapper.class).surveyDTOtoSurvey(SurveyDTO.getSurveyDTO());  
+			//TODO non sono sicuro sia giusta come cosa
 			entitymanager.getTransaction().begin();
 			entitymanager.persist(survey);
 			entitymanager.getTransaction().commit();

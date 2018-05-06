@@ -33,12 +33,11 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="usersGenerator")
 	@SequenceGenerator(name="usersGenerator", sequenceName="users_sequence")
 	private Integer userId;
-	
 	/*
 	 * TODO: Fare si che username e mail non possano essere tra loro coincidenti
-	 * 		 Possibile modo: username non può contenere @ e mail deve contenere @
+	 * 		 Possibile modo: username non puï¿½ contenere @ e mail deve contenere @
+	 * TODO: username and password cannot contain :
 	 */
-	
 	@NonNull
 	@Column(unique = true)
 	private String username;
@@ -59,7 +58,7 @@ public class User {
 	private String classe;
 	
 	@NonNull
-	private String section;
+	private String sezione;
 	
 	@NonNull
 	@ManyToMany
