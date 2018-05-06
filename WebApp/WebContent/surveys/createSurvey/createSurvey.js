@@ -111,23 +111,19 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 		$scope.maxNumberOfAnswers = 0;
 	}
 	
-	$scope.checkValidity = function(isValid) {
-		if((question === "") || 
-	       ($scope.expireDate.getTime() < $scope.startDate.getTime()) || 
-	       ($scope.answers.length < 1) ||
-	       ($scope.selectedVoters.length < 1) || 
-	       ($scope.selectedViewers.length < 1) || 
-	       ($scope.answerNumber < 1)) {
-				isValid = false;
-		} else {
-			isValid = true;
-		}
+	$scope.checkValidity = function() {	
+		var error = [];
+		if(question === "") { error.push("La domanda non contiene testo; ");}
+		if($scope.expireDate.getTime() < $scope.startDate.getTime()) { error.push("La scadenza è precedente alla pubblicazione; ");}
+		if($scope.answers.length < 1) { error.push("Non ci sono risposte; ");}
+		if($scope.selectedVoters.length < 1) { error.push("Nessuno potrà votare; ");}
+		if($scope.selectedViewers.length < 1) { error.push("Nessuno potrà vederlo; ");}
+		if($scope.answerNumber < 1) { error.push("Non si può rispondere; ");}
+		if (error === "") {error.push("Bravo");}
 	}
 	
 	$scope.uploadSurvey = function() {
-		var isValid;
-		checkValidity(isValid);
-		if(isValid)
+		if(checkValidity())
 			$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione.\n Vuoi davvero procedere al caricamento?", "bottom right", 5000, "OK", function(response) {
 				if ( response == 'ok' ) {
 					//upload to server
@@ -137,3 +133,5 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 	}
 	
 }
+
+
