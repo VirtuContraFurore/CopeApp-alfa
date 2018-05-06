@@ -9,9 +9,19 @@ app.controller("CreateSurveyCtrl", CreateSurveyCtrl);
 function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 
 	$scope.question;
-	$scope.expireDate = $moment(new Date).add(1, 'days').toDate();
-	$scope.minDate = $moment(new Date).add(1, 'days').toDate();
-	$scope.maxDate = $moment(new Date).add(9, 'months').toDate();
+	$scope.minPublishDate = $moment(new Date).add(0, 'days').toDate();
+	$scope.maxPublishDate = $moment(new Date).add(9, 'months').toDate();
+	$scope.startDate = $moment(new Date).add(0, 'days').toDate();
+	$scope.expireDate = $moment(new Date).add(1, "days").toDate();
+	
+	$scope.$watch("startDate", function(value) {
+		$scope.minCloseDate = $moment(value).add(1, 'days').toDate();
+		$scope.maxCloseDate = $moment(value).add(9, 'months').toDate();
+		if ($scope.expireDate.getTime() < value.getTime()) {
+			$scope.expireDate = $moment(value).add(1, "days").toDate();
+		}
+	})
+	
 
 	//TODO aggiungere errori vari
 	//TODO giochicchiare con le impostazioni per la versione desktop https://www.tinymce.com/docs/configure/
@@ -57,22 +67,36 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 		return list.indexOf(item) > -1;
 	};
 	
-	
 	$scope.roles = [];
 	commonsService.getAllRoles().then(
-			function(value) {
-				$scope.roles = value.data.roles;
-			},
-			function(reason) {
-				$scope.roles = null;
-				$scope.showSimpleToast(loginResponse.data.description,
-						"bottom right", 2000);
-				console.error("errore n: " + loginResponse.data.httpStatus
-						+ "; StackTrace del server: //Da aggiungere");
-			})
+		function(value) {
+			$scope.roles = value.data.roles;
+		},
+		function(reason) {
+			$scope.roles = null;
+			$scope.showSimpleToast(loginResponse.data.description,
+					"bottom right", 2000);
+			console.error("errore n: " + loginResponse.data.httpStatus
+					+ "; StackTrace del server: //Da aggiungere");
+	})
 	$scope.selectedVoters = [];
 	$scope.selectedViewers = [];
+	$scope.answerNumber;
+	$scope.maxNumberOfAnswers = 0;
 	
-	$scope.answerNumber = 1;
-	$scope.maxNumberOfAnswers = 5;
+	$scope.addAnswer = function() {
+		$scope.answers.push({
+			answerContent: ""
+		})
+		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
+		console.log($scope.maxNumberOfAnswers);
+	}
+	$scope.removeAnswer = function(index) {
+		$scope.answers.splice(index, 1);
+	}
+	$scope.getField = function(index) {
+		return eval("surveyCreateForm.answer_"+index+".$error");
+	}
+	
+	$scope.answers = [];
 }

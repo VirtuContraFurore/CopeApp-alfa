@@ -1,5 +1,5 @@
-<div ng-controller="SurveysCtrl">
-	<md-tabs md-dynamic-height md-border-bottom>
+<div ng-controller="SurveysCtrl" layout="column">
+	<md-tabs md-dynamic-height md-border-bottom layout="column">
 		<md-tab label="Attivi">
 			<md-content layout-padding>
 				<md-card style="padding: 0px;" ng-repeat="activeSurvey in activeSurveys">
@@ -32,9 +32,9 @@
 				</md-card>
 			</md-content>
 		</md-tab>
-		<md-tab label="I miei" ng-if="checkRoles('admin') || checkRoles('redattore')" >
+		<md-tab label="I miei" ng-if="checkRoles('admin') || checkRoles('redattore')" layout="column">
 			<md-subheader>Crea sondaggio
-				<md-button style="margin: auto;" ng-click="goto('createSurvey')" class="md-icon-button md-warn">
+				<md-button style="margin: auto;" ng-click="goto('createSurvey')" class="md-icon-button">
 					<md-icon class="material-icons">add</md-icon>
 				</md-button>
 			</md-subheader>

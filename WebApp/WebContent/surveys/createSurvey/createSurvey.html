@@ -1,5 +1,5 @@
 <div ng-controller="CreateSurveyCtrl">
-	<form>
+	<form name="surveyCreateForm">
 		<md-card layout="column">
 			<md-card-header>
 		        <md-card-header-text>
@@ -7,13 +7,13 @@
 		        </md-card-header-text>
 	        </md-card-header>
 		    <textarea ui-tinymce="tinymceOptions" ng-model="question"></textarea>
-	    	<div layout="column" flex layout-align="center start">
+	    	<div layout="column" flex layout-padding style="padding-bottom: 0px" layout-align="center start">
 	    		<p style="padding: 0px">Data di pubblicazione:</p>
-	    		<md-datepicker required md-placeholder="seleziona data" ng-model="startDate" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+	    		<md-datepicker required md-placeholder="seleziona data" ng-model="startDate" md-min-date="minPublishDate" md-max-date="maxPublishDate"></md-datepicker>
 	    	</div>
-	    	<div layout="column" flex layout-align="center start">
+	    	<div layout="column" flex layout-padding style="padding-top: 0px" layout-align="center start">
 	    		<p style="padding: 0px">Data di chiusura:</p>
-	    		<md-datepicker required md-placeholder="seleziona data" ng-model="expireDate" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+	    		<md-datepicker required md-placeholder="seleziona data" ng-model="expireDate" md-min-date="minCloseDate" md-max-date="maxCloseDate"></md-datepicker>
 	    	</div>
 	    </md-card>
 	    <md-card layout="column">
@@ -22,34 +22,40 @@
 		        	<span class="md-title">Informazioni utenti</span>
 		        </md-card-header-text>
 	        </md-card-header>
-	        <div layout-padding layout="column">
-	        	<span>Utenti che possono votare</span>
-		        <md-checkbox ng-checked="isChecked(selectedVoters)"
-	                         md-indeterminate="isIndeterminate(selectedVoters)"
-	                         ng-click="toggleAll(selectedVoters)">
-	            	<span ng-if="isChecked(selectedVoters)">Deseleziona tutto</span><span ng-if="!isChecked(selectedVoters)">Seleziona tutto</span>
-	            </md-checkbox>
-		        <div layout="row" layout-wrap>
-		        	<div flex="50" ng-repeat="role in roles">
-	              		<md-checkbox ng-checked="exists(role, selectedVoters)" ng-click="toggle(role, selectedVoters)">
-	                	{{ role.role }}
-	              		</md-checkbox>
-	            	</div>
-		        </div>
-		        <span>Utenti che possono vedere il sondaggio</span>
-		        <md-checkbox ng-checked="isChecked(selectedViewers)"
-	                         md-indeterminate="isIndeterminate(selectedViewers)"
-	                         ng-click="toggleAll(selectedViewers)">
-	            	<span ng-if="isChecked(selectedViewers)">Deseleziona tutto</span><span ng-if="!isChecked(selectedViewers)">Seleziona tutto</span>
-	            </md-checkbox>
-		        <div layout="row" layout-wrap>
-		        	<div flex="50" ng-repeat="role in roles">
-	              		<md-checkbox ng-checked="exists(role, selectedViewers)" ng-click="toggle(role, selectedViewers)">
-	                	{{ role.role }}
-	              		</md-checkbox>
-	            	</div>
-		        </div>
-	        </div>
+	        <md-tabs md-dynamic-height layout="column" md-align-tabs="bottom">
+	        	<md-tab label="Votanti" layout="column">
+	        		<div layout="column" layout-padding>
+		        		<md-checkbox ng-checked="isChecked(selectedVoters)"
+		                         md-indeterminate="isIndeterminate(selectedVoters)"
+		                         ng-click="toggleAll(selectedVoters)">
+		            		<span ng-if="isChecked(selectedVoters)">Deseleziona tutto</span><span ng-if="!isChecked(selectedVoters)">Seleziona tutto</span>
+		            	</md-checkbox>
+				        <div layout="row" layout-wrap>
+				        	<div flex="50" ng-repeat="role in roles">
+			              		<md-checkbox ng-checked="exists(role, selectedVoters)" ng-click="toggle(role, selectedVoters)">
+			                	{{ role.role }}
+			              		</md-checkbox>
+			            	</div>
+			        	</div>
+		        	</div>
+	        	</md-tab>
+	        	<md-tab label="Interessati" layout="column">
+	        		<div layout="column" layout-padding>
+			        	<md-checkbox ng-checked="isChecked(selectedViewers)"
+			                         md-indeterminate="isIndeterminate(selectedViewers)"
+			                         ng-click="toggleAll(selectedViewers)">
+			            	<span ng-if="isChecked(selectedViewers)">Deseleziona tutto</span><span ng-if="!isChecked(selectedViewers)">Seleziona tutto</span>
+			            </md-checkbox>
+				        <div layout="row" layout-wrap>
+				        	<div flex="50" ng-repeat="role in roles">
+			              		<md-checkbox ng-checked="exists(role, selectedViewers)" ng-click="toggle(role, selectedViewers)">
+			                	{{ role.role }}
+			              		</md-checkbox>
+			            	</div>
+				        </div>
+			        </div>
+	        	</md-tab>
+	        </md-tabs>
 	    </md-card>
 	    <md-card layout="column">
 			<md-card-header>
@@ -58,15 +64,44 @@
 		        </md-card-header-text>
 	        </md-card-header>
 	        <div layout="column" layout-padding>
-		        <md-input-container>
-			        <label>Hourly Rate (USD)</label>
-			        <input required type="number" step="1"  ng-model="answerNumber" min="1"
-			               max="maxNumberOfAnswers"/>
+		        <md-input-container style="margin-bottom: 0px" class="md-block">
+			        <label>Numero di risposte possibili</label>
+			        <input required type="number" step="1" name="answerNumber" ng-model="answerNumber" ng-min="1"
+			               ng-max="maxNumberOfAnswers"/>
+				<div ng-messages="surveyCreateForm.answerNumber.$error">
+            		<div ng-message="required">Questo campo &#xE8; obbligatorio</div>
+            		<div ng-message="max">Non puoi votare pi&#xF9; risposte di quante ce ne sono</div>
+            		<div ng-message="min">Devi poter votare almeno una risposta</div>
+          		</div>
 	     		</md-input-container>
+	     		<md-subheader class="md-no-sticky" style="background-color: white">Risposte</md-subheader>
+	     		<div ng-repeat="answer in answers" layout="row" layout-align="start center" style="padding-top: 0px">
+	     			<h3 style="margin-right: 10px">{{$index+1}}- </h3>
+	     			<md-input-container md-no-float flex md-truncate style="margin-bottom: 0px" class="md-block">
+				        <input required type="text" name="answer_{{$index+1}}" placeholder="Testo domanda {{$index+1}}" ng-model="answer.answerContent"/>
+						<div ng-messages="getField($index+1)">
+	            			<div ng-message="required">Questo campo &#xE8; obbligatorio</div>
+	          			</div>
+	     			</md-input-container>
+	     			<md-button class="md-icon-button md-warn" ng-click="removeAnswer($index)">
+	    				<md-icon class="material-icons">delete</md-icon>
+	    			</md-button>
+	     		</div>
+	     		<md-button class="md-icon-button" ng-click="addAnswer()">
+	    			<md-icon class="material-icons">add</md-icon>
+	    		</md-button>
      		</div>
 	    </md-card>
-	    <md-button class="md-raised md-primary">
-	    	<md-icon class="material-icons">add</md-icon>
-	    </md-button>
+	    <div layout="row">
+		    <md-button class="md-raised md-primary">
+		    	Salva
+		    	<md-icon class="material-icons">cloud_upload</md-icon>
+		    </md-button>
+		    <span flex md-truncate></span>
+		    <md-button class="md-warn" ng-click="">
+		    	Reset
+		    	<md-icon class="material-icons">autorenew</md-icon>
+		    </md-button>
+	    </div>
     </form>
 </div>
