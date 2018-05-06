@@ -8,6 +8,7 @@ import lombok.Getter;
 public class EntityManagerFactoryGlobal {
 
 	private static EntityManagerFactoryGlobal instance = new EntityManagerFactoryGlobal();
+	
 	@Getter
 	private EntityManagerFactory emfactory;
 	

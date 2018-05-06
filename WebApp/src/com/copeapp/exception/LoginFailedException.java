@@ -4,8 +4,7 @@ public class LoginFailedException extends CopeAppGenericException{
 	
 	private static final long serialVersionUID = 1L;
 
-	public LoginFailedException(int httpStatus, String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public LoginFailedException(int httpStatus, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(httpStatus, message, cause, enableSuppression, writableStackTrace);
 	}
 

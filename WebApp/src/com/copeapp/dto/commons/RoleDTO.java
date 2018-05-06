@@ -1,29 +1,17 @@
 package com.copeapp.dto.commons;
 
-import com.copeapp.entities.common.Role;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Setter;
 
-import lombok.Data;
-
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class RoleDTO {
 	
-	private Integer roleId = null;
-	private String role = null;
-	private String description = null;
+	@NonNull private Integer roleId;
+	@NonNull private String role;
+	@NonNull private String description;
 	
-	public RoleDTO() {}
-	
-	public RoleDTO(Role role) {
-		super();
-		this.roleId = role.getRoleId();
-		this.role = role.getRole();
-		this.description = role.getDescription();
-	}
-	
-	public RoleDTO(int roleId, String role, String description) {
-		super();
-		this.roleId = roleId;
-		this.role = role;
-		this.description = description;
-	}
 }

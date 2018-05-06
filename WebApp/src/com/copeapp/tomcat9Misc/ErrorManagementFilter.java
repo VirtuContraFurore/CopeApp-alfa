@@ -15,29 +15,27 @@ import com.copeapp.exception.CopeAppGenericException;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebFilter(
-		urlPatterns = {"/*"}
-)
+@WebFilter( urlPatterns = {"/*"} )
 public class ErrorManagementFilter implements Filter{
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		
-		HttpServletResponse res= (HttpServletResponse) response;
-		res.setHeader("Content-Type", "application/json");
+		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+		httpServletResponse.setHeader("Content-Type", "application/json");
 		
 		try {
-		chain.doFilter(request, response);
+			chain.doFilter(request, response);
 		} catch (CopeAppGenericException e) {
 			ObjectMapper om = new ObjectMapper();
-			res.setStatus(e.getHttpStatus());
+			httpServletResponse.setStatus(e.getHttpStatus());
 			ExceptionDTO errorResponse = new ExceptionDTO(e, e.getHttpStatus(), e.getMessage());
-			om.writeValue(res.getOutputStream(), errorResponse);
+			om.writeValue(httpServletResponse.getOutputStream(), errorResponse);
 		} catch (Throwable e) {
 			ObjectMapper om = new ObjectMapper();
-			res.setStatus(HttpStatusUtility.INTERNAL_SERVER_ERROR);
-			ExceptionDTO errorResponse = new ExceptionDTO(e, HttpStatusUtility.INTERNAL_SERVER_ERROR, "internal server error");
-			om.writeValue(res.getOutputStream(), errorResponse);
+			httpServletResponse.setStatus(HttpStatusUtility.INTERNAL_SERVER_ERROR);
+			ExceptionDTO errorResponse = new ExceptionDTO(e, HttpStatusUtility.INTERNAL_SERVER_ERROR, "Internal server error");
+			om.writeValue(httpServletResponse.getOutputStream(), errorResponse);
 		}
 	}
 

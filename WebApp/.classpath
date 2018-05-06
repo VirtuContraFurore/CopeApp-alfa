@@ -55,5 +55,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-search-engine-5.8.0.Final.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/lucene-core-5.5.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/hibernate-search-orm-5.8.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mapstruct-jdk8-1.2.0.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

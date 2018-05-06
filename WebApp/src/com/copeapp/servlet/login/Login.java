@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mapstruct.factory.Mappers;
+
 import com.copeapp.dao.commons.UserDAO;
-import com.copeapp.dto.commons.UserDTO;
 import com.copeapp.dto.login.LoginRequestDTO;
 import com.copeapp.dto.login.LoginResponseDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.exception.LoginFailedException;
+import com.copeapp.mappers.commons.UserMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.ObjectsValidationUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,12 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Login extends HttpServlet {
 	
 	private static final long serialVersionUID = 1L;
-	
-    public Login() {  super(); }
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		response.setHeader("Content-Type", "application/json");
 		ObjectMapper objMap = new ObjectMapper();
 		LoginRequestDTO loginRequest = objMap.readValue(request.getInputStream(), LoginRequestDTO.class);
 		ObjectsValidationUtility.validateNotNullParameters(loginRequest);
@@ -35,9 +34,11 @@ public class Login extends HttpServlet {
 		if (!user.getPassword().equals(loginRequest.getPassword())){
 			throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Wrong password");
 		} else {
-			if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }
+			/* TODO: questo lo si fa a lato client
+			 * if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }
+			 */
 			response.setStatus(HttpStatusUtility.OK);
-			objMap.writeValue(response.getOutputStream(), new LoginResponseDTO(new UserDTO(user)));
+			objMap.writeValue(response.getOutputStream(), new LoginResponseDTO(Mappers.getMapper(UserMapper.class).userToUserDTO(user)));
 		}
 	}
 

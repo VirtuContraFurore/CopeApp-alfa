@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,12 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 
 import com.copeapp.dao.commons.UserDAO;
-import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.dto.commons.RoleDTO;
 import com.copeapp.dto.survey.AnswerDTO;
 import com.copeapp.dto.survey.SurveyDTO;
 import com.copeapp.dto.survey.SurveyRequestByIdDTO;
-import com.copeapp.dto.survey.SurveyRequestListDTO;
 import com.copeapp.dto.survey.SurveyResponseByIdDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
@@ -39,13 +36,13 @@ public class SurveyById extends HttpServlet{
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		ObjectMapper om = new ObjectMapper();
+		ObjectMapper objMap = new ObjectMapper();
 		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
-		SurveyRequestByIdDTO surveyRequestById = om.readValue(request.getInputStream(), SurveyRequestByIdDTO.class);		
+		SurveyRequestByIdDTO surveyRequestById = objMap.readValue(request.getInputStream(), SurveyRequestByIdDTO.class);		
 
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		entitymanager.getTransaction().begin();
-		Query query = entitymanager.createQuery("SELECT s FROM surveys s WHERE (s.surveyId = :surveyId) order by date(s.closeSurveyDate) desc ", Survey.class);
+		Query query = entitymanager.createQuery("SELECT s FROM surveys s WHERE (s.surveyId = :surveyId)", Survey.class);
 		query.setParameter("surveyId", surveyRequestById.getSurveyId());
 		Survey s = (Survey) query.getSingleResult();
 		try {
@@ -78,7 +75,7 @@ public class SurveyById extends HttpServlet{
 				response.setStatus(HttpStatusUtility.UNAUTHORIZED);
 				surveyDTO = new SurveyDTO();	//TODO gestione della non visibilità
 			}
-			om.writeValue(response.getOutputStream(), new SurveyResponseByIdDTO(surveyDTO));
+			objMap.writeValue(response.getOutputStream(), new SurveyResponseByIdDTO(surveyDTO));
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 		}

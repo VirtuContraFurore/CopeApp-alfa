@@ -7,13 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.internal.NotNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data;
-
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name="roles")
+@EqualsAndHashCode(of="roleId")
 public class Role {
 
 	@Id
@@ -21,9 +28,9 @@ public class Role {
 	@SequenceGenerator(name="rolesGenerator", sequenceName="roles_sequence")
 	private int roleId;
 	
-	@NotNull
+	@NonNull
 	private String role;
 	
-	@NotNull
+	@NonNull
 	private String description;
 }

@@ -13,11 +13,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.internal.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data;
-
-@Data
+@Getter
+@Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "userId")
 @Entity
 @Table(name="users")
 public class User {
@@ -25,43 +32,48 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="usersGenerator")
 	@SequenceGenerator(name="usersGenerator", sequenceName="users_sequence")
-	private Integer userId = null;
+	private Integer userId;
+	
+	/*
+	 * TODO: Fare si che username e mail non possano essere tra loro coincidenti
+	 * 		 Possibile modo: username non può contenere @ e mail deve contenere @
+	 */
+	
+	@NonNull
+	@Column(unique = true)
+	private String username;
 	
 	@Column(unique = true)
-	private String mail = null;
+	private String mail;
+
+	@NonNull
+	private String password;
 	
-	@NotNull
-	private String firstname = null;
+	@NonNull
+	private String firstname;
 	
-	@NotNull
-	private String lastname = null;
+	@NonNull
+	private String lastname;
 	
-	@NotNull
-	@Column(unique = true)
-	private String username = null;
+	@NonNull
+	private String classe;
 	
-	@NotNull
-	private String classe = null;
+	@NonNull
+	private String section;
 	
-	@NotNull
-	private String sezione = null;
-	
-	@NotNull
-	private String password = null;
-	
-	@NotNull
+	@NonNull
 	@ManyToMany
 	@JoinTable( name = "users_roles",
 				joinColumns = { @JoinColumn(name = "userId") },
 				inverseJoinColumns = { @JoinColumn(name = "roleId") } )
-	private List<Role> roles = null;
+	private List<Role> roles;
 	
-	private String imageUrl = null;
+	private String imageUrl;
 	
-	private String wallpaper = null;
+	private String wallpaper;
 	
 	//Set firstEntry parameter as true to show FirstEntry page
-	@NotNull
-	private Boolean firstEntry = null;
+	@NonNull
+	private Boolean firstEntry;
 	
 }

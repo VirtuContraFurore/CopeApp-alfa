@@ -6,13 +6,14 @@ import java.util.List;
 import com.copeapp.dto.commons.RoleDTO;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
 public class SurveyCreateRequestDTO {
 	
 	@NonNull
-	private String question = null;
+	private String question;
 	
 	@NonNull
 	private Date closeSurveyDate = null;
