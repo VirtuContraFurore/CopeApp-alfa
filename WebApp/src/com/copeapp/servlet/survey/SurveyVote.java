@@ -1,8 +1,6 @@
 package com.copeapp.servlet.survey;
 
 import java.io.IOException;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
@@ -13,18 +11,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.mapstruct.factory.Mappers;
 
 import com.copeapp.dao.commons.UserDAO;
-import com.copeapp.dto.commons.RoleDTO;
 import com.copeapp.dto.survey.AnswerDTO;
 import com.copeapp.dto.survey.SurveyRequestVoteDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
-import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.entities.survey.Vote;
 import com.copeapp.exception.SurveyRequestFailedExcption;
+import com.copeapp.mappers.survey.AnswerMapper;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,6 +43,18 @@ public class SurveyVote extends HttpServlet{
 		query.setParameter("surveyId", surveyRequestVote.getSurveyId());
 		Survey survey = (Survey) query.getSingleResult();
 		
+		ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());
+		commonRole.retainAll(survey.getSurveyVotersRoles());
+		if (!commonRole.isEmpty()) {
+			for (AnswerDTO a: surveyRequestVote.getAnswers()) {
+				entitymanager.persist(new Vote(Mappers.getMapper(AnswerMapper.class).answerDTOtoAnswer(a), currentUser)); //l'ho messo in linea spero si capisca
+			}
+		} else {
+			throw new SurveyRequestFailedExcption(HttpStatusUtility.UNAUTHORIZED, "Non si dispone dei permessi necessari");
+		}		
+		entitymanager.getTransaction().commit();
+		entitymanager.close();
+		/*		
 		try {
 			ArrayList<RoleDTO> surveyVotersRoles = new ArrayList<RoleDTO>();	//create votersRoles		
 			RoleDTO tmp = new RoleDTO();
@@ -72,8 +81,7 @@ public class SurveyVote extends HttpServlet{
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			e.printStackTrace();
 			throw new SurveyRequestFailedExcption(HttpStatusUtility.INTERNAL_SERVER_ERROR, "Errore interno al server", e);
-		}
-		entitymanager.getTransaction().commit();
-		entitymanager.close();
+		}*/
+
 	}
 }

@@ -1,10 +1,11 @@
 package com.copeapp.dto.survey;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
-@AllArgsConstructor
 @Data
 public class SurveyRequestByIdDTO {
-	private int surveyId;
+	
+	@NonNull
+	private Integer surveyId;
 }

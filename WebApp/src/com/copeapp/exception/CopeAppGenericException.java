@@ -6,6 +6,7 @@ import lombok.Setter;
 public class CopeAppGenericException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Getter
 	@Setter
 	private int httpStatus;
@@ -30,8 +31,7 @@ public class CopeAppGenericException extends RuntimeException {
 		this.httpStatus = httpStatus;
 	}
 
-	public CopeAppGenericException(int httpStatus, String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public CopeAppGenericException(int httpStatus, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		this.httpStatus = httpStatus;
 	}

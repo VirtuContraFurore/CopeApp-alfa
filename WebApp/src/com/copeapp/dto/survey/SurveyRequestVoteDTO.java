@@ -9,8 +9,8 @@ import lombok.NonNull;
 public class SurveyRequestVoteDTO {
 	
 	@NonNull
-	private Integer surveyId = null;
+	private Integer surveyId;
 	
 	@NonNull
-	private ArrayList<AnswerDTO> answers = null;
+	private ArrayList<AnswerDTO> answers;
 }

@@ -40,12 +40,12 @@ public class CreateMarket extends HttpServlet {
 //			if (!ObjectsValidationUtility.validateNotNullParameters(createMarketRequest)) {
 			if (false) {
 				response.setStatus(HttpStatusUtility.UNAUTHORIZED);
-				ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.UNAUTHORIZED, "Errore interno all'applicazione", "La richiesta è ben formatta ma presenta alcuni attributi nulli (che non devono esserlo)");
+				ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.UNAUTHORIZED, "Errore interno all'applicazione", "La richiesta ï¿½ ben formatta ma presenta alcuni attributi nulli (che non devono esserlo)");
 				objMap.writeValue(response.getOutputStream(), errorResponse);
 			} else {
 				entitymanager.getTransaction().begin();
 				
-				User user = UserDAO.selectById(createMarketRequest.getCreatorId());
+				//User user = UserDAO.selectById(createMarketRequest.getCreatorId());
 				Market market = new Market();
 				market.setName(createMarketRequest.getName());
 				market.setDescription(createMarketRequest.getDescription());
@@ -55,9 +55,9 @@ public class CreateMarket extends HttpServlet {
 				market.setExpireDate(createMarketRequest.getExpireDate());
 				market.setVisibleDate(createMarketRequest.getVisibleDate());
 				market.setHiddenDate(createMarketRequest.getHiddenDate());
-				market.setCreator(user);
+				//market.setCreator(user);
 				market.setEliminator(null);
-				market.setMarketElements(MarketElementDao.getElementsListByIdsException(createMarketRequest.getMarketElementsIds()));
+				//market.setMarketElements(MarketElementDao.getElementsListByIdsException(createMarketRequest.getMarketElementsIds()));
 
 				entitymanager.persist(market);
 				entitymanager.getTransaction().commit();

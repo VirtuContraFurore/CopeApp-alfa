@@ -11,14 +11,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name="answers")
 public class Answer {
@@ -31,7 +33,8 @@ public class Answer {
 	@NonNull
 	private String answerContent;
 	
-	private int votesNumber;
+	@NonNull
+	private Integer votesNumber;
 	
 	@NonNull
 	@OneToMany(

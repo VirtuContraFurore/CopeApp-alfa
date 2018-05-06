@@ -4,8 +4,7 @@ public class SurveyRequestFailedExcption extends CopeAppGenericException {
 
 	private static final long serialVersionUID = 1L;
 
-	public SurveyRequestFailedExcption(int httpStatus, String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
+	public SurveyRequestFailedExcption(int httpStatus, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(httpStatus, message, cause, enableSuppression, writableStackTrace);
 	}
 
