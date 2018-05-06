@@ -27,6 +27,11 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	    }
 	});
 	
+	$scope.serverErrorCallback = function(reason) {
+		console.error(reason.data.debuggingDescription);
+		console.error(reason.data.stackTrace);
+	}
+	
 	//funzione mostra toast
 	$scope.showSimpleToast = function(msg, pos, timeout) {
 		$mdToast.show(

@@ -1,6 +1,7 @@
 <div ng-controller="SurveysCtrl" layout="column">
 	<md-tabs md-dynamic-height md-border-bottom layout="column">
 		<md-tab label="Attivi">
+			<md-subheader ng-if="activeSurveys.length == 0" style="margin:8px">Non ci sono sondaggi in questa sezione</md-subheader>
 			<md-content layout-padding>
 				<md-card style="padding: 0px;" ng-repeat="activeSurvey in activeSurveys">
 					<md-card-content ng-click="modifySurvey(activeSurvey.surveyId)" layout-padding style="max-height: 40vh" ng-bind-html="activeSurvey.question|trustAsHtml">
@@ -17,6 +18,7 @@
 			</md-content>
 		</md-tab>
 		<md-tab label="Scaduti">
+			<md-subheader ng-if="finishedSurveys.length == 0" style="margin:8px">Non ci sono sondaggi in questa sezione</md-subheader>
 			<md-content layout-padding>
 				<md-card style="padding: 0px;" ng-repeat="finishedSurvey in finishedSurveys">
 					<md-card-content layout-padding style="max-height: 40vh" ng-bind-html="finishedSurvey.question|trustAsHtml">

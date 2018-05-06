@@ -21,9 +21,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 			$scope.expireDate = $moment(value).add(1, "days").toDate();
 		}
 	})
-	
 
-	//TODO aggiungere errori vari
 	//TODO giochicchiare con le impostazioni per la versione desktop https://www.tinymce.com/docs/configure/
 	//TODO cambiare colori al tutto usando questo tool http://skin.tinymce.com/?_ga=2.96845919.1922290377.1525292558-662263511.1524315199
 	$scope.tinymceOptions = {
@@ -132,7 +130,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 		} else {
 			$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione. Vuoi davvero procedere al caricamento?", "bottom right", 7500, "OK", function(response) {
 				if ( response == 'ok' ) {
-					surveyService.uploadSurvey({
+					surveyService.uploadSurvey($scope.user, {
 						question: $scope.question,
 						answersNumber: $scope.answerNumber,
 						openSurveyDate: $scope.startDate,
@@ -142,7 +140,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 						surveyVotersRoles: $scope.selectedVoters,
 						surveyViewersRoles: $scope.selectedViewers,
 						answers: $scope.answers
-					})
+					}).then(function() {}, $scope.serverErrorCallback)
 				}
 			});
 		}
