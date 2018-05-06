@@ -36,6 +36,16 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 		        .hideDelay(timeout)
 		    );
 	}
+	$scope.showActionToast = function(msg, pos, timeout, action, callback) {
+	    var toast = $mdToast.simple()
+	      .textContent(msg)
+	      .action('OK')
+	      .highlightAction(true)
+	      .highlightClass('md-primary')// Accent is used by default, this just demonstrates the usage.
+	      .position(pos)
+	      .hideDelay(timeout);
+	    $mdToast.show(toast).then(callback);
+	  };
 	
 	//call string function
 	$scope.callFunction = function(func) {

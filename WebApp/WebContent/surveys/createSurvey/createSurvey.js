@@ -99,4 +99,16 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 	}
 	
 	$scope.answers = [];
+	
+	$scope.uploadSurvey = function() {
+		
+		//controllare validità survey
+		$scope.showActionToast("Il sondaggio sarà modificabile solo fino alla data di publicazione. Vuoi davvero procedere al caricamento?", "bottom right", 5000, "OK", function(response) {
+			if ( response == 'ok' ) {
+				alert('You clicked the \'OK\' action.');
+			}
+		});
+		
+	}
+	
 }
