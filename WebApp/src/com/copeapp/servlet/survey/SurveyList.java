@@ -38,8 +38,7 @@ public class SurveyList extends HttpServlet{
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		entitymanager.getTransaction().begin(); //dato che è una select la transaction è inutile
 		Query query;
-		/* TODO 
-		 * gestire visibilità dei sondaggi */
+		/* TODO aggiungere alla query se è mio */
 		if(surveyListRequest.getKeyword().isEmpty()) {
 			if	(surveyListRequest.isActive()) {
 				query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate > current_timestamp) order by s.closeSurveyDate desc ", Survey.class);

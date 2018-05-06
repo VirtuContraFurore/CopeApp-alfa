@@ -8,13 +8,13 @@ app.controller("SurveysCtrl", SurveysCtrl);
 
 function SurveysCtrl($scope, $sce, $moment, surveyService) {
 	
-	$scope.setExtraButtonById(1); //Controllare il rolecondition o impedire la visualizzazione
-	
-	$scope.$watch("user.userId", function() {
-		surveyService.getSurveys($scope.user.userId, true).then(function(response) {
-			$scope.activeSurveys = response.surveyMini;
-		});
-	})
+	//TODO mettere bottone modifica
+	surveyService.getSurveys($scope.user.userId, true).then(function(response) {
+		$scope.activeSurveys = response.surveyMini;
+	});
+	surveyService.getSurveys($scope.user.userId, false).then(function(data) {
+		$scope.finishedSurveys = data.surveyMini;
+	});
 	
 	$scope.modifySurvey = function(surveyId) {
 		urveyService.getSurveyById(surveyId).then(function(response) {
@@ -22,19 +22,13 @@ function SurveysCtrl($scope, $sce, $moment, surveyService) {
 		});
 	}
 	
-	$scope.$watch("user.userId", function() {
-		surveyService.getSurveys($scope.user.userId, false).then(function(data) {
-			$scope.finishedSurveys = data.surveyMini;
-		});
-	})
-	
 	$scope.calculateExpireDate = function(date) {
 		var remainingTime = $moment(date).fromNow();
 		return remainingTime;
 	}
 	
-	$scope.role = "";
-	$scope.$watch("user", function() {
-		$scope.role = $scope.checkRoles("admin");
-	})
+	$scope.init = function() {
+		console.log("controller survey creato "+$scope.user);
+	}
+	$scope.init();
 }

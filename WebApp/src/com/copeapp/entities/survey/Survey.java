@@ -48,6 +48,10 @@ public class Survey {
 	
 	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
+	private Date openSurveyDate;
+	
+	@NonNull
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date closeSurveyDate;
 	
 	@Temporal(TemporalType.TIMESTAMP)

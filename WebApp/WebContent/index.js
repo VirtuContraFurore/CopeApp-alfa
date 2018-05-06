@@ -4,59 +4,8 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	
 	//funzione globale cambio stato
 	$scope.goto = function(state){
-		$scope.currentButton = null;
 		$state.go(state);
 	}
-	
-	//configurazione extra button
-	$scope.possibleButtons = [{
-		id: 0,
-		name: "homeQuickLogout",
-		linkedFunction: "logout()",
-		buttonIcon: "exit_to_app",
-		roleCondition: ""
-	}, {
-		id: 1,
-		name: "surveyModificateButton",
-		linkedFunction: "goto('createSurvey')",
-		buttonIcon: "edit",
-		roleCondition: "redattore"
-	}, {
-		id: 2,
-		name: "backToSurvey",
-		linkedFunction: "goto('surveys')",
-		buttonIcon: "arrow_back",
-		roleCondition: ""
-	}]
-
-	//set header extra button by ID
-	$scope.setExtraButtonById = function(id) {
-		for (var i = 0; i < $scope.possibleButtons.length; i++) {
-			if (id == $scope.possibleButtons[i].id) {
-				$scope.currentButton = $scope.possibleButtons[i];
-				break;
-			} else if (i == $scope.possibleButtons.length - 1) {
-				$scope.currentButton = null;
-				break;
-			}
-		}
-	}
-	$scope.setExtraButtonByName = function(name) {
-		for (var i = 0; i < $scope.possibleButtons.length; i++) {
-			if (name == $scope.possibleButtons[i].name) {
-				$scope.currentButton = $scope.possibleButtons[i];
-				break;
-			} else if (i == $scope.possibleButtons.length - 1) {
-				$scope.currentButton = null;
-				break;
-			}
-		}
-	}
-	$scope.resetExtraButton = function() {
-		$scope.currentButton = null;
-	}
-	
-	$scope.currentButton = null;
 	
 	//configurazione moment
 	$moment.updateLocale('en', {
@@ -116,9 +65,7 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	
 	//gestione user
 //	$scope.user;  //mettere per attivare la login
-	UserService.login("Cerammerda", "VincioGay").then(function(response) {
-		$scope.user = response.data.user;
-	}); //togliere per attivare la login
+	$scope.user = {"userId":1,"mail":"cerammerda@gioli.it","firstname":"Luca","lastname":"Ceragioli","username":"Cerammerda","classe":"5","sezione":"F","password":"VincioGay","roles":[{"roleId":1,"role":"studente","description":"Studente"},{"roleId":2,"role":"prof","description":"Professore"},{"roleId":3,"role":"moderatore","description":"Moderatore"},{"roleId":4,"role":"admin","description":"Amministratore"},{"roleId":5,"role":"redattore","description":"Redattore"},{"roleId":6,"role":"rappresentante","description":"Rappresentante"}],"imageUrl":"cerammerda@gioli.it","wallpaper":"default","firstEntry":false};
 	$scope.getUser = function() {return $scope.user}
 	$scope.setUser = function(set) {$scope.user = set}
 	
@@ -129,6 +76,7 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	
 	$scope.checkRoles = function(buttonRole) {
 		if ($scope.user != null) {
+			console.log(buttonRole);
 			for (var i = 0; i < $scope.getUser().roles.length; i++) {
 				if ($scope.getUser().roles[i].role == buttonRole) {
 					return true;
@@ -152,7 +100,7 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	}, {
 		displayName: "Appunti",
 		routerStatus: "appunti",
-		pageIcon: "inbox",
+		pageIcon: "description",
 		itemType: "page"
 	}, {
 		displayName: "divbar01",
@@ -167,12 +115,17 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	}, {
 		displayName: "Sondaggi",
 		routerStatus: "surveys",
-		pageIcon: "data_usage",
+		pageIcon: "show_chart",
 		itemType: "page"
 	}, {
 		displayName: "Negozio",
 		routerStatus: "market",
 		pageIcon: "shopping_cart",
+		itemType: "page"
+	}, {
+		displayName: "Orario",
+		routerStatus: "orario",
+		pageIcon: "date_range",
 		itemType: "page"
 	}, {
 		displayName: "divbar01",

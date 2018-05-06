@@ -36,6 +36,21 @@ function SurveyService($q, $http) {
 							question: "<h1>Question 4</h1>",
 							closeSurveyDate: new Date(),
 							voters: 11202
+						}, {
+							surveyId: 2,
+							question: "<h1>Question 4</h1>",
+							closeSurveyDate: new Date(),
+							voters: 11202
+						}, {
+							surveyId: 2,
+							question: "<h1>Question 4</h1>",
+							closeSurveyDate: new Date(),
+							voters: 11202
+						}, {
+							surveyId: 2,
+							question: "<h1>Question 4</h1>",
+							closeSurveyDate: new Date(),
+							voters: 11202
 						}]
 					}
 				data.surveyMini[0].closeSurveyDate.setTime(1522075305000);

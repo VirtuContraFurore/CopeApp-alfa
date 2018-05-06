@@ -7,10 +7,14 @@
 		        </md-card-header-text>
 	        </md-card-header>
 		    <textarea ui-tinymce="tinymceOptions" ng-model="question"></textarea>
-		    <div layout-padding layout="row" layout-align="start center">
-		    	<p style="padding: 0px">Data di chiusura:</p>
-		    	<md-datepicker required md-placeholder="seleziona data" ng-model="expireDate" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
-		    </div>
+	    	<div layout="column" flex layout-align="center start">
+	    		<p style="padding: 0px">Data di pubblicazione:</p>
+	    		<md-datepicker required md-placeholder="seleziona data" ng-model="startDate" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+	    	</div>
+	    	<div layout="column" flex layout-align="center start">
+	    		<p style="padding: 0px">Data di chiusura:</p>
+	    		<md-datepicker required md-placeholder="seleziona data" ng-model="expireDate" md-min-date="minDate" md-max-date="maxDate"></md-datepicker>
+	    	</div>
 	    </md-card>
 	    <md-card layout="column">
 			<md-card-header>
@@ -18,6 +22,34 @@
 		        	<span class="md-title">Informazioni utenti</span>
 		        </md-card-header-text>
 	        </md-card-header>
+	        <div layout-padding layout="column">
+	        	<span>Utenti che possono votare</span>
+		        <md-checkbox ng-checked="isChecked(selectedVoters)"
+	                         md-indeterminate="isIndeterminate(selectedVoters)"
+	                         ng-click="toggleAll(selectedVoters)">
+	            	<span ng-if="isChecked(selectedVoters)">Deseleziona tutto</span><span ng-if="!isChecked(selectedVoters)">Seleziona tutto</span>
+	            </md-checkbox>
+		        <div layout="row" layout-wrap>
+		        	<div flex="50" ng-repeat="role in roles">
+	              		<md-checkbox ng-checked="exists(role, selectedVoters)" ng-click="toggle(role, selectedVoters)">
+	                	{{ role.role }}
+	              		</md-checkbox>
+	            	</div>
+		        </div>
+		        <span>Utenti che possono vedere il sondaggio</span>
+		        <md-checkbox ng-checked="isChecked(selectedViewers)"
+	                         md-indeterminate="isIndeterminate(selectedViewers)"
+	                         ng-click="toggleAll(selectedViewers)">
+	            	<span ng-if="isChecked(selectedViewers)">Deseleziona tutto</span><span ng-if="!isChecked(selectedViewers)">Seleziona tutto</span>
+	            </md-checkbox>
+		        <div layout="row" layout-wrap>
+		        	<div flex="50" ng-repeat="role in roles">
+	              		<md-checkbox ng-checked="exists(role, selectedViewers)" ng-click="toggle(role, selectedViewers)">
+	                	{{ role.role }}
+	              		</md-checkbox>
+	            	</div>
+		        </div>
+	        </div>
 	    </md-card>
 	    <md-card layout="column">
 			<md-card-header>
@@ -25,6 +57,16 @@
 		        	<span class="md-title">Informazioni risposte</span>
 		        </md-card-header-text>
 	        </md-card-header>
+	        <div layout="column" layout-padding>
+		        <md-input-container>
+			        <label>Hourly Rate (USD)</label>
+			        <input required type="number" step="1"  ng-model="answerNumber" min="1"
+			               max="maxNumberOfAnswers"/>
+	     		</md-input-container>
+     		</div>
 	    </md-card>
+	    <md-button class="md-raised md-primary">
+	    	<md-icon class="material-icons">add</md-icon>
+	    </md-button>
     </form>
 </div>
