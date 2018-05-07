@@ -1,0 +1,10 @@
+<div layout="column" layout-padding>
+						{{ question }}
+				        <div layout="row" layout-wrap>
+				        	<div flex="50" ng-repeat="answer in answers">
+			              		<md-checkbox ng-checked="exists(answer)" ng-click="toggle(answer)">
+			                	{{ answer.answerContent }}
+			              		</md-checkbox>
+			            	</div>
+				        </div>
+</div>

@@ -4,8 +4,7 @@
 			<md-subheader ng-if="activeSurveys.length == 0" style="margin:8px">Non ci sono sondaggi in questa sezione</md-subheader>
 			<md-content layout-padding>
 				<md-card style="padding: 0px;" ng-repeat="activeSurvey in activeSurveys">
-					<md-card-content ng-click="modifySurvey(activeSurvey.surveyId)" layout-padding style="max-height: 40vh" ng-bind-html="activeSurvey.question|trustAsHtml">
-					
+					<md-card-content layout-padding style="max-height: 40vh" ng-bind-html="activeSurvey.question|trustAsHtml" ng-click="showSurveyDetails($event, activeSurvey.surveyId)">
 					</md-card-content>
 					<md-card-actions style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" layout="row" child-align="end center">
 						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{activeSurvey.voters}}</p>

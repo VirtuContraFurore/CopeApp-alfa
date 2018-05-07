@@ -24,7 +24,7 @@ import lombok.Setter;
 @Entity
 @Table(name="answers")
 public class Answer {
-
+//	TODO aggiungere url per immagine
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="answersGenerator")
 	@SequenceGenerator(name="answersGenerator", sequenceName="answers_sequence")

@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class AnswerDTO {
-		
+//	TODO aggiungere url per immagine e tipo domanda
 	private Integer answerId; 
 	
 	@NonNull

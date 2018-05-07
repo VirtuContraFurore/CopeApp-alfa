@@ -6,7 +6,7 @@ app.config(function($stateProvider){
 });
 app.controller("SurveysCtrl", SurveysCtrl);
 
-function SurveysCtrl($scope, $sce, $moment, surveyService) {
+function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 	
 	//TODO mettere bottone modifica
 	$scope.activeSurveys = [];
@@ -29,7 +29,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService) {
 	}, $scope.serverErrorCallback);
 	
 	$scope.modifySurvey = function(surveyId) {
-		urveyService.getSurveyById(surveyId).then(function(response) {
+		surveyService.getSurveyById(surveyId).then(function(response) {
 			//gestire risposta del server
 		});
 	}
@@ -43,4 +43,23 @@ function SurveysCtrl($scope, $sce, $moment, surveyService) {
 		}
 		return remainingTime;
 	}
+	$scope.fullscreen = true;
+	$scope.showSurveyDetails = function(ev, id) {
+    $mdDialog.show({
+      locals: {surveyId: id},	//passa il campo id ad alias surveyId al controller del dialog
+      controller: SurveysPageCtrl,
+      templateUrl: 'surveyPageTMPL.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: $scope.fullscreen 
+    })
+    .then(function(votes) {
+
+    }, function() {
+      
+    });
+  }
 }
+
+
