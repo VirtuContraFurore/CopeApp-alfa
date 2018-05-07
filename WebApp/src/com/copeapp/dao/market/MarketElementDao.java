@@ -1,13 +1,5 @@
 package com.copeapp.dao.market;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
-import com.copeapp.entities.market.MarketElement;
-import com.copeapp.tomcat9Misc.StartupOperations;
-
 public class MarketElementDao {
 	
 //	public static List<MarketElement> getElementsListByIdsException(List<Integer> elementsIds) {

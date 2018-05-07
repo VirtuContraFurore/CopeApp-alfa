@@ -39,16 +39,22 @@ public class UserDAO {
 		return (User) query.getSingleResult();
 	}*/
 	
-	public static User selectByUsername (String username) throws LoginFailedException{
+	public static User selectByUsername (String username, String password) throws LoginFailedException{
 		
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.username = :username OR u.mail = :username", User.class);
+		Query query = entitymanager.createQuery("FROM User WHERE (username = :username OR mail = :username)", User.class);
 		query.setParameter("username", username);
-		User ret = (User) query.getSingleResult();
-		if (ret == null) {
+		User selectedUser;
+		try {
+			selectedUser = (User) query.getSingleResult();
+			if (selectedUser.getPassword().equals(password)) {
+				return selectedUser;
+			}else {
+				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Password non corretta");
+			}
+		}catch (NoResultException nrex) {
 			throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Utente non trovato");
 		}
-		return ret;
 	}
 
 	public static User selectByBasicAuthTokenException (String authHeader) throws InvalidAuthTokenException {
@@ -64,9 +70,9 @@ public class UserDAO {
 		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.username = :username OR u.mail = :username", User.class);
 		query.setParameter("username", tokens[0]);
 		try {
-			User response = (User)query.getSingleResult();
+			User response = (User) query.getSingleResult();
 			if (!response.getPassword().equals(tokens[1])) {
-				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Invalid password");
+				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Password non corretta");
 			}
 			return response;
 		} catch (NoResultException nre){
