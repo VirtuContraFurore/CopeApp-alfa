@@ -77,19 +77,56 @@
 	     		<md-subheader class="md-no-sticky" style="background-color: white">Risposte</md-subheader>
 	     		<div ng-repeat="answer in answers" layout="row" layout-align="start center" style="padding-top: 0px">
 	     			<h3 style="margin-right: 10px">{{$index+1}}- </h3>
-	     			<md-input-container md-no-float flex md-truncate style="margin-bottom: 0px" class="md-block">
+	     			<md-input-container ng-if="answer.answerType == 'TEXT'" md-no-float flex md-truncate style="margin-bottom: 0px" class="md-block">
 				        <input required type="text" name="answer_{{$index+1}}" placeholder="Testo domanda {{$index+1}}" ng-model="answer.answerContent"/>
 						<div ng-messages="getField($index+1)">
 	            			<div ng-message="required">Questo campo &#xE8; obbligatorio</div>
 	          			</div>
 	     			</md-input-container>
+	     			<div ng-if="answer.answerType == 'IMAGE'"  flex layout="row" layout-align="start center">
+		     			<md-input-container md-no-float flex md-truncate style="margin-bottom: 0px" class="md-block">
+					        <input required type="text" name="answer_{{$index+1}}" placeholder="Testo domanda {{$index+1}}" ng-model="answer.answerContent[0]"/>
+							<div ng-messages="getField($index+1)">
+		            			<div ng-message="required">Questo campo &#xE8; obbligatorio</div>
+		          			</div>
+		     			</md-input-container>
+		     			<input style="display: none; visibility: hidden;" id="imageUploader" type="file" nv-file-select uploader="fileUploader"/>
+		     			<md-button class="md-icon-button" ng-click="loadImage($index)">
+		     				<md-icon class="material-icons">image</md-icon>
+		     			</md-button>
+	     			</div>
+	     			<div ng-if="answer.answerType == 'DATE'">
+	     				<md-datepicker required name="answer_{{$index+1}}" ng-model="answer.answerContent" md-placeholder="Seleziona data" md-min-date="expireDate"></md-datepicker>
+	     			</div>
 	     			<md-button class="md-icon-button md-warn" ng-click="removeAnswer($index)">
 	    				<md-icon class="material-icons">delete</md-icon>
 	    			</md-button>
 	     		</div>
-	     		<md-button class="md-icon-button" ng-click="addAnswer()">
-	    			<md-icon class="material-icons">add</md-icon>
-	    		</md-button>
+	     		<md-menu>
+		     		<md-button class="md-icon-button" ng-click="openAddMenu($mdMenu, $event)">
+		    			<md-icon class="material-icons">add</md-icon>
+		    		</md-button>
+		    		<md-menu-content width="3">
+			        <md-menu-item>
+			          <md-button ng-click="addAnswer('TEXT')">
+			            <md-icon class="material-icons" md-menu-align-target>title</md-icon>
+			            Testo
+			          </md-button>
+			        </md-menu-item>
+			        <md-menu-item>
+			          <md-button ng-click="addAnswer('IMAGE')">
+			            <md-icon class="material-icons">image</md-icon>
+			            Immagine
+			          </md-button>
+			        </md-menu-item>
+			        <md-menu-item>
+			          <md-button ng-click="addAnswer('DATE')">
+			            <md-icon class="material-icons">event</md-icon>
+			            Data
+			          </md-button>
+			        </md-menu-item>
+			      </md-menu-content>
+		    	</md-menu>
      		</div>
 	    </md-card>
 	    <div layout="row">
