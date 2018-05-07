@@ -20,7 +20,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SurveyDTO {
 
-	@NonNull
 	private Integer surveyId;
 
 	@NonNull
@@ -51,6 +50,6 @@ public class SurveyDTO {
 	private List<AnswerDTO> answers;
 	
 	@NonNull
-	private Integer voters;	//TODO voters è nel DTO ma non nella entity
+	private Integer voters;
 	
 }
