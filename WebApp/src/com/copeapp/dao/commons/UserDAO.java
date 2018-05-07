@@ -50,10 +50,10 @@ public class UserDAO {
 			if (selectedUser.getPassword().equals(password)) {
 				return selectedUser;
 			}else {
-				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Password non corretta");
+				throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Password non corretta");
 			}
 		}catch (NoResultException nrex) {
-			throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Utente non trovato");
+			throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Utente non trovato", nrex);
 		}
 	}
 
