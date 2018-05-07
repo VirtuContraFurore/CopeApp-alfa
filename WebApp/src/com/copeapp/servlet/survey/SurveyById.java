@@ -19,9 +19,10 @@ import com.copeapp.dto.survey.SurveyResponseByIdDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.exception.SurveyRequestFailedExcption;
+import com.copeapp.exception.SurveyExcption;
 import com.copeapp.mappers.survey.SurveyMapper;
 import com.copeapp.utilities.HttpStatusUtility;
+import com.copeapp.utilities.MessageUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveybyid")
@@ -45,7 +46,7 @@ public class SurveyById extends HttpServlet{
 			responseDTO.getSurveyDTO().setVoters(10); //TODO gestione dei votanti
 			response.setStatus(HttpStatusUtility.OK);
 		} else {
-			throw new SurveyRequestFailedExcption(HttpStatusUtility.UNAUTHORIZED, "Non sei autorizzato a vedere questo survey");
+			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
 		}
 		objMap.writeValue(response.getOutputStream(),responseDTO);
 	}

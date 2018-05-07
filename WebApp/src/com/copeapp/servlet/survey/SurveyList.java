@@ -21,7 +21,6 @@ import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
-import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveyList")
@@ -36,16 +35,16 @@ public class SurveyList extends HttpServlet{
 		SurveyRequestListDTO surveyListRequest = om.readValue(request.getInputStream(), SurveyRequestListDTO.class);
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();		
 		Query query;
-		
+
 		if (!surveyListRequest.isMine()) {
 			String keyword = (surveyListRequest.getKeyword().isEmpty()) ? "" : "LIKE ".concat(surveyListRequest.getKeyword());
 			String active = (surveyListRequest.isActive()) ? ">" : "<=";
-			query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate "+ active + 
+			query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate "+ active + 
 					" current_timestamp) AND (s.openSurveyDate > current_timestamp) " + keyword + " ORDER BY s.closeSurveyDate desc ");
 			query.setFirstResult(surveyListRequest.getLastSurveyNumber());
 			query.setMaxResults(surveyListRequest.getNumberToRetrieve());
 		} else {
-			query = entitymanager.createQuery("SELECT s FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId) ORDER BY s.closeSurveyDate desc");
+			query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId) ORDER BY s.closeSurveyDate desc");
 			query.setParameter("userId" , currentUser.getUserId());
 		}
 		@SuppressWarnings("unchecked")
@@ -63,7 +62,7 @@ public class SurveyList extends HttpServlet{
 				miniDTO.add(new SurveyMiniDTO(s.getSurveyId(), s.getQuestion(), s.getCloseSurveyDate(), voteNumbers)); // il survey appare nella lista 
 			}
 		} 
-		response.setStatus(HttpStatusUtility.OK);
+		//response.setStatus(HttpStatusUtility.OK); //TODO lo mettiamo dappertutto o non lo mettinamo?
 		om.writeValue(response.getOutputStream(), new SurveyResponseListDTO(miniDTO));
 	}
 }

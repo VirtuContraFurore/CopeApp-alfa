@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.exception.CopeAppGenericException;
 import com.copeapp.utilities.HttpStatusUtility;
+import com.copeapp.utilities.MessageUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebFilter( urlPatterns = {"/*"} )
@@ -34,7 +35,7 @@ public class ErrorManagementFilter implements Filter{
 		} catch (Throwable e) {
 			ObjectMapper om = new ObjectMapper();
 			httpServletResponse.setStatus(HttpStatusUtility.INTERNAL_SERVER_ERROR);
-			ExceptionDTO errorResponse = new ExceptionDTO(e, HttpStatusUtility.INTERNAL_SERVER_ERROR, "Internal server error");
+			ExceptionDTO errorResponse = new ExceptionDTO(e, HttpStatusUtility.INTERNAL_SERVER_ERROR, MessageUtility.INTERNAL_SERVER_ERROR);
 			om.writeValue(httpServletResponse.getOutputStream(), errorResponse);
 		}
 	}

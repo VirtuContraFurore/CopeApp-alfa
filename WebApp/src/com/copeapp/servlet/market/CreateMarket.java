@@ -2,25 +2,11 @@ package com.copeapp.servlet.market;
 
 import java.io.IOException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.copeapp.dao.commons.UserDAO;
-import com.copeapp.dao.market.MarketElementDao;
-import com.copeapp.dto.commons.ExceptionDTO;
-import com.copeapp.dto.market.CreateMarketRequestDTO;
-import com.copeapp.entities.common.User;
-import com.copeapp.entities.market.Market;
-import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
-import com.copeapp.tomcat9Misc.StartupOperations;
-import com.copeapp.utilities.HttpStatusUtility;
-import com.copeapp.utilities.ObjectsValidationUtility;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/createmarket")
 public class CreateMarket extends HttpServlet {
@@ -32,13 +18,12 @@ public class CreateMarket extends HttpServlet {
     }
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		/*
 		ObjectMapper objMap = new ObjectMapper();
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		try {
 			CreateMarketRequestDTO createMarketRequest = objMap.readValue(request.getInputStream(), CreateMarketRequestDTO.class);
 //			if (!ObjectsValidationUtility.validateNotNullParameters(createMarketRequest)) {
-			if (false) {
 				response.setStatus(HttpStatusUtility.UNAUTHORIZED);
 				ExceptionDTO errorResponse = new ExceptionDTO(null, HttpStatusUtility.UNAUTHORIZED, "Errore interno all'applicazione", "La richiesta � ben formatta ma presenta alcuni attributi nulli (che non devono esserlo)");
 				objMap.writeValue(response.getOutputStream(), errorResponse);
@@ -75,7 +60,7 @@ public class CreateMarket extends HttpServlet {
 		
 		} finally {
 			entitymanager.close();
-		}
+		}*/
 	}
 
 }

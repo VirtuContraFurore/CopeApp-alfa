@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.mapstruct.factory.Mappers;
-
 import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dto.login.LoginRequestDTO;
 import com.copeapp.dto.login.LoginResponseDTO;

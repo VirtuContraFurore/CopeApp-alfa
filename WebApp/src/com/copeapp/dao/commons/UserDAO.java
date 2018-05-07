@@ -7,10 +7,12 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.copeapp.entities.common.User;
+import com.copeapp.exception.CopeAppGenericException;
 import com.copeapp.exception.InvalidAuthTokenException;
-import com.copeapp.exception.LoginFailedException;
+import com.copeapp.exception.LoginException;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
+import com.copeapp.utilities.MessageUtility;
 
 public class UserDAO {
 	
@@ -39,7 +41,7 @@ public class UserDAO {
 		return (User) query.getSingleResult();
 	}*/
 	
-	public static User selectByUsername (String username, String password) throws LoginFailedException{
+	public static User selectByUsername (String username, String password) throws LoginException{
 		
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
 		Query query = entitymanager.createQuery("FROM User WHERE (username = :username OR mail = :username)", User.class);
@@ -50,34 +52,25 @@ public class UserDAO {
 			if (selectedUser.getPassword().equals(password)) {
 				return selectedUser;
 			}else {
-				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Password non corretta");
+				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.WRONG_PASSWORD);
 			}
-		}catch (NoResultException nrex) {
-			throw new LoginFailedException(HttpStatusUtility.UNAUTHORIZED, "Utente non trovato");
+		}catch (NoResultException nre) {
+			throw new LoginException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.WRONG_USERNAME, nre);
 		}
 	}
 
 	public static User selectByBasicAuthTokenException (String authHeader) throws InvalidAuthTokenException {
 		
 		if (authHeader == null) {
-			throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Invalid header");
+			throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.INVALID_HEADER);
 		}
 		authHeader = authHeader.substring(6); //To select the correct part of the header
 		String token = new String(Base64.getDecoder().decode(authHeader));
-		String[] tokens = token.split(":"); //TODO: username and password cannot contain :
-		
-		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.username = :username OR u.mail = :username", User.class);
-		query.setParameter("username", tokens[0]);
-		try {
-			User response = (User) query.getSingleResult();
-			if (!response.getPassword().equals(tokens[1])) {
-				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "Password non corretta");
-			}
-			return response;
-		} catch (NoResultException nre){
-			throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, "User not found", nre);
+		String[] tokens = token.split(":");
+		if (tokens.length>2) {
+			throw new CopeAppGenericException(HttpStatusUtility.INTERNAL_SERVER_ERROR, " ':' presenti in username o password");
 		}
-	}
-	
+		
+		return selectByUsername(tokens[0],tokens[1]);
+	}	
 }

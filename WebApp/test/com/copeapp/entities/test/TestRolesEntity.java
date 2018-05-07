@@ -1,12 +1,8 @@
 package com.copeapp.entities.test;
 
-import java.util.ArrayList;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import com.copeapp.entities.common.Role;
 
 public class TestRolesEntity {
 

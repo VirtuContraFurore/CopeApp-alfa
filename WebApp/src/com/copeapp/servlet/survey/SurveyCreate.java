@@ -16,8 +16,11 @@ import com.copeapp.dto.survey.SurveyRequestCreateDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Survey;
+import com.copeapp.exception.SurveyExcption;
 import com.copeapp.mappers.survey.SurveyMapper;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
+import com.copeapp.utilities.HttpStatusUtility;
+import com.copeapp.utilities.MessageUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveycreate")
@@ -39,12 +42,13 @@ public class SurveyCreate extends HttpServlet{
 			}
 		}
 		if (canAccess) {
-			Survey survey = Mappers.getMapper(SurveyMapper.class).surveyDTOtoSurvey(SurveyDTO.getSurveyDTO());  
-			//TODO non sono sicuro sia giusta come cosa
+			Survey survey = Mappers.getMapper(SurveyMapper.class).surveyDTOtoSurvey(SurveyDTO.getSurveyDTO());
 			entitymanager.getTransaction().begin();
 			entitymanager.persist(survey);
 			entitymanager.getTransaction().commit();
 			entitymanager.close();			
+		} else {
+			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
 		}
 	}
 }
