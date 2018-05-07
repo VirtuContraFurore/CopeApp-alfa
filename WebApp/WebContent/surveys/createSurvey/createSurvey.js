@@ -6,7 +6,7 @@ app.config(function($stateProvider) {
 });
 app.controller("CreateSurveyCtrl", CreateSurveyCtrl);
 
-function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
+function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMenu, FileUploader) {
 
 	$scope.question = "";
 	$scope.minPublishDate = $moment(new Date).add(0, 'days').toDate();
@@ -81,15 +81,59 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 	$scope.selectedViewers = [];
 	$scope.answerNumber;
 	$scope.maxNumberOfAnswers = 0;
+	$scope.orderedTypes = [];
 	
-	$scope.addAnswer = function() {
-		$scope.answers.push({
-			answerContent: ""
-		})
+	$scope.currentImageIndex;
+	$scope.loadImage = function(index) {
+		$("#imageUploader").click();
+		$scope.currentImageIndex = index;
+	}
+	$scope.fileUploader = new FileUploader({
+		filters: [{
+            name: 'imageFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        }]
+	});
+	$scope.fileUploader.autoUpload = false;
+	$scope.fileUploader.queueLimit = 1;
+	$scope.fileUploader.onAfterAddingFile = function(item) {
+		var reader = new FileReader();
+		reader.readAsDataURL(item._file.slice(0, item._file.size));
+		reader.onloadend = function() {
+			var result = reader.result;
+			var position = 5;
+			var output = [result.slice(0, position), item._file.type, result.slice(position)].join('');
+			$scope.answers[$scope.currentImageIndex].answerContent[1] = output;
+			$scope.showSimpleToast("Immagine caricata con successo", "bottom right", 2500);
+		}
+	}
+	
+	$scope.addAnswer = function(type) {
+		$scope.orderedTypes.push(type);
+		if (type=="DATE") {
+			$scope.answers.push({
+				answerType: ""+type+"",
+				answerContent: $moment($scope.expireDate).add(1, "days").toDate()
+			})
+		} else if (type=="TEXT") {
+			$scope.answers.push({
+				answerType: ""+type+"",
+				answerContent: ""
+			})
+		} else if(type=="IMAGE") {
+			$scope.answers.push({
+				answerType: ""+type+"",
+				answerContent: ["", ""]
+			})
+		}
 		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	}
 	$scope.removeAnswer = function(index) {
 		$scope.answers.splice(index, 1);
+		$scope.orderedTypes.splice(index, 1);
 		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	}
 	$scope.getField = function(index) {
@@ -107,6 +151,12 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 		$scope.selectedViewers.length = 0;
 		$scope.answerNumber = null;
 		$scope.maxNumberOfAnswers = 0;
+		$scope.orderedTypes.length = 0;
+	}
+	
+	$scope.openAddMenu = function($mdMenu, ev) {
+			originatorEv = ev;
+			$mdMenu.open(ev);
 	}
 	
 	$scope.checkValidity = function() {	
@@ -139,6 +189,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService) {
 						insertUser: $scope.getUser(),
 						surveyVotersRoles: $scope.selectedVoters,
 						surveyViewersRoles: $scope.selectedViewers,
+						orderedTypes: $scope.orderedTypes,
 						answers: $scope.answers
 					}).then(function() {}, $scope.serverErrorCallback)
 				}
