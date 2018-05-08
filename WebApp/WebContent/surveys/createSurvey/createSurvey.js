@@ -72,10 +72,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		},
 		function(reason) {
 			$scope.roles = null;
-			$scope.showSimpleToast(loginResponse.data.description,
-					"bottom right", 2000);
-			console.error("errore n: " + loginResponse.data.httpStatus
-					+ "; StackTrace del server: //Da aggiungere");
+			$scope.serverErrorCallbackToast(reason);
 	})
 	$scope.selectedVoters = [];
 	$scope.selectedViewers = [];
@@ -191,7 +188,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 						surveyViewersRoles: $scope.selectedViewers,
 						orderedTypes: $scope.orderedTypes,
 						answers: $scope.answers
-					}).then(function() {}, $scope.serverErrorCallback)
+					}).then(function() {}, $scope.serverErrorCallbackToast)
 				}
 			});
 		}

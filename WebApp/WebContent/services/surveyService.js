@@ -1,7 +1,7 @@
 app.service('surveyService', SurveyService);
 
 function SurveyService($q, $http) {
-	//TODO gestire lastSurveyNumber e numberToRetrieve
+	//TODO chiedere al server se mostrare i risultati
 	this.getSurveys = function(user, isActive, isMine, lastSurvey) {
 		var req = {
 				method: 'POST',

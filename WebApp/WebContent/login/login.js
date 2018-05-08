@@ -13,10 +13,7 @@ function LoginCtrl($scope, localStorageService, UserService){
 				localStorageService.remove("credentials");
 			}
 			$scope.setLoggedIn(true);
-		}, function onReject(loginResponse) {
-			$scope.showSimpleToast(loginResponse.data.descrptionForUser, "bottom right", 2000);
-			$scope.serverErrorCallback(loginResponse)
-		});
+		}, $scope.serverErrorCallbackToast);
 	}
 	if (localStorageService.get("credentials") == null) {
 		//cambiare queste variabili per impostare le credenziali di default

@@ -31,6 +31,11 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 		console.error(reason.data.debuggingDescription);
 		console.error(reason.data.stackTrace);
 	}
+	$scope.serverErrorCallbackToast = function(reason) {
+		$scope.showSimpleToast(loginResponse.data.descrptionForUser, "bottom right", 2500);
+		console.error(reason.data.debuggingDescription);
+		console.error(reason.data.stackTrace);
+	}
 	
 	//funzione mostra toast
 	$scope.showSimpleToast = function(msg, pos, timeout) {
@@ -156,6 +161,11 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 		routerStatus: "-",
 		pageIcon: "-",
 		itemType: "divbar"
+	}, {
+		displayName: "Feedback",
+		routerStatus: "feedback",
+		pageIcon: "feedback",
+		itemType: "page"
 	}, {
 		displayName: "Log out",
 		routerStatus: "logout()",
