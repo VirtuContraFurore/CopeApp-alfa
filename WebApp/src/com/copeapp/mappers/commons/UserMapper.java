@@ -11,9 +11,9 @@ import com.copeapp.entities.common.User;
 @Mapper//(uses = RoleMapper.class)
 public interface UserMapper {
 	
-	UserMapper istance = Mappers.getMapper( UserMapper.class );
+	UserMapper istance = Mappers.getMapper(UserMapper.class);
 	
-	UserDTO userToUserDTO (User user);
+	UserDTO userToUserDTO(User user);
 	
 	RoleDTO roleToRoleDTO(Role role);
 }

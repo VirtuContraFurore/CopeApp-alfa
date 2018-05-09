@@ -30,6 +30,7 @@ public class Login extends HttpServlet {
 		User user = UserDAO.selectByUsername(loginRequest.getMail(), loginRequest.getPassword());
 		
 		//TODO: Fabio qeusto va fatto da lato client...
+		//TODO: non rompere il cazzo e lascialo qui
 		if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }
 		 
 		response.setStatus(HttpStatusUtility.OK);
