@@ -32,7 +32,7 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 		console.error(reason.data.stackTrace);
 	}
 	$scope.serverErrorCallbackToast = function(reason) {
-		$scope.showSimpleToast(loginResponse.data.descrptionForUser, "bottom right", 2500);
+		$scope.showSimpleToast(reason.data.descrptionForUser, "bottom right", 2500);
 		console.error(reason.data.debuggingDescription);
 		console.error(reason.data.stackTrace);
 	}
