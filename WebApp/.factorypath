@@ -1,0 +1,6 @@
+<factorypath>
+    <factorypathentry kind="PLUGIN" id="org.eclipse.jst.ws.annotations.core" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/CopeApp/WebContent/WEB-INF/lib/mapstruct-1.2.0.Final.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/CopeApp/WebContent/WEB-INF/lib/mapstruct-jdk8-1.2.0.Final.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="WKSPJAR" id="/CopeApp/WebContent/WEB-INF/lib/mapstruct-processor-1.2.0.Final.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>
