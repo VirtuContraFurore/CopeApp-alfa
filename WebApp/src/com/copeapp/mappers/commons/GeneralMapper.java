@@ -1,20 +1,38 @@
 package com.copeapp.mappers.commons;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class GeneralMapper {
 	
-	public static Object convert(Object input, Class<?> output) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public static Object convert(Object input, Class<?> output, HashMap<String, String> bindings) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		
-		List<Constructor<?>> constructor = Arrays.asList(output.getConstructors());
 		List<Field> inputFields = Arrays.asList(input.getClass().getDeclaredFields());
 		List<Field> outputFields = Arrays.asList(output.getDeclaredFields());
+		ArrayList<Object> args = new ArrayList<>();
+		for (Field iF : inputFields) {
+			iF.setAccessible(true);
+			if (!bindings.containsKey(iF.getName())) {
+				for (Field oF : outputFields) {
+					if (iF.getName().equals(oF.getName()) && iF.getType().equals(oF.getType())) {
+						args.add(iF.get(input));
+						break;
+					}
+				}
+			} else {
+				
+			}
+		}
+		inputFields.get(1).setAccessible(true);
+		Object test = inputFields.get(1).get(input);
+		
+		/*
+		List<Constructor<?>> constructor = Arrays.asList(output.getConstructors());
+		List<Field> inputFields = Arrays.asList(input.getClass().getDeclaredFields());
 		Object valueStore = new Object();
 		for (Field f : inputFields) {
 			f.setAccessible(true);
@@ -45,10 +63,10 @@ public class GeneralMapper {
 				}
 			}
 		}
+		*/
 		
-		Object outputObject = constructor.get(0).newInstance(args.toArray());
+		Object outputObject = new Object();
 		return outputObject;
-		
 	}
 	
 }

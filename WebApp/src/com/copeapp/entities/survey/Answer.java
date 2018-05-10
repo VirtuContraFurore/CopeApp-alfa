@@ -28,7 +28,7 @@ public class Answer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="answersGenerator")
 	@SequenceGenerator(name="answersGenerator", sequenceName="answers_sequence")
-	private int answerId; 
+	private Integer answerId; 
 	
 	@NonNull
 	private String answerContent;
