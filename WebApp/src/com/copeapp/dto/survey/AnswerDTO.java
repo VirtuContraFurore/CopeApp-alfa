@@ -17,4 +17,6 @@ public class AnswerDTO {
 	
 	@NonNull
 	private Integer votesNumber;
+	
+	public 
 }
