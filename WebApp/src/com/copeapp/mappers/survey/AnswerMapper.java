@@ -10,6 +10,7 @@ import com.copeapp.entities.survey.Answer;
 @Mapper
 public interface AnswerMapper {
 	
+	/*
 	@Mappings({
 		@Mapping(target = "votes", ignore = true)
 	})	
@@ -20,5 +21,5 @@ public interface AnswerMapper {
 		@Mapping(target = "votes", ignore = true)
 	})	
 	Answer answerDTOtoAnswer(AnswerDTO answerDTO);
-	
+	*/
 }

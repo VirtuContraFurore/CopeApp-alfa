@@ -60,5 +60,12 @@
 			<attribute name="javadoc_location" value="http://mapstruct.org/documentation/1.2/api/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mapstruct-1.2.0.Final.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mapstruct-processor-1.2.0.Final.jar"/>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

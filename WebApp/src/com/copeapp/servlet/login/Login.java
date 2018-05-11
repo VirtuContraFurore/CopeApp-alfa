@@ -36,12 +36,16 @@ public class Login extends HttpServlet {
 		if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }
 		
 		response.setStatus(HttpStatusUtility.OK);
+		
+		/*
 		try {
 			AnswerDTO udto = (AnswerDTO)GeneralMapper.convert(new AnswerDTO(1, "ciao", 22), AnswerDTO.class);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
 		}
+		
+		*/
 		objMap.writeValue(response.getOutputStream(), new LoginResponseDTO(UserMapper.istance.userToUserDTO(user)));
 	}
 

@@ -52,7 +52,7 @@ public class UserDAO {
 			if (selectedUser.getPassword().equals(password)) {
 				return selectedUser;
 			}else {
-				throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.WRONG_PASSWORD);
+				throw new LoginException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.WRONG_PASSWORD);
 			}
 		}catch (NoResultException nre) {
 			throw new LoginException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.WRONG_USERNAME, nre);

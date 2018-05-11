@@ -1,0 +1,35 @@
+<project name="MyProject" default="compile" basedir=".">
+  <description>
+    mapstruct file generation
+  </description>
+
+  <target name="init">
+  	<echo level="error">starting mapstruct precompiler</echo>
+  </target>
+
+  <target name="compile" depends="init" description="compile the source">
+    <!-- Compile the Java code from ${src} into ${build} -->
+  	
+  	<path id="master-classpath">
+  	  <fileset dir="WebContent\WEB-INF\lib">
+  	    <include name="*.jar"/>
+  	  </fileset>
+  	  <fileset dir="C:\Program Files\Apache Software Foundation\Tomcat 9.0\lib">
+  	    <include name="*.jar"/>
+  	  </fileset>
+
+  	</path>
+  	
+  	<javac
+  	    srcdir="src"
+  	    destdir="build">
+  		<classpath refid="master-classpath"/>
+  		<compilerarg line="-encoding ISO-8859-1"/>
+  		<compilerarg line="-proc:only"/>
+  	    <compilerarg line="-processorpath WebContent\WEB-INF\lib\mapstruct-processor-1.2.0.Final.jar"/>
+  	    <compilerarg line="-s .apt_generated"/>
+  	</javac>
+  	
+  </target>
+
+</project>
