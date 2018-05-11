@@ -8,10 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.ArrayUtils;
 
 import lombok.Generated;
-import sun.reflect.generics.tree.ArrayTypeSignature;
 
 @Generated
 public class GeneralMapper {
@@ -25,13 +23,17 @@ public class GeneralMapper {
 		for (Field oF : outputFields) {
 			oF.setAccessible(true);
 			if (bindings.containsKey(oF.getName())) {
-				for (Field iF : inputFields) {
-					iF.setAccessible(true);
-					if (iF.getName().equals(bindings.get(oF.getName()))) {
-						args.put(oF.getName(),iF.get(input));
-						inputFields.remove(iF);
-						break;
-					}
+				if (!bindings.get(oF.getName()).equals("null")) {	//controllo del mapping a null
+					for (Field iF : inputFields) {
+						iF.setAccessible(true);
+						if (iF.getName().equals(bindings.get(oF.getName()))) {
+							args.put(oF.getName(),iF.get(input));
+							inputFields.remove(iF);
+							break;
+						}
+					}					
+				} else {
+					args.put(oF.getName(), null);
 				}
 			} else {
 				for (Field iF : inputFields) {
