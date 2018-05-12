@@ -30,7 +30,7 @@ public class Login extends HttpServlet {
 		
 		ObjectMapper objMap = new ObjectMapper();
 		LoginRequestDTO loginRequest = objMap.readValue(request.getInputStream(), LoginRequestDTO.class);
-		ObjectsValidationUtility.validateNotNullParameters(loginRequest);
+		ObjectsValidationUtility.validateNonNullParameters(loginRequest);
 		User user = UserDAO.selectByUsername(loginRequest.getMail(), loginRequest.getPassword());
 		
 		if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }

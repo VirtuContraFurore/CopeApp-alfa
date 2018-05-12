@@ -3,20 +3,20 @@ package com.copeapp.dto.market;
 import java.util.Date;
 import java.util.List;
 
-import com.sun.istack.internal.NotNull;
+import lombok.NonNull;
 
 import lombok.Getter;
 
 @Getter
 public class CreateMarketRequestDTO {
 
-	@NotNull private String name = null;
+	@NonNull private String name = null;
 	private String description = null;
-	@NotNull private Date openDate = null;
-	@NotNull private Date expireDate = null;
-	@NotNull private Date visibleDate = null;
-	@NotNull private Date hiddenDate = null;
-	@NotNull private Date creationDate = null;
-	@NotNull private Integer creatorId = null;
-	@NotNull private List<Integer> marketElementsIds = null;
+	@NonNull private Date openDate = null;
+	@NonNull private Date expireDate = null;
+	@NonNull private Date visibleDate = null;
+	@NonNull private Date hiddenDate = null;
+	@NonNull private Date creationDate = null;
+	@NonNull private Integer creatorId = null;
+	@NonNull private List<Integer> marketElementsIds = null;
 }

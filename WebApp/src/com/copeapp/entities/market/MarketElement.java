@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.internal.NotNull;
+import lombok.NonNull;
 
 import lombok.Data;
 
@@ -21,12 +21,12 @@ public class MarketElement {
 	@SequenceGenerator(name="marketElementGenerator", sequenceName="market_elements_sequence")
 	private Integer marketElementId;
 	
-	@NotNull
+	@NonNull
 	private String name = null;
 	
 	private String description = null;
 	
-	@NotNull
+	@NonNull
 	private Double price = null;
 	
 	private String image = null;

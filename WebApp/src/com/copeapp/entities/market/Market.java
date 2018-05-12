@@ -17,7 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.copeapp.entities.common.User;
-import com.sun.istack.internal.NotNull;
+import lombok.NonNull;
 
 import lombok.Data;
 
@@ -31,35 +31,35 @@ public class Market {
 	@SequenceGenerator(name="marketGenerator", sequenceName="market_sequence")
 	private Integer marketId = null;
 	
-	@NotNull
+	@NonNull
 	private String name = null;
 
 	private String description = null;
 	
-	@NotNull
+	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date openDate = null;
 	
-	@NotNull
+	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date expireDate = null;
 	
-	@NotNull
+	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date visibleDate = null;
 	
-	@NotNull
+	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date hiddenDate = null;
 	
-	@NotNull
+	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate = null;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date eliminationDate = null;
 	
-	@NotNull
+	@NonNull
 	@ManyToOne
 	@JoinColumn(name = "creatorId")
 	private User creator = null;
@@ -68,7 +68,7 @@ public class Market {
 	@JoinColumn(name = "eliminatorId")
 	private User eliminator = null;
 	
-	@NotNull
+	@NonNull
 	@ManyToMany
 	@JoinTable( name = "markets_elements",
 			joinColumns = { @JoinColumn(name = "marketId") },
@@ -76,11 +76,11 @@ public class Market {
 	private List<MarketElement> marketElements = null;
 	
 	/*
-	 * openDate: data dalla quale il market è aperto al pubblico
+	 * openDate: data dalla quale il market ï¿½ aperto al pubblico
 	 * expireDate: data dalla quale il market viene chiuso al pubblico
-	 * visibleDate: data dalla quale il market è visibile nell'elenco dei market
+	 * visibleDate: data dalla quale il market ï¿½ visibile nell'elenco dei market
 	 * 				(tale data deve precedere o essere coincidente alla openDate)
-	 * hiddenDate: data dalla quale il market non è più visibile nell'elenco dei market
+	 * hiddenDate: data dalla quale il market non ï¿½ piï¿½ visibile nell'elenco dei market
 	 * 			   (tale data deve succedere o essere coincidente alla expireDate)
 	 * creationDate: data di creazione del market
 	 * eliminationDate: data di eliminazione del market

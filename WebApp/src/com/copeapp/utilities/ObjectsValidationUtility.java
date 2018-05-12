@@ -8,7 +8,7 @@ import lombok.NonNull;
 
 public interface ObjectsValidationUtility {
 
-	public static boolean validateNotNullParameters (Object object) throws LoginException {
+	public static boolean validateNonNullParameters (Object object) throws LoginException {
 		boolean b = true;
 		Field[] declaredFields = object.getClass().getDeclaredFields();
 		for(Field field : declaredFields) {

@@ -23,7 +23,7 @@
   	<javac 
   		includeantruntime="false"
   	    srcdir="src"
-  	    destdir="build/classes">
+  	    destdir="build">
   		<classpath refid="master-classpath"/>
   		<compilerarg line="-encoding ISO-8859-1"/>
   		<compilerarg line="-proc:only"/>
