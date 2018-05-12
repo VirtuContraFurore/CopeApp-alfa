@@ -12,17 +12,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.mapstruct.factory.Mappers;
-
 import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dto.survey.AnswerDTO;
 import com.copeapp.dto.survey.SurveyRequestVoteDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
+import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.entities.survey.Vote;
 import com.copeapp.exception.SurveyExcption;
-import com.copeapp.mappers.survey.AnswerMapper;
+import com.copeapp.tomcat9Misc.DozerMapper;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;
@@ -48,7 +47,7 @@ public class SurveyVote extends HttpServlet{
 			commonRole.retainAll(survey.getSurveyVotersRoles());
 			if (!commonRole.isEmpty()) {
 				for (AnswerDTO a: surveyRequestVote.getAnswers()) {
-					entitymanager.persist(new Vote(Mappers.getMapper(AnswerMapper.class).answerDTOtoAnswer(a), currentUser)); //l'ho messo in linea spero si capisca
+					new Vote(DozerMapper.getMapper().map(a, Answer.class), currentUser);
 				}
 			} else {
 				throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);

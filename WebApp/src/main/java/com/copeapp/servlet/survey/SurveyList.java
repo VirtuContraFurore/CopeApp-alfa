@@ -20,6 +20,7 @@ import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
+import com.copeapp.tomcat9Misc.DozerMapper;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -59,7 +60,8 @@ public class SurveyList extends HttpServlet{
 				for (Answer a : s.getAnswers()) {
 					voteNumbers += a.getVotesNumber();
 				}
-				miniDTO.add(new SurveyMiniDTO(s.getSurveyId(), s.getQuestion(), s.getCloseSurveyDate(), voteNumbers)); // il survey appare nella lista 
+				miniDTO.add(DozerMapper.getMapper().map(s, SurveyMiniDTO.class));
+				miniDTO.get(miniDTO.size()-1).setVoters(voteNumbers);
 			}
 		} 
 		//response.setStatus(HttpStatusUtility.OK); //TODO lo mettiamo dappertutto o non lo mettinamo?

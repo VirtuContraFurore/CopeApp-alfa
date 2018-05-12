@@ -64,7 +64,6 @@ public class UserDAO {
 		if (authHeader == null) {
 			throw new InvalidAuthTokenException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.INVALID_HEADER);
 		}
-		authHeader = authHeader.substring(6); //To select the correct part of the header
 		String token = new String(Base64.getDecoder().decode(authHeader));
 		String[] tokens = token.split(":");
 		if (tokens.length>2) {

@@ -6,7 +6,7 @@ import com.copeapp.exception.LoginException;
 
 import lombok.NonNull;
 
-public interface ObjectsValidationUtility {
+public class ObjectsValidationUtility {
 
 	public static boolean validateNonNullParameters (Object object) throws LoginException {
 		boolean b = true;

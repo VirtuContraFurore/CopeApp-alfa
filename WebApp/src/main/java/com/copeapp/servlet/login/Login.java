@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.copeapp.dao.commons.UserDAO;
+import com.copeapp.dto.commons.UserDTO;
 import com.copeapp.dto.login.LoginRequestDTO;
 import com.copeapp.dto.login.LoginResponseDTO;
 import com.copeapp.entities.common.User;
-import com.copeapp.mappers.commons.UserMapper;
+import com.copeapp.tomcat9Misc.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.ObjectsValidationUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,17 +33,8 @@ public class Login extends HttpServlet {
 		if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }
 		
 		response.setStatus(HttpStatusUtility.OK);
-		
-		/*
-		try {
-			AnswerDTO udto = (AnswerDTO)GeneralMapper.convert(new AnswerDTO(1, "ciao", 22), AnswerDTO.class);
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			e.printStackTrace();
-		}
-		
-		*/
-		objMap.writeValue(response.getOutputStream(), new LoginResponseDTO(UserMapper.istance.userToUserDTO(user)));
+
+		objMap.writeValue(response.getOutputStream(), new LoginResponseDTO(DozerMapper.getMapper().map(user, UserDTO.class)));
 	}
 
 }

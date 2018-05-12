@@ -14,13 +14,15 @@ import org.mapstruct.factory.Mappers;
 
 import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dao.survey.SurveyDao;
+import com.copeapp.dto.survey.SurveyDTO;
 import com.copeapp.dto.survey.SurveyRequestByIdDTO;
 import com.copeapp.dto.survey.SurveyResponseByIdDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Survey;
+import com.copeapp.entities.test.SurveyMapper;
 import com.copeapp.exception.SurveyExcption;
-import com.copeapp.mappers.survey.SurveyMapper;
+import com.copeapp.tomcat9Misc.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +44,7 @@ public class SurveyById extends HttpServlet{
 		commonRole.retainAll(requiredSurvey.getSurveyViewersRoles());
 		SurveyResponseByIdDTO responseDTO;
 		if (!commonRole.isEmpty()) {
-			responseDTO = new SurveyResponseByIdDTO(Mappers.getMapper(SurveyMapper.class).surveyToSurveyDTO(requiredSurvey));
+			responseDTO = new SurveyResponseByIdDTO(DozerMapper.getMapper().map(requiredSurvey, SurveyDTO.class));
 			responseDTO.getSurveyDTO().setVoters(10); //TODO gestione dei votanti
 			response.setStatus(HttpStatusUtility.OK);
 		} else {
