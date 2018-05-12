@@ -1,0 +1,32 @@
+<md-dialog layout="column" layout-padding>
+<!-- Gestire le due pagine diverse per votare e vedere i risultati -->
+	<md-toolbar>
+		<div class="md-toolbar-tools">
+	        <h2 ng-if="!isVoted()">Vota</h2>
+	         <h2 ng-if="isVoted()">Risultati</h2>
+	        <span flex></span>
+	        <md-button class="md-icon-button" ng-click="cancel()">
+	        	<md-icon class="material-icons">close</md-icon>
+	        </md-button>
+      	</div>
+	</md-toolbar>
+	<md-dialog-content layout="column" ng-if="!isVoted()">
+		<div ng-bind-html="question|trustAsHtml"></div>
+		<div layout="row" layout-wrap>
+			<div flex="50" ng-repeat="answer in answers">
+		  		<md-checkbox ng-checked="exists(answer)" ng-click="toggle(answer)">
+		    	{{ answer.answerContent }}
+		  		</md-checkbox>
+			</div>
+		</div>
+	</md-dialog-content>
+	
+	<md-dialog-content layout="column" ng-if="isVoted()">
+		<div ng-bind-html="question|trustAsHtml"></div>
+		<div flex="50" ng-repeat="answer in answers">
+				<canvas id="donught" class="chart chart-donught" chart-data="answer.voteNumber" chart-labels="answer.answerContent" chart-series="series">
+				</canvas>
+		</div>
+	</md-dialog-content>
+	
+</md-dialog>
