@@ -1,7 +1,6 @@
 package com.copeapp.servlet.login;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,10 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dto.login.LoginRequestDTO;
 import com.copeapp.dto.login.LoginResponseDTO;
-import com.copeapp.dto.survey.AnswerDTO;
 import com.copeapp.entities.common.User;
-import com.copeapp.entities.survey.Answer;
-import com.copeapp.mappers.commons.GeneralMapper;
 import com.copeapp.mappers.commons.UserMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.ObjectsValidationUtility;
