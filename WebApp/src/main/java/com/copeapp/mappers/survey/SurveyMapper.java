@@ -9,12 +9,12 @@ import com.copeapp.entities.survey.Survey;
 
 @Mapper(uses = AnswerMapper.class)
 public interface SurveyMapper {
-	/*
+	
 	@Mappings({	
 		@Mapping( target = "deleteDate", ignore = true),
 		@Mapping( target = "deleteUser", ignore = true)
 	})
-	//SurveyDTO surveyToSurveyDTO(Survey survey);
+	SurveyDTO surveyToSurveyDTO(Survey survey);
 	
 	@Mappings({
 		@Mapping(target = "surveyId", ignore = true),
@@ -22,6 +22,6 @@ public interface SurveyMapper {
 		@Mapping( target = "deleteUser", ignore = true),
 		@Mapping( target = "voters", ignore = true)
 	})
-	//Survey surveyDTOtoSurvey(SurveyDTO surveyDTO);
-	*/
+	Survey surveyDTOtoSurvey(SurveyDTO surveyDTO);
+	
 }
