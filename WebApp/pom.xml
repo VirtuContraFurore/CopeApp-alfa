@@ -146,6 +146,7 @@
 							<goal>process</goal>
 						</goals>
 						<configuration>
+						
 							<outputDirectory>target/generated-sources/annotations</outputDirectory>
 							<processors>
 								<processor>org.mapstruct.ap.MappingProcessor</processor>
@@ -168,16 +169,16 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.0</version>
 				<configuration>
-<!-- 					<generatedSourcesDirectory> -->
-<!-- 						target/generated-sources/annotations -->
-<!-- 					</generatedSourcesDirectory> -->
-<!-- 					<annotationProcessorPaths> -->
-<!-- 						<path> -->
-<!-- 							<groupId>org.mapstruct</groupId> -->
-<!-- 							<artifactId>mapstruct-processor</artifactId> -->
-<!-- 							<version>${org.mapstruct.version}</version> -->
-<!-- 						</path> -->
-<!-- 					</annotationProcessorPaths> -->
+					<!-- <generatedSourcesDirectory> -->
+					<!-- target/generated-sources/annotations -->
+					<!-- </generatedSourcesDirectory> -->
+					<!-- <annotationProcessorPaths> -->
+					<!-- <path> -->
+					<!-- <groupId>org.mapstruct</groupId> -->
+					<!-- <artifactId>mapstruct-processor</artifactId> -->
+					<!-- <version>${org.mapstruct.version}</version> -->
+					<!-- </path> -->
+					<!-- </annotationProcessorPaths> -->
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
 					<compilerVersion>${jdk.version}</compilerVersion>
