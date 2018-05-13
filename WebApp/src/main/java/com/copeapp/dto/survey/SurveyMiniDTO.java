@@ -5,7 +5,6 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
-import lombok.experimental.NonFinal;
 
 @Data
 @AllArgsConstructor

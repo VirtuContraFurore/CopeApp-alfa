@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.mapstruct.factory.Mappers;
-
 import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dao.survey.SurveyDao;
 import com.copeapp.dto.survey.SurveyDTO;
@@ -20,7 +18,6 @@ import com.copeapp.dto.survey.SurveyResponseByIdDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.entities.test.SurveyMapper;
 import com.copeapp.exception.SurveyExcption;
 import com.copeapp.tomcat9Misc.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;

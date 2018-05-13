@@ -2,4 +2,4 @@
 <mappings xmlns="http://dozer.sourceforge.net"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
-</mappings>
+<mapping type="one-way"><class-a>SurveyDTO</class-a><class-b>Survey</class-b><field-exclude><a>voters</a><b>voters</b></field-exclude><field-exclude><a>surveyId</a><b>surveyId</b></field-exclude></mapping><mapping type="one-way"><class-a>Survey</class-a><class-b>SurveyDTO</class-b><field-exclude><a>deleteUser</a><b>deleteUser</b></field-exclude><field-exclude type="one-way"><a>deleteDate</a><b>deleteDate</b></field-exclude></mapping></mappings>

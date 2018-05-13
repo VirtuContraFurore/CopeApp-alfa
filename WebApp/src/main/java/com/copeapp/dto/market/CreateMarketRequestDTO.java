@@ -3,9 +3,8 @@ package com.copeapp.dto.market;
 import java.util.Date;
 import java.util.List;
 
-import lombok.NonNull;
-
 import lombok.Getter;
+import lombok.NonNull;
 
 @Getter
 public class CreateMarketRequestDTO {

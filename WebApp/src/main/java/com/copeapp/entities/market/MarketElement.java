@@ -7,9 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.NonNull;
-
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @Entity

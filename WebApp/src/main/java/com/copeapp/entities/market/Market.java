@@ -17,9 +17,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.copeapp.entities.common.User;
-import lombok.NonNull;
 
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @Entity
