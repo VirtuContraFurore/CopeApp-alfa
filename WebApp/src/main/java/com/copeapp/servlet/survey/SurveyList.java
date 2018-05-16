@@ -38,10 +38,11 @@ public class SurveyList extends HttpServlet{
 		Query query;
 
 		if (!surveyListRequest.isMine()) {
-			String keyword = (surveyListRequest.getKeyword().isEmpty()) ? "" : "LIKE ".concat(surveyListRequest.getKeyword());
+			String keyword = (surveyListRequest.getKeyword().isEmpty()) ? "" : surveyListRequest.getKeyword();
 			String active = (surveyListRequest.isActive()) ? ">" : "<=";
-			query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate "+ active + 
-					" current_timestamp) AND (s.openSurveyDate > current_timestamp) " + keyword + " ORDER BY s.closeSurveyDate desc ");
+			query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate :active current_timestamp) AND (s.openSurveyDate > current_timestamp) LIKE :keyword ORDER BY s.closeSurveyDate desc ");
+			query.setParameter("keyword", keyword);
+			query.setParameter("active", active);
 			query.setFirstResult(surveyListRequest.getLastSurveyNumber());
 			query.setMaxResults(surveyListRequest.getNumberToRetrieve());
 		} else {
