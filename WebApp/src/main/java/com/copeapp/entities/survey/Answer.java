@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -24,19 +25,19 @@ import lombok.Setter;
 @Entity
 @Table(name="answers")
 public class Answer {
-//	TODO aggiungere url per immagine
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="answersGenerator")
 	@SequenceGenerator(name="answersGenerator", sequenceName="answers_sequence")
 	private Integer answerId; 
 	
 	@NonNull
+	@OneToOne(fetch = FetchType.LAZY)
 	private AnswerContent answerContent;
 	
 	@NonNull
 	private Integer votesNumber;
 	
-	@NonNull
 	@OneToMany(
 			fetch = FetchType.LAZY,
 			mappedBy = "answer"

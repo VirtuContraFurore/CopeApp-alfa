@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,21 +35,23 @@ public class SurveyList extends HttpServlet{
 		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
 		SurveyRequestListDTO surveyListRequest = om.readValue(request.getInputStream(), SurveyRequestListDTO.class);
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();		
-		Query query;
+		TypedQuery<Survey> query;
 
 		if (!surveyListRequest.isMine()) {
 			String keyword = (surveyListRequest.getKeyword().isEmpty()) ? "" : surveyListRequest.getKeyword();
 			String active = (surveyListRequest.isActive()) ? ">" : "<=";
-			query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate :active current_timestamp) AND (s.openSurveyDate > current_timestamp) LIKE :keyword ORDER BY s.closeSurveyDate desc ");
-			query.setParameter("keyword", keyword);
-			query.setParameter("active", active);
+			if (keyword.isEmpty()) {
+				query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate "+active+" current_timestamp) AND (s.openSurveyDate > current_timestamp) ORDER BY s.closeSurveyDate DESC", Survey.class);
+			} else {
+				query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate "+active+" current_timestamp) AND (s.openSurveyDate > current_timestamp) LIKE :keyword ORDER BY s.closeSurveyDate DESC", Survey.class);
+				query.setParameter("keyword", keyword);
+			}
 			query.setFirstResult(surveyListRequest.getLastSurveyNumber());
 			query.setMaxResults(surveyListRequest.getNumberToRetrieve());
 		} else {
-			query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId) ORDER BY s.closeSurveyDate desc");
+			query = entitymanager.createQuery("FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId) ORDER BY s.closeSurveyDate DESC", Survey.class);
 			query.setParameter("userId" , currentUser.getUserId());
 		}
-		@SuppressWarnings("unchecked")
 		List<Survey> surveys = query.getResultList();
 
 		ArrayList<SurveyMiniDTO> miniDTO= new ArrayList<SurveyMiniDTO>();
@@ -64,8 +66,7 @@ public class SurveyList extends HttpServlet{
 				miniDTO.add(DozerMapper.getMapper().map(s, SurveyMiniDTO.class));
 				miniDTO.get(miniDTO.size()-1).setVoters(voteNumbers);
 			}
-		} 
-		//response.setStatus(HttpStatusUtility.OK); //TODO lo mettiamo dappertutto o non lo mettinamo?
+		}
 		om.writeValue(response.getOutputStream(), new SurveyResponseListDTO(miniDTO));
 	}
 }

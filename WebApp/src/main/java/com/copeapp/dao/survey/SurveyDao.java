@@ -3,6 +3,7 @@ package com.copeapp.dao.survey;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.exception.SurveyExcption;
@@ -15,7 +16,7 @@ public class SurveyDao {
 	public static Survey getSurveyById (int surveyId) {
 
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		Query query = entitymanager.createQuery("FROM surveys s WHERE (s.surveyId = :surveyId)", Survey.class);
+		TypedQuery<Survey> query = entitymanager.createQuery("FROM surveys s WHERE (s.surveyId = :surveyId)", Survey.class);
 		query.setParameter("surveyId", surveyId);
 		try {
 			return (Survey) query.getSingleResult();

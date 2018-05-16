@@ -35,7 +35,7 @@ public class SurveyCreate extends HttpServlet{
 
 		boolean canAccess = false;
 		for (Role r : currentUser.getRoles()) {
-			if (r.getDescription()=="redattore" || r.getDescription()=="admin") {	//controllo se l'utente può creare survey
+			if (r.getRole().equalsIgnoreCase("redattore") || r.getRole().equalsIgnoreCase("admin")) {	//controllo se l'utente può creare survey
 				canAccess=true;
 			}
 		}

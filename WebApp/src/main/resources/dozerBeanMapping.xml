@@ -14,7 +14,7 @@
 	<mapping type="one-way" map-null="true" map-empty-string="true">
 		<class-a>com.copeapp.dto.survey.SurveyDTO</class-a>
 		<class-b>com.copeapp.entities.survey.Survey</class-b>
-		<field-exclude>
+		<field-exclude type="one-way">
 			<a>surveyId</a>
 			<b>surveyId</b>
 		</field-exclude>

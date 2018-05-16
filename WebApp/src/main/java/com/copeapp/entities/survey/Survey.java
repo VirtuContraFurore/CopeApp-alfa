@@ -37,7 +37,7 @@ public class Survey {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="surveysGenerator")
 	@SequenceGenerator(name="surveysGenerator", sequenceName="surveys_sequence")
-	private int surveyId; 
+	private int surveyId;
 	
 	@NonNull
 	//@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)

@@ -4,7 +4,7 @@ import java.util.Base64;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.copeapp.entities.common.User;
 import com.copeapp.exception.CopeAppGenericException;
@@ -16,35 +16,10 @@ import com.copeapp.utilities.MessageUtility;
 
 public class UserDAO {
 	
-	/*
-	public static User selectById (Integer userId) {
-		
-		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		return entitymanager.find(User.class, userId);
-	}
-	
-	
-	
-	public static User selectByIdException (Integer userId) {
-		
-		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.userId = :userId", User.class);
-		query.setParameter("userId", userId);
-		return (User) query.getSingleResult();
-	}
-	
-	public static User selectByUsernameException (String username) {
-		
-		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		Query query = entitymanager.createQuery("SELECT u FROM User u WHERE u.username = :username OR u.mail = :username", User.class);
-		query.setParameter("username", username);
-		return (User) query.getSingleResult();
-	}*/
-	
 	public static User selectByUsername (String username, String password) throws LoginException{
 		
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		Query query = entitymanager.createQuery("FROM User WHERE (username = :username OR mail = :username)", User.class);
+		TypedQuery<User> query = entitymanager.createQuery("FROM User WHERE (username = :username OR mail = :username)", User.class);
 		query.setParameter("username", username);
 		User selectedUser;
 		try {

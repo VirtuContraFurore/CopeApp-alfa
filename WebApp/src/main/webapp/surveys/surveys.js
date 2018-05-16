@@ -13,7 +13,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 	$scope.refreshActive = function() {
 		surveyService.getSurveys($scope.user, true, false,
 				$scope.activeSurveys.length).then(function(response) {
-			for (var a = 0; a < data.surveyMini.length; a++) {
+			for (var a = 0; a < response.data.surveyMini.length; a++) {
 				$scope.activeSurveys.push(data.surveyMini[a]);
 			}
 		}, $scope.serverErrorCallback);
@@ -21,8 +21,8 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 	$scope.finishedSurveys = [];
 	$scope.refreshFinished = function() {
 		surveyService.getSurveys($scope.user, false, false,
-				$scope.finishedSurveys.length).then(function(data) {
-			for (var a = 0; a < data.surveyMini.length; a++) {
+				$scope.finishedSurveys.length).then(function(response) {
+			for (var a = 0; a < response.data.surveyMini.length; a++) {
 				$scope.finishedSurveys.push(data.surveyMini[a]);
 			}
 		}, $scope.serverErrorCallback);
@@ -30,8 +30,8 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 	$scope.mySurveys = [];
 	$scope.refreshMine = function() {
 		surveyService.getSurveys($scope.user, false, true,
-				$scope.mySurveys.length).then(function(data) {
-			for (var a = 0; a < data.surveyMini.length; a++) {
+				$scope.mySurveys.length).then(function(response) {
+			for (var a = 0; a < response.data.surveyMini.length; a++) {
 				$scope.mySurveys.push(data.surveyMini[a]);
 			}
 		}, $scope.serverErrorCallback);

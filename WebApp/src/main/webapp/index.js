@@ -85,7 +85,7 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 	
 	//gestione user
 //	$scope.user;  //mettere per attivare la login
-	$scope.user = {"userId":1,"mail":"cerammerda@gioli.it","firstname":"Luca","lastname":"Ceragioli","username":"Cerammerda","classe":"5","sezione":"F","password":"VincioGay","roles":[{"roleId":1,"role":"studente","description":"Studente"},{"roleId":2,"role":"prof","description":"Professore"},{"roleId":3,"role":"moderatore","description":"Moderatore"},{"roleId":4,"role":"admin","description":"Amministratore"},{"roleId":5,"role":"redattore","description":"Redattore"},{"roleId":6,"role":"rappresentante","description":"Rappresentante"}],"imageUrl":"cerammerda@gioli.it","wallpaper":"default","firstEntry":false};
+	$scope.user = {"userId":102,"mail":"gianlucagalletti@ymail.com","firstname":"Gallo","lastname":"5","username":"Gianluca","classe":"C","sezione":"VincioGay","password":"Galletti","roles":[{"roleId":1,"role":"studente","description":"Studente"},{"roleId":2,"role":"prof","description":"Professore"},{"roleId":3,"role":"moderatore","description":"Moderatore"},{"roleId":4,"role":"admin","description":"Amministratore"},{"roleId":5,"role":"redattore","description":"Redattore"},{"roleId":6,"role":"rappresentante","description":"Rappresentante"}],"imageUrl":"gianlucagalletti@ymail.com","wallpaper":"default","firstEntry":false};
 	$scope.getUser = function() {return $scope.user}
 	$scope.setUser = function(set) {$scope.user = set}
 	

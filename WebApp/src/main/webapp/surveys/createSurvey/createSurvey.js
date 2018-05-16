@@ -9,16 +9,16 @@ app.controller("CreateSurveyCtrl", CreateSurveyCtrl);
 function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMenu, FileUploader) {
 
 	$scope.question = "";
-	$scope.minPublishDate = $moment(new Date).add(0, 'days').toDate();
-	$scope.maxPublishDate = $moment(new Date).add(9, 'months').toDate();
-	$scope.startDate = $moment(new Date).add(0, 'days').toDate();
-	$scope.expireDate = $moment(new Date).add(1, "days").toDate();
+	$scope.minPublishDate = $moment(new Date).add(0, 'days').startOf("day").toDate();
+	$scope.maxPublishDate = $moment(new Date).add(9, 'months').startOf("day").toDate();
+	$scope.startDate = $moment(new Date).add(0, 'days').startOf("day").toDate();
+	$scope.expireDate = $moment(new Date).add(1, "days").startOf("day").toDate();
 	
 	$scope.$watch("startDate", function(value) {
-		$scope.minCloseDate = $moment(value).add(1, 'days').toDate();
-		$scope.maxCloseDate = $moment(value).add(9, 'months').toDate();
+		$scope.minCloseDate = $moment(value).add(1, 'days').startOf("day").toDate();
+		$scope.maxCloseDate = $moment(value).add(9, 'months').startOf("day").toDate();
 		if ($scope.expireDate.getTime() < value.getTime()) {
-			$scope.expireDate = $moment(value).add(1, "days").toDate();
+			$scope.expireDate = $moment(value).add(1, "days").startOf("day").toDate();
 		}
 	})
 
@@ -111,16 +111,19 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 	$scope.addAnswer = function(type) {
 		if (type=="DATE") {
 			$scope.answers.push({
+				votesNumber: 0,
 				answerType: ""+type+"",
 				answerContent: {answerText: $moment($scope.expireDate).add(1, "days").toDate(), answerImage: null}
 			})
 		} else if (type=="TEXT") {
 			$scope.answers.push({
+				votesNumber: 0,
 				answerType: ""+type+"",
 				answerContent: {answerText: "", answerImage: null}
 			})
 		} else if(type=="IMAGE") {
 			$scope.answers.push({
+				votesNumber: 0,
 				answerType: ""+type+"",
 				answerContent: {answerText: "", answerImage: ""}
 			})
@@ -161,7 +164,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		if($scope.expireDate.getTime() < $scope.startDate.getTime()) { error.push("La scadenza e' precedente alla pubblicazione");}
 		if($scope.selectedVoters.length < 1) { error.push("Nessuno potra' votare il sondaggio");}
 		if($scope.selectedViewers.length < 1) { error.push("Nessuno potra' vedere il sondaggio!");}
-		if($scope.answerNumber < 1) { error.push("Non e' possibile esprimere preferenze");}
+		if($scope.answerNumber < 1) { $scope.answerNumber = 1}
 		if($scope.answers.length < 1) { error.push("Il sondaggio non contiene risposte");}
 		if (error.length == 0) {return true}
 		return error;
@@ -185,7 +188,8 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 							insertUser: $scope.getUser(),
 							surveyVotersRoles: $scope.selectedVoters,
 							surveyViewersRoles: $scope.selectedViewers,
-							answers: $scope.answers
+							answers: $scope.answers,
+							voters: 0
 						}
 					for (var i = 0; i < survey.answers.length; i++) {
 						if (survey.answers[i].answerType == "DATA") {

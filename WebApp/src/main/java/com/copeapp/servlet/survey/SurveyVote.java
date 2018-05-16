@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,10 +39,10 @@ public class SurveyVote extends HttpServlet{
 		SurveyRequestVoteDTO surveyRequestVote = om.readValue(request.getInputStream(), SurveyRequestVoteDTO.class);						
 
 		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		Query query = entitymanager.createQuery("FROM surveys s WHERE (s.surveyId = :surveyId) order by date(s.closeSurveyDate) desc ", Survey.class);
+		TypedQuery<Survey> query = entitymanager.createQuery("SELECT Survey FROM Survey s WHERE (s.surveyId = :surveyId) order by date(s.closeSurveyDate) DESC ", Survey.class);
 		query.setParameter("surveyId", surveyRequestVote.getSurveyId());
 		try {
-			Survey survey = (Survey) query.getSingleResult();
+			Survey survey = query.getSingleResult();
 			ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());
 			commonRole.retainAll(survey.getSurveyVotersRoles());
 			if (!commonRole.isEmpty()) {
