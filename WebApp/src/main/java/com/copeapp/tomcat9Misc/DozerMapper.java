@@ -17,7 +17,7 @@ public class DozerMapper {
 		if (instance != null) {
 			return instance;
 		} else {
-			throw new NullPointerException("instanza di mapper non inizializzata");
+			return createMapper();
 		}
 	}
 	

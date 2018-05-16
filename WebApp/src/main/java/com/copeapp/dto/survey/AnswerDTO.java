@@ -1,5 +1,7 @@
 package com.copeapp.dto.survey;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +13,14 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnswerDTO {
-//	TODO aggiungere url per immagine e tipo domanda
+	
 	private Integer answerId; 
 	
 	@NonNull
-	private String answerContent;
+	private String answerType;
+	
+	@NonNull
+	private AnswerContentDTO answerContent;
 	
 	@NonNull
 	private Integer votesNumber;

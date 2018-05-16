@@ -31,7 +31,7 @@ public class Answer {
 	private Integer answerId; 
 	
 	@NonNull
-	private String answerContent;
+	private AnswerContent answerContent;
 	
 	@NonNull
 	private Integer votesNumber;

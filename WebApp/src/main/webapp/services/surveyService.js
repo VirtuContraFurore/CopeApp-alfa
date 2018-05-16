@@ -46,7 +46,7 @@ function SurveyService($q, $http) {
 					'Content-Type': "application/json",
 					'Authorization': btoa(user.mail+":"+user.password)
 				},
-				data: survey
+				data: {surveyDTO: survey}
 		}
 		return $http(req);
 	}

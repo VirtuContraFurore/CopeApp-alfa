@@ -78,14 +78,14 @@
 	     		<div ng-repeat="answer in answers" layout="row" layout-align="start center" style="padding-top: 0px">
 	     			<h3 style="margin-right: 10px">{{$index+1}}- </h3>
 	     			<md-input-container ng-if="answer.answerType == 'TEXT'" md-no-float flex md-truncate style="margin-bottom: 0px" class="md-block">
-				        <input required type="text" name="answer_{{$index+1}}" placeholder="Testo domanda {{$index+1}}" ng-model="answer.answerContent"/>
+				        <input required type="text" name="answer_{{$index+1}}" placeholder="Testo domanda {{$index+1}}" ng-model="answer.answerContent.answerText"/>
 						<div ng-messages="getField($index+1)">
 	            			<div ng-message="required">Questo campo &#xE8; obbligatorio</div>
 	          			</div>
 	     			</md-input-container>
 	     			<div ng-if="answer.answerType == 'IMAGE'"  flex layout="row" layout-align="start center">
 		     			<md-input-container md-no-float flex md-truncate style="margin-bottom: 0px" class="md-block">
-					        <input required type="text" name="answer_{{$index+1}}" placeholder="Testo domanda {{$index+1}}" ng-model="answer.answerContent[0]"/>
+					        <input required type="text" name="answer_{{$index+1}}" placeholder="Testo domanda {{$index+1}}" ng-model="answer.answerContent.answerText"/>
 							<div ng-messages="getField($index+1)">
 		            			<div ng-message="required">Questo campo &#xE8; obbligatorio</div>
 		          			</div>
@@ -96,7 +96,7 @@
 		     			</md-button>
 	     			</div>
 	     			<div ng-if="answer.answerType == 'DATE'">
-	     				<md-datepicker required name="answer_{{$index+1}}" ng-model="answer.answerContent" md-placeholder="Seleziona data" md-min-date="expireDate"></md-datepicker>
+	     				<md-datepicker required name="answer_{{$index+1}}" ng-model="answer.answerContent.answerText" md-placeholder="Seleziona data" md-min-date="expireDate"></md-datepicker>
 	     			</div>
 	     			<md-button class="md-icon-button md-warn" ng-click="removeAnswer($index)">
 	    				<md-icon class="material-icons">delete</md-icon>

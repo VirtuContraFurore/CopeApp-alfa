@@ -44,7 +44,7 @@ public class SurveyCreate extends HttpServlet{
 			entitymanager.getTransaction().begin();
 			entitymanager.persist(survey);
 			entitymanager.getTransaction().commit();
-			entitymanager.close();			
+			entitymanager.close();
 		} else {
 			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
 		}

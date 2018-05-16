@@ -103,34 +103,32 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 			var result = reader.result;
 			var position = 5;
 			var output = [result.slice(0, position), item._file.type, result.slice(position)].join('');
-			$scope.answers[$scope.currentImageIndex].answerContent[1] = output;
+			$scope.answers[$scope.currentImageIndex].answerContent.answerImage = output;
 			$scope.showSimpleToast("Immagine caricata con successo", "bottom right", 2500);
 		}
 	}
 	
 	$scope.addAnswer = function(type) {
-		$scope.orderedTypes.push(type);
 		if (type=="DATE") {
 			$scope.answers.push({
 				answerType: ""+type+"",
-				answerContent: $moment($scope.expireDate).add(1, "days").toDate()
+				answerContent: {answerText: $moment($scope.expireDate).add(1, "days").toDate(), answerImage: null}
 			})
 		} else if (type=="TEXT") {
 			$scope.answers.push({
 				answerType: ""+type+"",
-				answerContent: ""
+				answerContent: {answerText: "", answerImage: null}
 			})
 		} else if(type=="IMAGE") {
 			$scope.answers.push({
 				answerType: ""+type+"",
-				answerContent: ["", ""]
+				answerContent: {answerText: "", answerImage: ""}
 			})
 		}
 		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	}
 	$scope.removeAnswer = function(index) {
 		$scope.answers.splice(index, 1);
-		$scope.orderedTypes.splice(index, 1);
 		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	}
 	$scope.getField = function(index) {
@@ -177,18 +175,25 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		} else {
 			$scope.showActionToast("Il sondaggio sara' modificabile solo fino alla data di publicazione. Vuoi davvero procedere al caricamento?", "bottom right", 7500, "OK", function(response) {
 				if ( response == 'ok' ) {
-					surveyService.uploadSurvey($scope.user, {
-						question: $scope.question,
-						answersNumber: $scope.answerNumber,
-						openSurveyDate: $scope.startDate,
-						closeSurveyDate: $scope.expireDate,
-						insertDate: new Date(),
-						insertUser: $scope.getUser(),
-						surveyVotersRoles: $scope.selectedVoters,
-						surveyViewersRoles: $scope.selectedViewers,
-						orderedTypes: $scope.orderedTypes,
-						answers: $scope.answers
-					}).then(function() {}, $scope.serverErrorCallbackToast)
+					//castare le date in stringhe
+					var survey = {
+							question: $scope.question,
+							answersNumber: $scope.answerNumber,
+							openSurveyDate: $scope.startDate,
+							closeSurveyDate: $scope.expireDate,
+							insertDate: new Date(),
+							insertUser: $scope.getUser(),
+							surveyVotersRoles: $scope.selectedVoters,
+							surveyViewersRoles: $scope.selectedViewers,
+							answers: $scope.answers
+						}
+					for (var i = 0; i < survey.answers.length; i++) {
+						if (survey.answers[i].answerType == "DATA") {
+							var ac = survey.answers[i].answerContent.answerText;
+							survey.answers[i].answerContent.answerText = ac.getDate()+"/"+ac.getMonth()+"/"+ac.getFullYear()+" "+ac.getHours()+":"+ac.getMinutes()+":"+ac.getSeconds();
+						}
+					}
+					surveyService.uploadSurvey($scope.user, survey).then(function() {}, $scope.serverErrorCallbackToast)
 				}
 			});
 		}

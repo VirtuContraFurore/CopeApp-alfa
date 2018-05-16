@@ -103,76 +103,16 @@
 				<artifactId>lifecycle-mapping</artifactId>
 				<version>1.0.0</version>
 			</plugin>
-
-			<plugin>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok-maven-plugin</artifactId>
-				<version>1.16.14.0</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>delombok</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>src/main/java/</sourceDirectory>
-							<addOutputDirectory>true</addOutputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<version>${apt.version}</version>
-				<executions>
-					<execution>
-						<id>generate</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-
-							<outputDirectory>target/generated-sources/annotations</outputDirectory>
-							<processors>
-								<processor>org.mapstruct.ap.MappingProcessor</processor>
-							</processors>
-							<logOnlyOnError>true</logOnlyOnError>
-						</configuration>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>org.mapstruct</groupId>
-						<artifactId>mapstruct-processor</artifactId>
-						<version>${org.mapstruct.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.6.0</version>
 				<configuration>
-					<!-- <generatedSourcesDirectory> -->
-					<!-- target/generated-sources/annotations -->
-					<!-- </generatedSourcesDirectory> -->
-					<!-- <annotationProcessorPaths> -->
-					<!-- <path> -->
-					<!-- <groupId>org.mapstruct</groupId> -->
-					<!-- <artifactId>mapstruct-processor</artifactId> -->
-					<!-- <version>${org.mapstruct.version}</version> -->
-					<!-- </path> -->
-					<!-- </annotationProcessorPaths> -->
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
 					<compilerVersion>${jdk.version}</compilerVersion>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -185,8 +125,6 @@
 					<wtpversion>2.0</wtpversion>
 				</configuration>
 			</plugin>
-
-			<!-- For Maven Tomcat Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -195,48 +133,7 @@
 					<path>/CopeApp</path>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
-
 			</plugin>
-
-			<!-- <plugin> -->
-			<!-- <groupId>com.mysema.maven</groupId> -->
-			<!-- <artifactId>apt-maven-plugin</artifactId> -->
-			<!-- <version>${apt.version}</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <id>generate</id> -->
-			<!-- <phase>generate-sources</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>process</goal> -->
-			<!-- </goals> -->
-			<!-- <configuration> -->
-			<!-- <outputDirectory>target/generated-sources/annotations</outputDirectory> -->
-			<!-- <processors> -->
-			<!-- <processor>org.mapstruct.ap.MappingProcessor</processor> -->
-			<!-- </processors> -->
-			<!-- <logOnlyOnError>true</logOnlyOnError> -->
-			<!-- </configuration> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- <dependencies> -->
-			<!-- <dependency> -->
-			<!-- <groupId>org.mapstruct</groupId> -->
-			<!-- <artifactId>mapstruct-processor</artifactId> -->
-			<!-- <version>${org.mapstruct.version}</version> -->
-			<!-- </dependency> -->
-			<!-- </dependencies> -->
-			<!-- </plugin> -->
-
-
-
-
-
-
-
-
-
-
-
 		</plugins>
 
 	</build>
