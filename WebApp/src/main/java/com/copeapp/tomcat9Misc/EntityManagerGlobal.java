@@ -22,6 +22,7 @@ public class EntityManagerGlobal {
 	}
 	public void commitEntityManager() {
 		entityManager.getTransaction().commit();
+		entityManager.getTransaction().begin();
 	}
 	public void destroyEntityManager() {
 		if (entityManager.getTransaction().isActive()) {

@@ -11,6 +11,7 @@ public class PopulateDatabase {
 	public static void doPopulate() {
 		
 		EntityManagerGlobal.getInstance().createEntityManager();
+		
 		List<Role> roles = new ArrayList<Role>();
 		roles.add(new Role("studente", "Studente"));
 		roles.add(new Role("prof", "Professore"));
