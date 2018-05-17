@@ -1,6 +1,6 @@
 app.controller("SurveyPageCtrl", SurveyPageCtrl);
 
-function SurveyPageCtrl($scope, $sce, surveyId) {
+function SurveyPageCtrl($scope, $sce, surveyId, surveySerivce) {
 
 	$scope.surveyId = surveyId;
 	$scope.answers = [];
