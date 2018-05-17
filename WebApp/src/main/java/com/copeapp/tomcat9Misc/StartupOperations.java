@@ -14,7 +14,8 @@ public class StartupOperations implements ServletContextListener {
 		//execute commands after startup
 		System.out.println("Server started up");
 		EntityManagerFactoryGlobal.getInstance().createEMFactory();
-		PopulateDatabase.doPopulate(); //Rimuovere se hibernate.hbm2ddl.auto su persistence.xml e' settato su update
+		//TODO provare a fargli capire da solo se ha appena fatto un refresh della base dati
+//		PopulateDatabase.doPopulate(); //Rimuovere se hibernate.hbm2ddl.auto su persistence.xml e' settato su update
 	}
 	
 	@Override

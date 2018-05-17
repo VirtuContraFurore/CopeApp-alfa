@@ -2,7 +2,6 @@ package com.copeapp.dao.commons;
 
 import java.util.Base64;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
@@ -10,7 +9,6 @@ import com.copeapp.entities.common.User;
 import com.copeapp.exception.CopeAppGenericException;
 import com.copeapp.exception.InvalidAuthTokenException;
 import com.copeapp.exception.LoginException;
-import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
 import com.copeapp.tomcat9Misc.EntityManagerGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;

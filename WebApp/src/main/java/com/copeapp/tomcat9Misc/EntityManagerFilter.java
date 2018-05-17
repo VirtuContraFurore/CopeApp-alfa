@@ -10,7 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(urlPatterns = {"/*"}, filterName="EntityManagerFilter")
+@WebFilter(urlPatterns = {"/rest/*"}, filterName="EntityManagerFilter")
 public class EntityManagerFilter implements Filter{
 
 	@Override
