@@ -1,5 +1,6 @@
 package com.copeapp.entities.survey;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,12 +20,13 @@ public class AnswerContent {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="answersContentsGenerator")
-	@SequenceGenerator(name="answersContentsGenerator", sequenceName="answersContents_sequence")
+	@SequenceGenerator(name="answersContentsGenerator", sequenceName="answersContents_sequence", allocationSize = 1, initialValue = 50)
 	private Integer answerContentId;
 	
 	@NonNull
 	private String answerText;
 	
+	@Column(name="answerImage", columnDefinition="TEXT")
 	private String answerImage;
 
 }

@@ -24,12 +24,22 @@ public class TestUserEntity {
 		@SuppressWarnings("unchecked")
 		List<Role> roles = query.getResultList();
 		
-		User user = new User("Gianluca", "Galletti", "Gallo", "5", "C", "VincioGay", roles, false);
-		user.setMail("gianlucagalletti@ymail.com");
+		User user = new User("FabioTex", "VincioGay", "Fabio", "Tessaro", "5", "F", roles, false);
+		user.setMail("fabio.tessaro.porta@gmail.com");
+		user.setImageUrl("");
+		user.setWallpaper("default");
+		User user1 = new User("Gallo", "VincioGay", "Gianluca", "Galletti", "5", "C", roles, false);
+		user.setMail("gianlucagalletti@ymail.it");
+		user.setImageUrl("");
+		user.setWallpaper("default");
+		User user2 = new User("Cerammerda", "VincioGay", "Luca", "Ceragioli", "5", "F", roles, false);
+		user.setMail("cerammerda@gioli.it");
 		user.setImageUrl("");
 		user.setWallpaper("default");
 
 		entitymanager.persist(user);
+		entitymanager.persist(user1);
+		entitymanager.persist(user2);
 		entitymanager.getTransaction().commit();
 
 		entitymanager.close();

@@ -28,7 +28,7 @@ public class Market {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="marketGenerator")
-	@SequenceGenerator(name="marketGenerator", sequenceName="market_sequence")
+	@SequenceGenerator(name="marketGenerator", sequenceName="market_sequence", allocationSize = 1, initialValue = 50)
 	private Integer marketId = null;
 	
 	@NonNull

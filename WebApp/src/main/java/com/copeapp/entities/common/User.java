@@ -33,7 +33,7 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="usersGenerator")
-	@SequenceGenerator(name="usersGenerator", sequenceName="users_sequence")
+	@SequenceGenerator(name="usersGenerator", sequenceName="users_sequence", allocationSize = 1, initialValue = 50)
 	private Integer userId;
 	/*
 	 * TODO: Fare si che username e mail non possano essere tra loro coincidenti

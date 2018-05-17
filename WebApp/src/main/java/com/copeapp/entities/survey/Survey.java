@@ -3,6 +3,7 @@ package com.copeapp.entities.survey;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,11 +37,10 @@ public class Survey {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="surveysGenerator")
-	@SequenceGenerator(name="surveysGenerator", sequenceName="surveys_sequence")
+	@SequenceGenerator(name="surveysGenerator", sequenceName="surveys_sequence", allocationSize = 1, initialValue = 50)
 	private int surveyId;
 	
 	@NonNull
-	//@Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
 	private String question;
 	
 	@NonNull
@@ -83,6 +83,6 @@ public class Survey {
 	private List<Role> surveyViewersRoles;
 	
 	@NonNull
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Answer> answers;
 }

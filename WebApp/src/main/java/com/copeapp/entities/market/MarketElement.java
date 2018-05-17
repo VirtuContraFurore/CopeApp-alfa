@@ -17,7 +17,7 @@ public class MarketElement {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="marketElementGenerator")
-	@SequenceGenerator(name="marketElementGenerator", sequenceName="market_elements_sequence")
+	@SequenceGenerator(name="marketElementGenerator", sequenceName="market_elements_sequence", allocationSize = 1, initialValue = 50)
 	private Integer marketElementId;
 	
 	@NonNull

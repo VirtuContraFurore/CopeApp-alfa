@@ -2,6 +2,7 @@ package com.copeapp.entities.survey;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,11 +29,11 @@ public class Answer {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="answersGenerator")
-	@SequenceGenerator(name="answersGenerator", sequenceName="answers_sequence")
+	@SequenceGenerator(name="answersGenerator", sequenceName="answers_sequence", allocationSize = 1, initialValue = 50)
 	private Integer answerId; 
 	
 	@NonNull
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private AnswerContent answerContent;
 	
 	@NonNull
@@ -40,7 +41,8 @@ public class Answer {
 	
 	@OneToMany(
 			fetch = FetchType.LAZY,
-			mappedBy = "answer"
+			mappedBy = "answer",
+			cascade = CascadeType.ALL
 	)
 	private List<Vote> votes;
 }

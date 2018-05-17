@@ -24,7 +24,7 @@ public class Vote {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="votesGenerator")
-	@SequenceGenerator(name="votesGenerator", sequenceName="votes_sequence")
+	@SequenceGenerator(name="votesGenerator", sequenceName="votes_sequence", allocationSize = 1, initialValue = 50)
 	private int voteId;
 	
 	@NonNull

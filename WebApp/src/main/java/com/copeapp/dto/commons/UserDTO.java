@@ -32,7 +32,7 @@ public class UserDTO {
 	private String classe;
 	
 	@NonNull
-	private String section;
+	private String sezione;
 	
 	@NonNull
 	private List<RoleDTO> roles;
