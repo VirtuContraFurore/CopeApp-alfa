@@ -62,7 +62,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 				surveyId : id
 			}, // passa il campo id ad alias surveyId al controller del dialog
 			controller : SurveyPageCtrl,
-			templateUrl : 'surveyPageTMPL.html',
+			templateUrl : 'surveys/surveyPage/surveyPageTMPL.html',
 			parent : angular.element(document.body),
 			targetEvent : ev,
 			clickOutsideToClose : true,
