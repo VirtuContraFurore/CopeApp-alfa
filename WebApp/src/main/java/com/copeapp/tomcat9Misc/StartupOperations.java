@@ -13,8 +13,8 @@ public class StartupOperations implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		//execute commands after startup
 		System.out.println("Server started up");
-		//TODO scoprire perchè non va la persistence
 		EntityManagerFactoryGlobal.getInstance().createEMFactory();
+		PopulateDatabase.doPopulate(); //Rimuovere se hibernate.hbm2ddl.auto su persistence.xml e' settato su update
 	}
 	
 	@Override

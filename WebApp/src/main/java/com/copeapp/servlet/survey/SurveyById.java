@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.copeapp.dao.commons.UserDAO;
-import com.copeapp.dao.survey.SurveyDao;
+import com.copeapp.dao.survey.SurveyDAO;
 import com.copeapp.dto.survey.SurveyDTO;
 import com.copeapp.dto.survey.SurveyRequestByIdDTO;
 import com.copeapp.dto.survey.SurveyResponseByIdDTO;
@@ -34,8 +34,7 @@ public class SurveyById extends HttpServlet{
 		ObjectMapper objMap = new ObjectMapper();
 		SurveyRequestByIdDTO surveyRequestById = objMap.readValue(request.getInputStream(), SurveyRequestByIdDTO.class);
 		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
-
-		Survey requiredSurvey = SurveyDao.getSurveyById(surveyRequestById.getSurveyId());
+		Survey requiredSurvey = SurveyDAO.getSurveyById(surveyRequestById.getSurveyId());
 
 		ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());
 		commonRole.retainAll(requiredSurvey.getSurveyViewersRoles());

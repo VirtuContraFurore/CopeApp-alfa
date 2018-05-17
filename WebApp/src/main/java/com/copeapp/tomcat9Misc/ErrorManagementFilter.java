@@ -25,6 +25,7 @@ public class ErrorManagementFilter implements Filter{
 		HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 		httpServletResponse.setHeader("Content-Type", "application/json");
 		
+		//TODO aggiungere 
 		try {
 			chain.doFilter(request, response);
 		} catch (CopeAppGenericException e) {

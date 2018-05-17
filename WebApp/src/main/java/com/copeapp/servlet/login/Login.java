@@ -26,8 +26,11 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		ObjectMapper objMap = new ObjectMapper();
+		
 		LoginRequestDTO loginRequest = objMap.readValue(request.getInputStream(), LoginRequestDTO.class);
+		
 		ObjectsValidationUtility.validateNonNullParameters(loginRequest);
+		
 		User user = UserDAO.selectByUsername(loginRequest.getMail(), loginRequest.getPassword());
 		
 		if (user.getImageUrl().isEmpty() || user.getImageUrl() == null) { user.setImageUrl(user.getMail()); }

@@ -11,6 +11,7 @@ import com.copeapp.exception.CopeAppGenericException;
 import com.copeapp.exception.InvalidAuthTokenException;
 import com.copeapp.exception.LoginException;
 import com.copeapp.tomcat9Misc.EntityManagerFactoryGlobal;
+import com.copeapp.tomcat9Misc.EntityManagerGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;
 
@@ -18,8 +19,8 @@ public class UserDAO {
 	
 	public static User selectByUsername (String username, String password) throws LoginException{
 		
-		EntityManager entitymanager = EntityManagerFactoryGlobal.getInstance().getEmfactory().createEntityManager();
-		TypedQuery<User> query = entitymanager.createQuery("FROM User WHERE (username = :username OR mail = :username)", User.class);
+
+		TypedQuery<User> query = EntityManagerGlobal.getInstance().getEntityManager().createQuery("FROM User WHERE (username = :username OR mail = :username)", User.class);
 		query.setParameter("username", username);
 		User selectedUser;
 		try {
