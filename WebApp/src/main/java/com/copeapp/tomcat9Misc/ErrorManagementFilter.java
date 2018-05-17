@@ -16,8 +16,8 @@ import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebFilter( urlPatterns = {"/*"} )
-public class ErrorManagementFilter implements Filter{
+@WebFilter(urlPatterns = {"/*"}, filterName="ErrorManagerFilter")
+public class ErrorManagementFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -39,7 +39,4 @@ public class ErrorManagementFilter implements Filter{
 			om.writeValue(httpServletResponse.getOutputStream(), errorResponse);
 		}
 	}
-
-	
-	
 }
