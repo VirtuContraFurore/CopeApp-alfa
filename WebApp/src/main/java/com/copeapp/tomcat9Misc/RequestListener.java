@@ -11,7 +11,9 @@ public class RequestListener implements ServletRequestListener {
 
 	@Override
 	public void requestDestroyed(ServletRequestEvent sre) {
-		EntityManagerGlobal.entityManager.get().getTransaction().commit();
+		if (EntityManagerGlobal.entityManager.get().getTransaction().isActive()) {
+			EntityManagerGlobal.entityManager.get().getTransaction().commit();
+		}
 		EntityManagerGlobal.entityManager.get().close();
 		EntityManagerGlobal.entityManager.remove();
 	}
