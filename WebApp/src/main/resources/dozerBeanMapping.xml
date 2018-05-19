@@ -7,7 +7,7 @@
 		<date-format>dd/MM/yyyy HH:mm:ss</date-format>
 		<wildcard>true</wildcard>
 	</configuration>
-	<mapping map-null="true" map-empty-string="true">
+	<mapping map-null="true" map-empty-string="true" type="bi-directional">
 		<class-a>com.copeapp.entities.survey.Answer</class-a>
 		<class-b>com.copeapp.dto.survey.AnswerDTO</class-b>
 	</mapping>
@@ -33,5 +33,17 @@
 		<class-a>com.copeapp.entities.common.Role</class-a>
 		<class-b>com.copeapp.dto.commons.RoleDTO</class-b>
 	</mapping>
-	
-<mapping type="one-way"><class-a>com.copeapp.dto.survey.AnswerContentDTO</class-a><class-b>com.copeapp.entities.survey.AnswerContent</class-b><field-exclude><a>answerContentId</a><b>answerContentId</b></field-exclude></mapping><mapping type="one-way"><class-a>com.copeapp.entities.survey.AnswerContent</class-a><class-b>com.copeapp.dto.survey.AnswerContentDTO</class-b></mapping></mappings>
+
+	<mapping type="one-way">
+		<class-a>com.copeapp.dto.survey.AnswerContentDTO</class-a>
+		<class-b>com.copeapp.entities.survey.AnswerContent</class-b>
+		<field-exclude>
+			<a>answerContentId</a>
+			<b>answerContentId</b>
+		</field-exclude>
+	</mapping>
+	<mapping type="one-way">
+		<class-a>com.copeapp.entities.survey.AnswerContent</class-a>
+		<class-b>com.copeapp.dto.survey.AnswerContentDTO</class-b>
+	</mapping>
+</mappings>

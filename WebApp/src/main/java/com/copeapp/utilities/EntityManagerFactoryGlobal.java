@@ -1,15 +1,16 @@
-package com.copeapp.tomcat9Misc;
+package com.copeapp.utilities;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 
 public class EntityManagerFactoryGlobal {
 
 	private static EntityManagerFactoryGlobal instance = new EntityManagerFactoryGlobal();
 	
-	@Getter
+	@Getter(AccessLevel.PACKAGE)
 	private EntityManagerFactory emfactory;
 	
 	private EntityManagerFactoryGlobal() {}

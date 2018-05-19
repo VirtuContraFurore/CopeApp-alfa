@@ -1,4 +1,4 @@
-package com.copeapp.tomcat9Misc;
+package com.copeapp.utilities;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -14,8 +14,9 @@ public class StartupOperations implements ServletContextListener {
 		//execute commands after startup
 		System.out.println("Server started up");
 		EntityManagerFactoryGlobal.getInstance().createEMFactory();
-		//TODO provare a fargli capire da solo se ha appena fatto un refresh della base dati
-//		PopulateDatabase.doPopulate(); //Rimuovere se hibernate.hbm2ddl.auto su persistence.xml e' settato su update
+		if(EntityManagerFactoryGlobal.getInstance().getEmfactory().getProperties().get("hibernate.hbm2ddl.auto").equals("create")) {
+			PopulateDatabase.doPopulate();
+		}
 	}
 	
 	@Override

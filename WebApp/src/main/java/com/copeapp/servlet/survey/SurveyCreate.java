@@ -12,8 +12,9 @@ import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dao.survey.SurveyDAO;
 import com.copeapp.dto.survey.SurveyRequestCreateDTO;
 import com.copeapp.entities.common.User;
+import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.tomcat9Misc.DozerMapper;
+import com.copeapp.utilities.DozerMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveycreate")
@@ -28,8 +29,11 @@ public class SurveyCreate extends HttpServlet{
 		ObjectMapper om = new ObjectMapper();
 		
 		SurveyRequestCreateDTO surveyRequest = om.readValue(request.getInputStream(), SurveyRequestCreateDTO.class);
-		
-		SurveyDAO.surveyCreate(currentUser, DozerMapper.getMapper().map(surveyRequest.getSurveyDTO(), Survey.class));
+		Survey survey = DozerMapper.getMapper().map(surveyRequest.getSurveyDTO(), Survey.class);
+		for (Answer a : survey.getAnswers()) {
+			a.setSurvey(survey);
+		}
+		SurveyDAO.surveyCreate(currentUser, survey);
 		
 	}
 }

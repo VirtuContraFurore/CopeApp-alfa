@@ -1,4 +1,4 @@
-package com.copeapp.tomcat9Misc;
+package com.copeapp.utilities;
 
 import java.io.IOException;
 
@@ -12,12 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.copeapp.dto.commons.ExceptionDTO;
 import com.copeapp.exception.CopeAppGenericException;
-import com.copeapp.utilities.HttpStatusUtility;
-import com.copeapp.utilities.MessageUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebFilter(urlPatterns = {"/*"}, filterName="ErrorManagerFilter")
-public class ErrorManagementFilter implements Filter {
+public class CopeAppFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -26,13 +24,17 @@ public class ErrorManagementFilter implements Filter {
 		httpServletResponse.setHeader("Content-Type", "application/json");
 		
 		try {
+			EntityManagerGlobal.initializeEntityManager();	
 			chain.doFilter(request, response);
+			EntityManagerGlobal.killEntityManager(false);
 		} catch (CopeAppGenericException e) {
+			EntityManagerGlobal.killEntityManager(true);
 			ObjectMapper om = new ObjectMapper();
 			httpServletResponse.setStatus(e.getHttpStatus());
 			ExceptionDTO errorResponse = new ExceptionDTO(e, e.getHttpStatus(), e.getMessage());
 			om.writeValue(httpServletResponse.getOutputStream(), errorResponse);
 		} catch (Throwable e) {
+			EntityManagerGlobal.killEntityManager(true);
 			ObjectMapper om = new ObjectMapper();
 			httpServletResponse.setStatus(HttpStatusUtility.INTERNAL_SERVER_ERROR);
 			ExceptionDTO errorResponse = new ExceptionDTO(e, HttpStatusUtility.INTERNAL_SERVER_ERROR, MessageUtility.INTERNAL_SERVER_ERROR);

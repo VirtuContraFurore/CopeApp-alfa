@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -33,6 +35,12 @@ public class Answer {
 	private Integer answerId; 
 	
 	@NonNull
+	@JoinColumn(name="surveyId")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Survey survey; 
+	
+	@NonNull
+	@JoinColumn(name="answerContentId")
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private AnswerContent answerContent;
 	
@@ -45,4 +53,6 @@ public class Answer {
 			cascade = CascadeType.ALL
 	)
 	private List<Vote> votes;
+	
+	
 }

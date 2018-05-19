@@ -19,7 +19,7 @@ import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.exception.SurveyExcption;
-import com.copeapp.tomcat9Misc.DozerMapper;
+import com.copeapp.utilities.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;

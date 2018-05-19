@@ -83,6 +83,6 @@ public class Survey {
 	private List<Role> surveyViewersRoles;
 	
 	@NonNull
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="survey", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Answer> answers;
 }

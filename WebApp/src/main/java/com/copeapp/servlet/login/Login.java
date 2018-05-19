@@ -13,7 +13,7 @@ import com.copeapp.dto.commons.UserDTO;
 import com.copeapp.dto.login.LoginRequestDTO;
 import com.copeapp.dto.login.LoginResponseDTO;
 import com.copeapp.entities.common.User;
-import com.copeapp.tomcat9Misc.DozerMapper;
+import com.copeapp.utilities.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.ObjectsValidationUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
