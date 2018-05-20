@@ -57,10 +57,14 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 		return remainingTime;
 	}
 	$scope.fullscreen = true;
+	
 	$scope.showSurveyDetails = function(ev, id) {
 		$mdDialog.show({
 			locals : {
-				surveyId : id
+				user: $scope.user,
+				surveyId : id,
+				serverErrorCallback: $scope.serverErrorCallback,
+				serverErrorCallbackToast: $scope.serverErrorCallbackToast
 			}, // passa il campo id ad alias surveyId al controller del dialog
 			controller : SurveyPageCtrl,
 			templateUrl : 'surveys/surveyPage/surveyPageTMPL.html',

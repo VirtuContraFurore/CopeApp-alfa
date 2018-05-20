@@ -1,14 +1,17 @@
 app.controller("SurveyPageCtrl", SurveyPageCtrl);
 
-function SurveyPageCtrl($scope, $sce, surveyId, surveySerivce) {
+function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, serverErrorCallback, serverErrorCallbackToast) {
 
+	$scope.user = user;
 	$scope.surveyId = surveyId;
+	$scope.serverErrorCallback = serverErrorCallback;
+	$scope.serverErrorCallbackToast = serverErrorCallbackToast;
 	$scope.answers = [];
 	$scope.question;
 	$scope.maxAnswers;
 	$scope.insertUser;  //inserire campi mancanti per completare survey details
 	
-	surveyService.getSurveyById($scope.surveyId).then(	//prende il survey con l'id passato e usa le answers
+	surveyService.getSurveyById($scope.user, $scope.surveyId).then(	//prende il survey con l'id passato e usa le answers
 		function(value) {
 			$scope.answers = value.data.answers;
 			$scope.question = value.data.question;
@@ -55,7 +58,7 @@ function SurveyPageCtrl($scope, $sce, surveyId, surveySerivce) {
 		} else {
 			$scope.showActionToast("Non sara' piu' possibile modificare il voto, continuare?", "bottom right", 7500, "OK", function(response) {
 				if ( response == 'ok' ) {
-					surveyService.uploadSurvey($scope.user, $scope.votes, surveyId).then(function() {
+					surveyService.sendVotes($scope.user, $scope.votes, $scope.surveyId).then(function() {
 						//TODO chiudere il dialog
 					}, $scope.serverErrorCallbackToast)
 				}

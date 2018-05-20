@@ -12,13 +12,13 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 	$scope.minPublishDate = $moment(new Date).add(0, 'days').startOf("day").toDate();
 	$scope.maxPublishDate = $moment(new Date).add(9, 'months').startOf("day").toDate();
 	$scope.startDate = $moment(new Date).add(0, 'days').startOf("day").toDate();
-	$scope.expireDate = $moment(new Date).add(1, "days").startOf("day").toDate();
+	$scope.expireDate = $moment(new Date).add(1, "days").endOf("day").toDate();
 	
 	$scope.$watch("startDate", function(value) {
-		$scope.minCloseDate = $moment(value).add(1, 'days').startOf("day").toDate();
-		$scope.maxCloseDate = $moment(value).add(9, 'months').startOf("day").toDate();
+		$scope.minCloseDate = $moment(value).add(1, 'days').endOf("day").toDate();
+		$scope.maxCloseDate = $moment(value).add(9, 'months').endOf("day").toDate();
 		if ($scope.expireDate.getTime() < value.getTime()) {
-			$scope.expireDate = $moment(value).add(1, "days").startOf("day").toDate();
+			$scope.expireDate = $moment(value).add(1, "days").endOf("day").toDate();
 		}
 	})
 

@@ -22,7 +22,7 @@ function SurveyService($q, $http) {
 		return $http(req);
 	}
 	
-	this.getSurveyById = function(id) {
+	this.getSurveyById = function(user, id) {
 		var req = {
 				method: 'POST',
 				url: 'http://localhost:8080/CopeApp/rest/surveybyid',
