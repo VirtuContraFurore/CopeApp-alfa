@@ -64,7 +64,9 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 				user: $scope.user,
 				surveyId : id,
 				serverErrorCallback: $scope.serverErrorCallback,
-				serverErrorCallbackToast: $scope.serverErrorCallbackToast
+				serverErrorCallbackToast: $scope.serverErrorCallbackToast,
+				showSimpleToast: $scope.showSimpleToast,
+				showActionToast: $scope.showActionToast
 			}, // passa il campo id ad alias surveyId al controller del dialog
 			controller : SurveyPageCtrl,
 			templateUrl : 'surveys/surveyPage/surveyPageTMPL.html',

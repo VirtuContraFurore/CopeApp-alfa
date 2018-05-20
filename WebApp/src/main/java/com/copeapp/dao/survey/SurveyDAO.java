@@ -24,7 +24,7 @@ public class SurveyDAO {
 	public static Survey getSurveyById(int surveyId) {
 		try {
 			TypedQuery<Survey> query = EntityManagerGlobal.getEntityManager()
-					.createQuery("FROM surveys s WHERE (s.surveyId = :surveyId)", Survey.class);
+					.createQuery("SELECT DISTINCT s FROM Survey s WHERE (s.surveyId = :surveyId)", Survey.class);
 			query.setParameter("surveyId", surveyId);
 			return (Survey) query.getSingleResult();
 		} catch (NoResultException nre) {
@@ -94,22 +94,16 @@ public class SurveyDAO {
 		return miniDTO;
 	}
 
-	public static void voteSurvey(User currentUser, int surveyId, List<AnswerDTO> answers) {
-		TypedQuery<Survey> query = EntityManagerGlobal.getEntityManager().createQuery(
-				"SELECT Survey FROM Survey s WHERE (s.surveyId = :surveyId) order by date(s.closeSurveyDate) DESC ",
-				Survey.class);
-		query.setParameter("surveyId", surveyId);
+	public static void voteSurvey(User currentUser, int surveyId, List<Integer> answersId) {
 		try {
-			Survey survey = query.getSingleResult();
-			ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());
-			commonRole.retainAll(survey.getSurveyVotersRoles());
-			if (!commonRole.isEmpty()) {
-				for (AnswerDTO a : answers) {
-					Vote v = new Vote(DozerMapper.getMapper().map(a, Answer.class), currentUser);
-					EntityManagerGlobal.getEntityManager().persist(v);
-				}
-			} else {
-				throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
+			TypedQuery<Answer> query = EntityManagerGlobal.getEntityManager().createQuery("SELECT DISTINCT a From Answer a WHERE (a.answerId = :answerId)", Answer.class);
+			ArrayList<Answer> votedAnswers = new ArrayList<Answer>();
+			for (Integer aId : answersId) {
+				query.setParameter("answerId", aId);
+				votedAnswers.add(query.getSingleResult());
+			}
+			for (Answer a : votedAnswers) {
+				EntityManagerGlobal.getEntityManager().persist(new Vote(a, currentUser));
 			}
 		} catch (NoResultException nre) {
 			throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND, nre);

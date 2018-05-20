@@ -61,7 +61,7 @@ function SurveyService($q, $http) {
 				},
 				data: {
 					surveyId: id,
-					answers: votes
+					answersId: votes
 				}
 		}
 		return $http(req);

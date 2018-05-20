@@ -10,23 +10,31 @@
 	        </md-button>
       	</div>
 	</md-toolbar>
-	<md-dialog-content layout="column" ng-if="!isVoted()">
+	
+	
+	
+	<md-dialog-content layout-padding flex layout="column" ng-if="!isVoted()">
 		<div ng-bind-html="question|trustAsHtml"></div>
+		<md-subheader style="background: white;">Risposte (voti rimasti: {{answerLeft}})</md-subheader>
 		<div layout="row" layout-wrap>
 			<div flex="50" ng-repeat="answer in answers">
-		  		<md-checkbox ng-checked="exists(answer)" ng-click="toggle(answer)">
-		    	{{ answer.answerContent }}
+		  		<md-checkbox ng-checked="exists(answer.answerId)" ng-click="toggle(answer.answerId)">
+		    	{{ answer.answerContent.answerText }}
 		  		</md-checkbox>
 			</div>
 		</div>
 	</md-dialog-content>
-	
-	<md-dialog-content layout="column" ng-if="isVoted()">
+	<md-dialog-content flex layout="column" ng-if="isVoted()">
 		<div ng-bind-html="question|trustAsHtml"></div>
 		<div flex="50" ng-repeat="answer in answers">
 				<canvas id="donught" class="chart chart-donught" chart-data="answer.voteNumber" chart-labels="answer.answerContent" chart-series="series">
 				</canvas>
 		</div>
 	</md-dialog-content>
-	
+	<md-dialog-actions layout="row">
+    	<md-button class="md-primary" ng-disabled="canVote" ng-click="sendVotes()">
+    		<md-icon class="material-icons">done</md-icon>
+    		Vota
+    	</md-button>
+    </md-dialog-actions>
 </md-dialog>

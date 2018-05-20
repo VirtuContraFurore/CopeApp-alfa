@@ -19,13 +19,15 @@ public class SurveyVote extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		ObjectMapper om = new ObjectMapper();
+		
 		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
+		
 		SurveyRequestVoteDTO surveyRequestVote = om.readValue(request.getInputStream(), SurveyRequestVoteDTO.class);						
 		
-		SurveyDAO.voteSurvey(currentUser, surveyRequestVote.getSurveyId(), surveyRequestVote.getAnswers());
+		SurveyDAO.voteSurvey(currentUser, surveyRequestVote.getSurveyId(), surveyRequestVote.getAnswersId());
 		
 		
 	}

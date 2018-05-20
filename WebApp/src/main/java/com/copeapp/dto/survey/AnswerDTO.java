@@ -14,7 +14,6 @@ public class AnswerDTO {
 	
 	private Integer answerId; 
 	
-	@NonNull
 	private String answerType;
 	
 	@NonNull
