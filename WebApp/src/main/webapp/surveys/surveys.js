@@ -36,10 +36,11 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 			}
 		}, $scope.serverErrorCallback);
 	}
-	$scope.refreshActive();
-	$scope.refreshFinished();
-	$scope.refreshMine();
-
+	$scope.$watch("user", function() {
+		$scope.refreshActive();
+		$scope.refreshFinished();
+		$scope.refreshMine();
+	});
 	$scope.modifySurvey = function(surveyId) {
 		surveyService.getSurveyById(surveyId).then(function(response) {
 			// gestire risposta del server

@@ -48,7 +48,7 @@ public class SurveyDAO {
 	}
 
 	public static ArrayList<SurveyMiniDTO> getSurveyMiniDTO(User currentUser, int lastSurveyNumber,
-			int numberToRetrieve, boolean isMine, String filterKey, boolean isActive) {
+		int numberToRetrieve, boolean isMine, String filterKey, boolean isActive) {
 		TypedQuery<Survey> query;
 		ArrayList<SurveyMiniDTO> miniDTO = new ArrayList<SurveyMiniDTO>();
 		if (!isMine) {

@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dao.survey.SurveyDAO;
+import com.copeapp.dto.survey.SurveyDTO;
 import com.copeapp.dto.survey.SurveyRequestCreateDTO;
+import com.copeapp.dto.survey.SurveyResponseCreateDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
@@ -34,6 +36,8 @@ public class SurveyCreate extends HttpServlet{
 			a.setSurvey(survey);
 		}
 		SurveyDAO.surveyCreate(currentUser, survey);
+		
+		om.writeValue(response.getOutputStream(), new SurveyResponseCreateDTO(DozerMapper.getMapper().map(survey, SurveyDTO.class)));
 		
 	}
 }
