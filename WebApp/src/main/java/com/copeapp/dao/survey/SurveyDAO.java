@@ -48,7 +48,7 @@ public class SurveyDAO {
 	}
 
 	public static ArrayList<SurveyMiniDTO> getSurveyMiniDTO(User currentUser, int lastSurveyNumber,
-			int numberToRetrieve, boolean isMine, String filterKey, boolean isActive) {
+		int numberToRetrieve, boolean isMine, String filterKey, boolean isActive) {
 		TypedQuery<Survey> query;
 		ArrayList<SurveyMiniDTO> miniDTO = new ArrayList<SurveyMiniDTO>();
 		if (!isMine) {
@@ -66,14 +66,14 @@ public class SurveyDAO {
 								Survey.class);
 				query.setParameter("keyword", keyword);
 			}
-			query.setFirstResult(lastSurveyNumber);
-			query.setMaxResults(numberToRetrieve);
 		} else {
 			query = EntityManagerGlobal.getEntityManager().createQuery(
 					"SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId) ORDER BY s.closeSurveyDate DESC",
 					Survey.class);
 			query.setParameter("userId", currentUser.getUserId());
 		}
+		query.setFirstResult(lastSurveyNumber);
+		query.setMaxResults(numberToRetrieve);
 		List<Survey> surveys = query.getResultList();
 		miniDTO = new ArrayList<SurveyMiniDTO>();
 		ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());

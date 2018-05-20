@@ -197,7 +197,10 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 							survey.answers[i].answerContent.answerText = ac.getDate()+"/"+ac.getMonth()+"/"+ac.getFullYear()+" "+ac.getHours()+":"+ac.getMinutes()+":"+ac.getSeconds();
 						}
 					}
-					surveyService.uploadSurvey($scope.user, survey).then(function() {}, $scope.serverErrorCallbackToast)
+					surveyService.uploadSurvey($scope.user, survey).then(function(response) {
+						$scope.goto("surveys");
+						$scope.showSimpleToast("Sondaggio salvato con ID : "+response.data.survey.surveyId, "bottom right", 2500);
+					}, $scope.serverErrorCallbackToast)
 				}
 			});
 		}
