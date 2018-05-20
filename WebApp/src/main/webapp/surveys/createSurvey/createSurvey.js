@@ -170,6 +170,14 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		return error;
 	}
 	
+	$scope.exit = function() {
+		$scope.showActionToast("Vuoi uscire? Perderai le modifiche.", "bottom right", 3000, "OK", function(response) {
+			if (response=="ok") {
+				$scope.goto("surveys");
+			}
+		});
+	}
+	
 
 	$scope.uploadSurvey = function() {
 		
