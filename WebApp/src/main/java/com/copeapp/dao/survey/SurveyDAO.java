@@ -53,7 +53,10 @@ public class SurveyDAO {
 		ArrayList<SurveyMiniDTO> miniDTO = new ArrayList<SurveyMiniDTO>();
 		if (!isMine) {
 			String keyword = (filterKey.isEmpty()) ? "" : filterKey;
-			String active = (isActive) ? ">" : "<=";
+			String active = "<"; //abbasso gli operatori ternari
+			if(isActive) {
+				active = ">";
+			}
 			if (keyword.isEmpty()) {
 				query = EntityManagerGlobal.getEntityManager()
 						.createQuery("SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate " + active

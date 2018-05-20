@@ -170,6 +170,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		return error;
 	}
 	
+
 	$scope.uploadSurvey = function() {
 		
 		var response = $scope.checkValidity()
