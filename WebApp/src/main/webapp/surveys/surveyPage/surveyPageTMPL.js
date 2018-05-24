@@ -28,6 +28,7 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 			$scope.answerLeft = $scope.maxAnswers;
 			$scope.isVoted = value.data.hasVoted;  //TODO creare due pagine diverse per voto e info
 			if ($scope.isVoted) {
+				var votesNumberTMP = 0;
 				for (var i = 0; i < $scope.answers.length; i++) {
 					$scope.data.push($scope.answers[i].votesNumber);
 					$scope.labels.push($scope.answers[i].answerContent.answerText);
