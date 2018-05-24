@@ -53,7 +53,7 @@ function SurveyService($q, $http) {
 	
 	this.sendVotes = function(user, votes, id) {
 		var req = {
-				method: 'POST',
+				method: 'PUT',
 				url: 'http://localhost:8080/CopeApp/rest/surveyvote',
 				headers: {
 					'Content-Type': "application/json",
@@ -62,6 +62,21 @@ function SurveyService($q, $http) {
 				data: {
 					surveyId: id,
 					answersId: votes
+				}
+		}
+		return $http(req);
+	}
+	
+	this.deleteSurvey = function(user, votes, id) {
+		var req = {
+				method: 'PUT',
+				url: 'http://localhost:8080/CopeApp/rest/surveydelete',
+				headers: {
+					'Content-Type': "application/json",
+					'Authorization': btoa(user.mail+":"+user.password)
+				},
+				data: {
+					surveyId: id
 				}
 		}
 		return $http(req);
