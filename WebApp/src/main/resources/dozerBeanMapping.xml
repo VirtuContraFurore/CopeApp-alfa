@@ -18,6 +18,10 @@
 			<a>surveyId</a>
 			<b>surveyId</b>
 		</field-exclude>
+		<field-exclude type="one-way">
+			<a>voters</a>
+			<b>voters</b>
+		</field-exclude>
 	</mapping>
 	<mapping type="one-way" map-null="true" map-empty-string="true">
 		<class-a>com.copeapp.entities.survey.Survey</class-a>

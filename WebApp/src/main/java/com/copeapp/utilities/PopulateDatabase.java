@@ -1,12 +1,15 @@
 package com.copeapp.utilities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
+import com.copeapp.entities.survey.Answer;
+import com.copeapp.entities.survey.Survey;
 
 public class PopulateDatabase {
 	
@@ -25,10 +28,10 @@ public class PopulateDatabase {
 			
 			for(Role r : roles) entityManager.persist(r);
 			
-			User user = new User("FabioTex", "VincioGay", "Fabio", "Tessaro", "5", "F", roles, false);
-			user.setMail("fabio.tessaro.porta@gmail.com");
-			user.setImageUrl("");
-			user.setWallpaper("default");
+			User user0 = new User("FabioTex", "VincioGay", "Fabio", "Tessaro", "5", "F", roles, false);
+			user0.setMail("fabio.tessaro.porta@gmail.com");
+			user0.setImageUrl("");
+			user0.setWallpaper("default");
 			User user1 = new User("Gallo", "VincioGay", "Gianluca", "Galletti", "5", "C", roles, false);
 			user1.setMail("gianlucagalletti@ymail.it");
 			user1.setImageUrl("");
@@ -38,7 +41,7 @@ public class PopulateDatabase {
 			user2.setImageUrl("");
 			user2.setWallpaper("default");
 			
-			entityManager.persist(user);
+			entityManager.persist(user0);
 			entityManager.persist(user1);
 			entityManager.persist(user2);
 		} finally {

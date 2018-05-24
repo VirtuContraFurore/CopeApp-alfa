@@ -8,4 +8,8 @@ public class SurveyResponseByIdDTO {
 
 	@NonNull
 	private SurveyDTO surveyDTO;
+	
+	@NonNull
+//	@UrMom
+	private boolean hasVoted;
 }

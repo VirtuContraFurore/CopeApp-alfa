@@ -34,14 +34,15 @@ public class SurveyById extends HttpServlet{
 		ObjectMapper objMap = new ObjectMapper();
 		SurveyRequestByIdDTO surveyRequestById = objMap.readValue(request.getInputStream(), SurveyRequestByIdDTO.class);
 		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
-		Survey requiredSurvey = SurveyDAO.getSurveyById(surveyRequestById.getSurveyId());
-
+		Survey requiredSurvey = SurveyDAO.getSurveyById(surveyRequestById.getSurveyId());  //ignorante
 		ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());
 		commonRole.retainAll(requiredSurvey.getSurveyViewersRoles());
 		SurveyResponseByIdDTO responseDTO;
 		if (!commonRole.isEmpty()) {
-			responseDTO = new SurveyResponseByIdDTO(DozerMapper.getMapper().map(requiredSurvey, SurveyDTO.class));
-			responseDTO.getSurveyDTO().setVoters(10); //TODO gestione dei votanti
+			responseDTO = new SurveyResponseByIdDTO(DozerMapper.getMapper().map(requiredSurvey, SurveyDTO.class), false);
+			if(SurveyDAO.hasVoted(currentUser, surveyRequestById.getSurveyId())) {
+				responseDTO.setHasVoted(true);
+			}
 			response.setStatus(HttpStatusUtility.OK);
 		} else {
 			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);

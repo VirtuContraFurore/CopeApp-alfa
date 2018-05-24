@@ -13,7 +13,7 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 	$scope.maxAnswers;
 	$scope.answerLeft;
 	$scope.insertUser;  //inserire campi mancanti per completare survey details
-	$scope.canVote = true;
+	$scope.canVote = true;	//TODO controllare se rientra nei voti e se rientra nei visualizer
 	
 	surveyService.getSurveyById($scope.user, $scope.surveyId).then(	//prende il survey con l'id passato e usa le answers
 		function(value) {
@@ -21,6 +21,7 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 			$scope.question = value.data.surveyDTO.question;
 			$scope.maxAnswers = value.data.surveyDTO.answersNumber;
 			$scope.answerLeft = $scope.maxAnswers;
+			$scope.isVoted = value.data.hasVoted;  //TODO creare due pagine diverse per voto e info
 		}, $scope.serverErrorCallbackToast);
 	
 	$scope.votes = [];
@@ -77,7 +78,7 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 			$scope.showActionToast("Non sara' piu' possibile modificare il voto, continuare?", "bottom right", 7500, "OK", function(response) {
 				if ( response == 'ok' ) {
 					surveyService.sendVotes($scope.user, $scope.votes, $scope.surveyId).then(function() {
-						$scope.vote($scope.votes)
+						$scope.vote($scope.votes);
 						$scope.showSimpleToast("Hai votato!", "bottom right", 2500);
 					}, $scope.serverErrorCallbackToast)
 				}

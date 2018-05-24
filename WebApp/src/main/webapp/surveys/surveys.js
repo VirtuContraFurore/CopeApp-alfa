@@ -58,7 +58,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 	}
 	$scope.fullscreen = true;
 	
-	$scope.showSurveyDetails = function(ev, id) {
+	$scope.showSurveyDetails = function(ev, id, index) {
 		$mdDialog.show({
 			locals : {
 				user: $scope.user,
@@ -75,7 +75,9 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 			clickOutsideToClose : true,
 			fullscreen : $scope.fullscreen
 		}).then(function(votes) {
-			
+			if(votes != null) {
+				$scope.activeSurveys[index].voters++;
+			}
 		}, function() {
 
 		});

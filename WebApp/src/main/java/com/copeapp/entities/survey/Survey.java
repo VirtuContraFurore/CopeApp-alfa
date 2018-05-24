@@ -85,4 +85,7 @@ public class Survey {
 	@NonNull
 	@OneToMany(mappedBy="survey", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Answer> answers;
+	
+	@NonNull
+	private Integer voters;
 }

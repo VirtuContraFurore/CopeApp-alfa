@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import com.copeapp.dto.survey.AnswerDTO;
 import com.copeapp.dto.survey.SurveyMiniDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
@@ -21,6 +21,20 @@ import com.copeapp.utilities.MessageUtility;
 
 public class SurveyDAO {
 
+	public static boolean hasVoted (User currentUser, int surveyId) {
+		TypedQuery<Long> query;
+		query = EntityManagerGlobal.getEntityManager().createQuery("SELECT COUNT(DISTINCT v) FROM Vote v INNER JOIN v.answer a INNER JOIN  v.user u INNER JOIN a.survey s WHERE (s.surveyId = :surveyId) AND ((u.userId = :userId))", Long.class);
+		query.setParameter("surveyId", surveyId);
+		query.setParameter("userId", currentUser.getUserId());
+		if(query.getFirstResult()!=0) { //TODO siamo scqrsi quasi quanto roveri con le query
+			return true;
+		} 
+		return false;
+		
+	}
+	
+	
+	
 	public static Survey getSurveyById(int surveyId) {
 		try {
 			TypedQuery<Survey> query = EntityManagerGlobal.getEntityManager()
@@ -40,6 +54,7 @@ public class SurveyDAO {
 			}
 		}
 		if (canAccess) {
+			survey.setVoters(0);
 			EntityManagerGlobal.getEntityManager().persist(survey);
 
 		} else {
@@ -83,12 +98,7 @@ public class SurveyDAO {
 		for (Survey s : surveys) {
 			commonRole.retainAll(s.getSurveyViewersRoles());
 			if (!commonRole.isEmpty()) { // se lo user ha dei ruoli che intersecano quelli del survey...
-				int voteNumbers = 0;
-				for (Answer a : s.getAnswers()) {
-					voteNumbers += a.getVotesNumber();
-				}
 				miniDTO.add(DozerMapper.getMapper().map(s, SurveyMiniDTO.class));
-				miniDTO.get(miniDTO.size() - 1).setVoters(voteNumbers);
 			}
 		}
 		return miniDTO;
@@ -104,7 +114,10 @@ public class SurveyDAO {
 			}
 			for (Answer a : votedAnswers) {
 				EntityManagerGlobal.getEntityManager().persist(new Vote(a, currentUser));
-			}
+			}									
+			Query queryAdd = EntityManagerGlobal.getEntityManager().createQuery("UPDATE Survey s SET voters = s.voters + 1 WHERE s.surveyId = :surveyId");
+			queryAdd.setParameter("surveyId", surveyId);
+			queryAdd.executeUpdate();
 		} catch (NoResultException nre) {
 			throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND, nre);
 		}
