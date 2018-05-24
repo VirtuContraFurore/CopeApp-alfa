@@ -113,7 +113,6 @@ public class SurveyDAO {
 		query.setMaxResults(numberToRetrieve);
 		List<Survey> surveys = query.getResultList();
 		miniDTO = new ArrayList<SurveyMiniDTO>();
-		ArrayList<Role> commonRole = new ArrayList<Role>(currentUser.getRoles());
 		for (Survey s : surveys) {
 			if (MiscUtilities.checkRoles(currentUser.getRoles(), s.getSurveyViewersRoles())) {
 				miniDTO.add(DozerMapper.getMapper().map(s, SurveyMiniDTO.class));

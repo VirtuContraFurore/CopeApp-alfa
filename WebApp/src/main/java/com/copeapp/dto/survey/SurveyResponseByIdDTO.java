@@ -10,6 +10,5 @@ public class SurveyResponseByIdDTO {
 	private SurveyDTO surveyDTO;
 	
 	@NonNull
-//	@UrMom
 	private boolean hasVoted;
 }

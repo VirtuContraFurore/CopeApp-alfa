@@ -1,15 +1,12 @@
 package com.copeapp.utilities;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
-import com.copeapp.entities.survey.Answer;
-import com.copeapp.entities.survey.Survey;
 
 public class PopulateDatabase {
 	
