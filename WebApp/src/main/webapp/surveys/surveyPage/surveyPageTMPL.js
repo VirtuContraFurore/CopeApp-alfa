@@ -16,6 +16,9 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 	$scope.canVote = true;	//TODO controllare se rientra nei voti e se rientra nei visualizer
 	$scope.isLoading = true;
 	
+	$scope.data = [];
+	$scope.labels = [];
+	
 	surveyService.getSurveyById($scope.user, $scope.surveyId).then(	//prende il survey con l'id passato e usa le answers
 		function(value) {
 			$scope.isLoading = false;
@@ -24,6 +27,13 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 			$scope.maxAnswers = value.data.surveyDTO.answersNumber;
 			$scope.answerLeft = $scope.maxAnswers;
 			$scope.isVoted = value.data.hasVoted;  //TODO creare due pagine diverse per voto e info
+			if ($scope.isVoted) {
+				var votesNumberTMP = 0;
+				for (var i = 0; i < $scope.answers.length; i++) {
+					$scope.data.push($scope.answers[i].votesNumber);
+					$scope.labels.push($scope.answers[i].answerContent.answerText);
+				}
+			}
 		}, $scope.serverErrorCallbackToast);
 	
 	$scope.votes = [];
