@@ -1,4 +1,4 @@
-var app = angular.module("CopeApp", ["ngMaterial","ngMessages","ngAnimate","ngSanitize","ngAria","ui.router","LocalStorageModule","ngLetterAvatar","angularFileUpload", "angular-momentjs","ui.tinymce"]);
+var app = angular.module("CopeApp", ["ngMaterial","ngMessages","ngAnimate","ngSanitize","ngAria","ui.router","LocalStorageModule","ngLetterAvatar","angularFileUpload", "angular-momentjs","ui.tinymce", "chart.js"]);
 app.config(function($urlRouterProvider, localStorageServiceProvider, $mdDateLocaleProvider){
 	$urlRouterProvider.otherwise(function($injector){
 		return "/home";

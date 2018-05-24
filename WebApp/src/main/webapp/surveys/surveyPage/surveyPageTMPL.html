@@ -10,8 +10,8 @@
 		</div>
 	</md-toolbar>
 	
-	<div layout="column" flex layout-align="center center">
-    	<md-progress-circular md-mode="indeterminate" ng-if="isLoading"></md-progress-circular>
+	<div layout="column" flex layout-align="center center" ng-if="isLoading">
+    	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
  
 	<!-- Pagina di votaggio --> 
@@ -30,12 +30,9 @@
 	<!-- Pagina di visualizzazione risultati --> 
 	<md-dialog-content layout-padding flex layout="column" ng-if="isVoted && !isLoading">
 		<div ng-bind-html="question|trustAsHtml"></div>
-		<div flex="50" ng-repeat="answer in answers">
-			<canvas id="donught" class="chart chart-donught"
-				chart-data="answer.voteNumber" chart-labels="answer.answerContent"
-				chart-series="series">
-				</canvas>
-		</div>
+		<canvas id="doughnut" class="chart chart-doughnut"
+			chart-data="data" chart-labels="labels">
+		</canvas>
 	</md-dialog-content>
 	 
 	<!-- Footer --> 
