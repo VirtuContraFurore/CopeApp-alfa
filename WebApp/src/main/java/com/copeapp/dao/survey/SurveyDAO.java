@@ -22,18 +22,17 @@ import com.copeapp.utilities.MessageUtility;
 public class SurveyDAO {
 
 	public static boolean hasVoted (User currentUser, int surveyId) {
+		
 		TypedQuery<Long> query;
-		query = EntityManagerGlobal.getEntityManager().createQuery("SELECT COUNT(DISTINCT v) FROM Vote v INNER JOIN v.answer a INNER JOIN  v.user u INNER JOIN a.survey s WHERE (s.surveyId = :surveyId) AND ((u.userId = :userId))", Long.class);
+		query = EntityManagerGlobal.getEntityManager().createQuery("SELECT COUNT(DISTINCT v) FROM Vote v JOIN v.answer a JOIN v.user u JOIN a.survey s WHERE (s.surveyId = :surveyId AND u.userId = :userId)", Long.class);
 		query.setParameter("surveyId", surveyId);
 		query.setParameter("userId", currentUser.getUserId());
-		if(query.getFirstResult()!=0) { //TODO siamo scqrsi quasi quanto roveri con le query
+		if(query.getSingleResult() != 0) {
 			return true;
 		} 
 		return false;
 		
 	}
-	
-	
 	
 	public static Survey getSurveyById(int surveyId) {
 		try {

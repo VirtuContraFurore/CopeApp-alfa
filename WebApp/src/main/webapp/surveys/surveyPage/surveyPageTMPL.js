@@ -14,9 +14,11 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 	$scope.answerLeft;
 	$scope.insertUser;  //inserire campi mancanti per completare survey details
 	$scope.canVote = true;	//TODO controllare se rientra nei voti e se rientra nei visualizer
+	$scope.isLoading = true;
 	
 	surveyService.getSurveyById($scope.user, $scope.surveyId).then(	//prende il survey con l'id passato e usa le answers
 		function(value) {
+			$scope.isLoading = false;
 			$scope.answers = value.data.surveyDTO.answers;
 			$scope.question = value.data.surveyDTO.question;
 			$scope.maxAnswers = value.data.surveyDTO.answersNumber;

@@ -92,7 +92,6 @@
 			<version>${net.sf.dozer.version}</version>
 		</dependency>
 
-
 	</dependencies>
 
 	<build>

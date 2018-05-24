@@ -1,6 +1,7 @@
 package com.copeapp.entities.survey;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,11 +29,11 @@ public class Vote {
 	private int voteId;
 	
 	@NonNull
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Answer answer;
 	
 	@NonNull
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	
 }
