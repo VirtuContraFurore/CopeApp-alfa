@@ -124,18 +124,23 @@ public class SurveyDAO {
 	public static void voteSurvey(User currentUser, int surveyId, List<Integer> answersId) {
 		try {
 			if (MiscUtilities.checkRoles(currentUser.getRoles(), getSurveyById(surveyId).getSurveyVotersRoles())) {
+				Query queryAdd;
 				TypedQuery<Answer> query = EntityManagerGlobal.getEntityManager()
 						.createQuery("SELECT DISTINCT a From Answer a WHERE (a.answerId = :answerId)", Answer.class);
+				queryAdd = EntityManagerGlobal.getEntityManager()
+						.createQuery("UPDATE Answer a SET votesNumber = a.votesNumber + 1 WHERE a.answerId = :answerId");	//aggiunge voti alla singola answer
 				ArrayList<Answer> votedAnswers = new ArrayList<Answer>();
 				for (Integer aId : answersId) {
 					query.setParameter("answerId", aId);
+					queryAdd.setParameter("answerId", aId);
 					votedAnswers.add(query.getSingleResult());
+					queryAdd.executeUpdate();
 				}
 				for (Answer a : votedAnswers) {
 					EntityManagerGlobal.getEntityManager().persist(new Vote(a, currentUser));
 				}
-				Query queryAdd = EntityManagerGlobal.getEntityManager()
-						.createQuery("UPDATE Survey s SET voters = s.voters + 1 WHERE s.surveyId = :surveyId");
+				queryAdd = EntityManagerGlobal.getEntityManager()
+						.createQuery("UPDATE Survey s SET voters = s.voters + 1 WHERE s.surveyId = :surveyId"); //aggiunge un votante
 				queryAdd.setParameter("surveyId", surveyId);
 				queryAdd.executeUpdate();
 			}
