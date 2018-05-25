@@ -51,7 +51,7 @@ public class SurveyDAO {
 	public static void surveyDelete(int surveyId, User currentUser) {
 		try {
 			Query query = EntityManagerGlobal.getEntityManager()
-					.createQuery("SELECT DISTINCT Survey s WHERE s.insertUser = :currentUser");
+					.createQuery("SELECT DISTINCT s FROM Survey s WHERE s.insertUser = :currentUser");
 			if ((MiscUtilities.checkRoles(currentUser.getRoles())) || (!query.getResultList().isEmpty())) {
 				Date deleteDate = new Date(System.currentTimeMillis());
 				Query queryDelete = EntityManagerGlobal.getEntityManager()
@@ -94,18 +94,18 @@ public class SurveyDAO {
 			if (keyword.isEmpty()) {
 				query = EntityManagerGlobal.getEntityManager()
 						.createQuery("SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate " + active
-								+ " current_timestamp) AND (s.openSurveyDate < current_timestamp) ORDER BY s.closeSurveyDate DESC",
+								+ " current_timestamp AND s.openSurveyDate < current_timestamp AND s.deleteDate is not null) ORDER BY s.closeSurveyDate DESC",
 								Survey.class);
 			} else {
 				query = EntityManagerGlobal.getEntityManager()
 						.createQuery("SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate " + active
-								+ " current_timestamp) AND (s.openSurveyDate < current_timestamp) LIKE :keyword ORDER BY s.closeSurveyDate DESC",
+								+ " current_timestamp AND s.openSurveyDate < current_timestamp AND s.deleteDate is not null) LIKE :keyword ORDER BY s.closeSurveyDate DESC",
 								Survey.class);
 				query.setParameter("keyword", keyword);
 			}
 		} else {
 			query = EntityManagerGlobal.getEntityManager().createQuery(
-					"SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId) ORDER BY s.closeSurveyDate DESC",
+					"SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId AND s.deleteDate is not null) ORDER BY s.closeSurveyDate DESC",
 					Survey.class);
 			query.setParameter("userId", currentUser.getUserId());
 		}

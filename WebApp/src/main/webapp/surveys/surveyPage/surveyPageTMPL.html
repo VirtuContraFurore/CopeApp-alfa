@@ -28,21 +28,10 @@
 	
 	<!-- Pagina di visualizzazione risultati --> 
 	<md-dialog-content layout-padding flex layout="column" ng-if="isVoted && !isLoading">
-		<!-- Sezione domanda -->
-		
-		<md-card style="padding:0 px;">
+		<!-- Sezione domanda -->	
+		<div layout-padding ng-bind-html="question|trustAsHtml">
 			
-			<md-card-content layout-padding ng-bind-html="question|trustAsHtml">
-				
-			</md-card-content>
-		</md-card>
-		<!-- Sezione Risposte vincenti -->
-		<md-subheader style="background: white;">Risposta piu' votata</md-subheader>
-		<md-card style="padding:0 px;">
-			<md-card-content layout-padding layout="column">
-				<p ng-repeat="answer in winnerAnswer">{{answer.answerContent.answerText}}</p>
-			</md-card-content>
-		</md-card>
+		</div>
 		<!-- Sezione risultati -->
 		<md-subheader style="background: white;">Risultati</md-subheader>
 		<canvas id="doughnut" style="padding:0px" class="chart chart-doughnut"
@@ -50,11 +39,9 @@
 		</canvas>
 		<!-- Sezione riepilogo -->
 		<md-subheader style="background: white;">Riepilogo</md-subheader>
-		<md-card style="padding:0 px;">
-			<md-card-content layout-padding layout="column">
-				
-			</md-card-content>
-		</md-card>
+		<div layout-padding layout="column">
+			
+		</div>
 	</md-dialog-content>
 	 
 	<!-- Footer --> 

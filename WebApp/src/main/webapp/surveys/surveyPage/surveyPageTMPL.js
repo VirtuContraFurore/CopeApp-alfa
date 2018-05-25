@@ -17,7 +17,7 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 	
 	$scope.data = [];
 	$scope.labels = [];
-	$scope.winnerAnswer = [];
+//	$scope.winnerAnswer = [];
 	
 	
 	surveyService.getSurveyById($scope.user, $scope.surveyId).then(	//prende il survey con l'id passato e usa le answers
@@ -29,26 +29,26 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 			$scope.answerLeft = $scope.maxAnswers;
 			$scope.isVoted = value.data.hasVoted;  //TODO creare due pagine diverse per voto e info
 			if ($scope.isVoted) {
-				var winnerAnswerId = [];
-				winnerAnswerId.push(0);
-				var maxVotesumber = $scope.answers[0].votesNumber;
+//				var winnerAnswerId = [];
+//				winnerAnswerId.push(0);
+//				var maxVotesumber = $scope.answers[0].votesNumber;
 				$scope.data.push($scope.answers[0].votesNumber);
 				$scope.labels.push($scope.answers[0].answerContent.answerText);
 				for (var i = 1; i < $scope.answers.length; i++) {
-					if ($scope.answers[i].votesNumber > maxVotesumber) {
-						maxVotesumber = $scope.answers[i].votesNumber;
-						winnerAnswerId.length = 0;
-						winnerAnswerId.push(i);
-					} else if ($scope.answers[i].votesNumber == maxVotesumber) {
-						maxVotesumber = $scope.answers[i].votesNumber;
-						winnerAnswerId.push(i);
-					}
+//					if ($scope.answers[i].votesNumber > maxVotesumber) {
+//						maxVotesumber = $scope.answers[i].votesNumber;
+//						winnerAnswerId.length = 0;
+//						winnerAnswerId.push(i);
+//					} else if ($scope.answers[i].votesNumber == maxVotesumber) {
+//						maxVotesumber = $scope.answers[i].votesNumber;
+//						winnerAnswerId.push(i);
+//					}
 					$scope.data.push($scope.answers[i].votesNumber);
 					$scope.labels.push($scope.answers[i].answerContent.answerText);
 				}
-				for (var j = 0; j < winnerAnswerId.length; j++) {
-					$scope.winnerAnswer.push($scope.answers[winnerAnswerId[j]])
-				}
+//				for (var j = 0; j < winnerAnswerId.length; j++) {
+//					$scope.winnerAnswer.push($scope.answers[winnerAnswerId[j]])
+//				}
 			}
 		}, $scope.serverErrorCallbackToast);
 	
