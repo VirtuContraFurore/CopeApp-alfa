@@ -67,7 +67,7 @@ function SurveyService($q, $http) {
 		return $http(req);
 	}
 	
-	this.deleteSurvey = function(user, votes, id) {
+	this.deleteSurvey = function(user, id) {
 		var req = {
 				method: 'PUT',
 				url: 'http://localhost:8080/CopeApp/rest/surveydelete',

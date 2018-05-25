@@ -85,7 +85,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 
 		$scope.deleteSurvey = function(surveyId) {
 			$scope.showActionToast("Sicuro di voler cancellare il sondaggio?", "bottom right", 3000, "OK", function(response) {
-							surveyService.deleteSurvey(surveyId).then(
+							surveyService.deleteSurvey($scope.user, surveyId).then(
 									function() {
 										$scope.showSimpleToast("Sondaggio eliminato!", "bottom right", 2500);
 									}, $scope.serverErrorCallbackToast)

@@ -132,16 +132,12 @@ public class SurveyDAO {
 				ArrayList<Answer> votedAnswers = new ArrayList<Answer>();
 				for (Integer aId : answersId) {
 					query.setParameter("answerId", aId);
-					queryAdd.setParameter("answerId", aId);
 					votedAnswers.add(query.getSingleResult());
-					queryAdd.executeUpdate();
 				}
-				Query answerUpdateQuery = EntityManagerGlobal.getEntityManager()
-						.createQuery("UPDATE Answer a  SET a.votesNumber = a.votesNumber + 1 WHERE a.answerId = :answerId");
 				for (Answer a : votedAnswers) {
 					EntityManagerGlobal.getEntityManager().persist(new Vote(a, currentUser));
-					answerUpdateQuery.setParameter("answerId", a.getAnswerId());
-					answerUpdateQuery.executeUpdate();
+					queryAdd.setParameter("answerId", a.getAnswerId());
+					queryAdd.executeUpdate();
 				}
 				queryAdd = EntityManagerGlobal.getEntityManager()
 						.createQuery("UPDATE Survey s SET voters = s.voters + 1 WHERE s.surveyId = :surveyId"); //aggiunge un votante
