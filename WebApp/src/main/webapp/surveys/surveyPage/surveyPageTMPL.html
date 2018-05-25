@@ -21,37 +21,46 @@
 		<div layout="row" layout-wrap>
 			<div flex="50" ng-repeat="answer in answers">
 				<md-checkbox ng-checked="exists(answer.answerId)"
-					ng-click="toggle(answer.answerId)"> {{
-				answer.answerContent.answerText }} </md-checkbox>
+					ng-click="toggle(answer.answerId)"> {{answer.answerContent.answerText }} </md-checkbox>
 			</div>
 		</div>
 	</md-dialog-content> 
 	
 	<!-- Pagina di visualizzazione risultati --> 
 	<md-dialog-content layout-padding flex layout="column" ng-if="isVoted && !isLoading">
+		<!-- Sezione domanda -->
 		<md-subheader style="background: white;">Domanda</md-subheader>
-		<md-card style="padding: 0px; min-height: 100px;" layout-padding>
+		<md-card layout-padding>
 			<md-card-content ng-bind-html="question|trustAsHtml">
-			
+				
 			</md-card-content>
 		</md-card>
+		<!-- Sezione Risposte vincenti -->
 		<md-subheader style="background: white;">Risposta piu' votata</md-subheader>
-			<md-card style="padding: 0px;" layout-padding>
-				<md-card-content>
-					<p>{{winnerAnswer}}</p>
-				</md-card-content>
-			</md-card>
+		<md-card layout-padding>
+			<md-card-content layout="column">
+				<p ng-repeat="answer in winnerAnswer">{{answer.answerContent.answerText}}</p>
+			</md-card-content>
+		</md-card>
+		<!-- Sezione risultati -->
 		<md-subheader style="background: white;">Risultati</md-subheader>
 		<canvas id="doughnut" style="padding:0px" class="chart chart-doughnut"
 			chart-data="data" chart-labels="labels">
 		</canvas>
+		<!-- Sezione riepilogo -->
+		<md-subheader style="background: white;">Riepilogo</md-subheader>
+		<md-card layout-padding>
+			<md-card-content layout="column">
+				
+			</md-card-content>
+		</md-card>
 	</md-dialog-content>
 	 
 	<!-- Footer --> 
 	<md-dialog-actions layout="row"> 
-		<md-button class="md-primary" ng-disabled="canVote" ng-click="sendVotes()">
+		<md-button class="md-primary" ng-disabled="canVote" ng-if="!isLoading && !isVoted" ng-click="sendVotes()">
 			<md-icon class="material-icons">done</md-icon>
 			Vota 
-		</md-button> 
+		</md-button>
 	</md-dialog-actions> 
 </md-dialog>

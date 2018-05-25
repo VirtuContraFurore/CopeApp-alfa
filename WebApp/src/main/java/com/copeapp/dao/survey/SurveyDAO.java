@@ -131,8 +131,12 @@ public class SurveyDAO {
 					query.setParameter("answerId", aId);
 					votedAnswers.add(query.getSingleResult());
 				}
+				Query answerUpdateQuery = EntityManagerGlobal.getEntityManager()
+						.createQuery("UPDATE Answer a  SET a.votesNumber = a.votesNumber + 1 WHERE a.answerId = :answerId");
 				for (Answer a : votedAnswers) {
 					EntityManagerGlobal.getEntityManager().persist(new Vote(a, currentUser));
+					answerUpdateQuery.setParameter("answerId", a.getAnswerId());
+					answerUpdateQuery.executeUpdate();
 				}
 				Query queryAdd = EntityManagerGlobal.getEntityManager()
 						.createQuery("UPDATE Survey s SET voters = s.voters + 1 WHERE s.surveyId = :surveyId");

@@ -28,9 +28,9 @@
 			<md-content layout-padding>
 				<md-card style="padding: 0px;" ng-repeat="finishedSurvey in finishedSurveys">
 					<md-card-content layout-padding style="max-height: 40vh" ng-bind-html="finishedSurvey.question|trustAsHtml" ng-click="showSurveyDetails($event, activeSurvey.surveyId)">  
-<!-- 					aggiungere parametro per show survey details per visualizzare voto o grafici -->
 					</md-card-content>
 					<md-card-actions layout="row" style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" child-align="end center">
+						<md-icon class="material-icons" style="margin-right: 8px;">how_to_vote</md-icon>
 						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{finishedSurvey.voters}}</p>
 						<p class="md-subhead md-warn">{{calculateExpireDate(finishedSurvey.closeSurveyDate)}}</p>
 						<md-button style="margin: auto;" ng-if="checkRoles('admin')" class="md-icon-button md-warn">
@@ -54,6 +54,7 @@
 					
 					</md-card-content>
 					<md-card-actions layout="row" style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" child-align="end center">
+						<md-icon class="material-icons" style="margin-right: 8px;">how_to_vote</md-icon>
 						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{mySurvey.voters}}</p>
 						<p class="md-subhead md-warn">{{calculateExpireDate(mySurvey.closeSurveyDate)}}</p>
 						<md-button style="margin: auto;" class="md-icon-button md-warn">
