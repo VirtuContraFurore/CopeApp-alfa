@@ -28,7 +28,8 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 		}, $scope.serverErrorCallback);
 	}
 	$scope.mySurveys = [];
-	$scope.refreshMine = function() {	//TODO: vengono triplicati i sondaggi propri, per qualche ragione
+	$scope.refreshMine = function() { // TODO: vengono triplicati i sondaggi
+										// propri, per qualche ragione
 		surveyService.getSurveys($scope.user, false, true,
 				$scope.mySurveys.length).then(function(response) {
 			for (var a = 0; a < response.data.surveyMini.length; a++) {
@@ -57,16 +58,16 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 		return remainingTime;
 	}
 	$scope.fullscreen = true;
-	
+
 	$scope.showSurveyDetails = function(ev, id, index) {
 		$mdDialog.show({
 			locals : {
-				user: $scope.user,
+				user : $scope.user,
 				surveyId : id,
-				serverErrorCallback: $scope.serverErrorCallback,
-				serverErrorCallbackToast: $scope.serverErrorCallbackToast,
-				showSimpleToast: $scope.showSimpleToast,
-				showActionToast: $scope.showActionToast
+				serverErrorCallback : $scope.serverErrorCallback,
+				serverErrorCallbackToast : $scope.serverErrorCallbackToast,
+				showSimpleToast : $scope.showSimpleToast,
+				showActionToast : $scope.showActionToast
 			}, // passa il campo id ad alias surveyId al controller del dialog
 			controller : SurveyPageCtrl,
 			templateUrl : 'surveys/surveyPage/surveyPageTMPL.html',
@@ -75,11 +76,20 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 			clickOutsideToClose : true,
 			fullscreen : $scope.fullscreen
 		}).then(function(votes) {
-			if(votes != null) {
+			if (votes != null) {
 				$scope.activeSurveys[index].voters++;
 			}
 		}, function() {
 
 		});
+
+		$scope.deleteSurvey = function(surveyId) {
+			$scope.showActionToast("Sicuro di voler cancellare il sondaggio?", "bottom right", 3000, "OK", function(response) {
+							surveyService.deleteSurvey(surveyId).then(
+									function() {
+										$scope.showSimpleToast("Sondaggio eliminato!", "bottom right", 2500);
+									}, $scope.serverErrorCallbackToast)
+					});
+		}
 	}
 }

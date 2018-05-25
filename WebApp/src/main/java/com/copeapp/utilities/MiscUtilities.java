@@ -9,7 +9,7 @@ public class MiscUtilities {
 	
 	public static boolean checkRoles(List<Role> roles0, List<Role> roles1) {
 		for (Role r : roles0) {
-			if (r.getRole().equalsIgnoreCase("amministratore")) {
+			if (r.getRole().equalsIgnoreCase("admin")) {
 				return true;
 			}
 		}

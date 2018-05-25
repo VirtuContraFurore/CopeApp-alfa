@@ -1,4 +1,4 @@
-<md-dialog layout="column" style="overflow-x: hidden"> <!-- 	header --> 
+<md-dialog layout="column" style="overflow-x: hidden"> 
 	<md-toolbar>
 		<div class="md-toolbar-tools">
 		<h2 ng-if="!isVoted && !isLoading">Vota</h2>
@@ -21,7 +21,13 @@
 		<div layout="row" layout-wrap>
 			<div flex="50" ng-repeat="answer in answers">
 				<md-checkbox ng-checked="exists(answer.answerId)"
+<<<<<<< HEAD
 					ng-click="toggle(answer.answerId)"> {{answer.answerContent.answerText }} </md-checkbox>
+=======
+					ng-click="toggle(answer.answerId)"> 
+					{{answer.answerContent.answerText }} 
+					</md-checkbox>
+>>>>>>> branch 'develop_connectionPool' of https://github.com/VirtuContraFurore/CopeApp-alfa.git
 			</div>
 		</div>
 	</md-dialog-content> 
@@ -47,6 +53,7 @@
 		<canvas id="doughnut" style="padding:0px" class="chart chart-doughnut"
 			chart-data="data" chart-labels="labels">
 		</canvas>
+<<<<<<< HEAD
 		<!-- Sezione riepilogo -->
 		<md-subheader style="background: white;">Riepilogo</md-subheader>
 		<md-card layout-padding>
@@ -54,11 +61,19 @@
 				
 			</md-card-content>
 		</md-card>
+=======
+
+>>>>>>> branch 'develop_connectionPool' of https://github.com/VirtuContraFurore/CopeApp-alfa.git
 	</md-dialog-content>
 	 
 	<!-- Footer --> 
+<<<<<<< HEAD
 	<md-dialog-actions layout="row"> 
 		<md-button class="md-primary" ng-disabled="canVote" ng-if="!isLoading && !isVoted" ng-click="sendVotes()">
+=======
+	<md-dialog-actions layout="row" ng-if="!isVoted && !isLoading"> 
+		<md-button class="md-primary" ng-disabled="canVote" ng-click="sendVotes()">
+>>>>>>> branch 'develop_connectionPool' of https://github.com/VirtuContraFurore/CopeApp-alfa.git
 			<md-icon class="material-icons">done</md-icon>
 			Vota 
 		</md-button>
