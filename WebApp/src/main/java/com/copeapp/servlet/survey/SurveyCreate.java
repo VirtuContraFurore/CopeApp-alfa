@@ -17,6 +17,7 @@ import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.utilities.DozerMapper;
+import com.copeapp.utilities.MiscUtilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveycreate")
@@ -34,6 +35,9 @@ public class SurveyCreate extends HttpServlet{
 		Survey survey = DozerMapper.getMapper().map(surveyRequest.getSurveyDTO(), Survey.class);
 		for (Answer a : survey.getAnswers()) {
 			a.setSurvey(survey);
+			if (a.getAnswerContent().getAnswerImage() != null) {
+				a.getAnswerContent().setAnswerImage(MiscUtilities.resizeImage(a.getAnswerContent().getAnswerImage(), 100, 100));
+			}
 		}
 		SurveyDAO.surveyCreate(currentUser, survey);
 		

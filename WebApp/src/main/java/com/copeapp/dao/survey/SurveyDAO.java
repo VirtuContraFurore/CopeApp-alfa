@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.copeapp.dto.survey.SurveyMiniDTO;
@@ -38,30 +36,17 @@ public class SurveyDAO {
 	}
 	
 	public static Survey getSurveyById(int surveyId) {
-		try {
-			TypedQuery<Survey> query = EntityManagerGlobal.getEntityManager()
-					.createQuery("SELECT DISTINCT s FROM Survey s WHERE (s.surveyId = :surveyId)", Survey.class);
-			query.setParameter("surveyId", surveyId);
-			return (Survey) query.getSingleResult();
-		} catch (NoResultException nre) {
-			throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.INVALID_ID + surveyId, nre);
-		}
+		return EntityManagerGlobal.getEntityManager().find(Survey.class, surveyId);
 	}
 
 	public static void surveyDelete(int surveyId, User currentUser) {
-		try {
-			Query query = EntityManagerGlobal.getEntityManager()
-					.createQuery("SELECT DISTINCT s FROM Survey s WHERE s.insertUser = :currentUser");
-			if ((MiscUtilities.checkRoles(currentUser.getRoles())) || (!query.getResultList().isEmpty())) {
-				Date deleteDate = new Date(System.currentTimeMillis());
-				Query queryDelete = EntityManagerGlobal.getEntityManager()
-						.createQuery("UPDATE Survey s SET deleteDate = :deleteDate WHERE s.surveyId = :surveyId");
-				queryDelete.setParameter("surveyId", surveyId);
-				queryDelete.setParameter("deleteDate", deleteDate);
-				queryDelete.executeUpdate();
-			}
-		} catch (NoResultException nre) {
-			throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.INVALID_ID + surveyId, nre);
+		Survey survey = EntityManagerGlobal.getEntityManager().find(Survey.class, surveyId);
+		if (survey == null) {
+			throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "Ci hai provato e hai fallito miseramente, BESTIA!");
+		}
+		if (MiscUtilities.isAdmin(currentUser.getRoles()) || survey.getInsertUser().equals(currentUser)) {
+			survey.setDeleteDate(new Date());
+			survey.setDeleteUser(currentUser);
 		}
 	}
 
@@ -94,18 +79,18 @@ public class SurveyDAO {
 			if (keyword.isEmpty()) {
 				query = EntityManagerGlobal.getEntityManager()
 						.createQuery("SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate " + active
-								+ " current_timestamp AND s.openSurveyDate < current_timestamp AND s.deleteDate is not null) ORDER BY s.closeSurveyDate DESC",
+								+ " current_timestamp AND s.openSurveyDate < current_timestamp AND s.deleteDate is null) ORDER BY s.closeSurveyDate DESC",
 								Survey.class);
 			} else {
 				query = EntityManagerGlobal.getEntityManager()
 						.createQuery("SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.closeSurveyDate " + active
-								+ " current_timestamp AND s.openSurveyDate < current_timestamp AND s.deleteDate is not null) LIKE :keyword ORDER BY s.closeSurveyDate DESC",
+								+ " current_timestamp AND s.openSurveyDate < current_timestamp AND s.deleteDate is null) LIKE :keyword ORDER BY s.closeSurveyDate DESC",
 								Survey.class);
 				query.setParameter("keyword", keyword);
 			}
 		} else {
 			query = EntityManagerGlobal.getEntityManager().createQuery(
-					"SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId AND s.deleteDate is not null) ORDER BY s.closeSurveyDate DESC",
+					"SELECT DISTINCT s FROM Survey s JOIN FETCH s.answers a WHERE (s.insertUser.userId = :userId AND s.deleteDate is null) ORDER BY s.closeSurveyDate DESC",
 					Survey.class);
 			query.setParameter("userId", currentUser.getUserId());
 		}
@@ -122,30 +107,20 @@ public class SurveyDAO {
 	}
 
 	public static void voteSurvey(User currentUser, int surveyId, List<Integer> answersId) {
-		try {
-			if (MiscUtilities.checkRoles(currentUser.getRoles(), getSurveyById(surveyId).getSurveyVotersRoles())) {
-				Query queryAdd;
-				TypedQuery<Answer> query = EntityManagerGlobal.getEntityManager()
-						.createQuery("SELECT DISTINCT a From Answer a WHERE (a.answerId = :answerId)", Answer.class);
-				queryAdd = EntityManagerGlobal.getEntityManager()
-						.createQuery("UPDATE Answer a SET votesNumber = a.votesNumber + 1 WHERE a.answerId = :answerId");	//aggiunge voti alla singola answer
-				ArrayList<Answer> votedAnswers = new ArrayList<Answer>();
-				for (Integer aId : answersId) {
-					query.setParameter("answerId", aId);
-					votedAnswers.add(query.getSingleResult());
+		Survey survey = getSurveyById(surveyId);
+		if (survey == null) {
+			throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND);
+		}
+		if (MiscUtilities.checkRoles(currentUser.getRoles(), survey.getSurveyVotersRoles())) {
+			for (Integer aId : answersId) {
+				Answer answer = EntityManagerGlobal.getEntityManager().find(Answer.class, aId);
+				if (answer == null) {
+					throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND);
 				}
-				for (Answer a : votedAnswers) {
-					EntityManagerGlobal.getEntityManager().persist(new Vote(a, currentUser));
-					queryAdd.setParameter("answerId", a.getAnswerId());
-					queryAdd.executeUpdate();
-				}
-				queryAdd = EntityManagerGlobal.getEntityManager()
-						.createQuery("UPDATE Survey s SET voters = s.voters + 1 WHERE s.surveyId = :surveyId"); //aggiunge un votante
-				queryAdd.setParameter("surveyId", surveyId);
-				queryAdd.executeUpdate();
+				answer.getVotes().add(new Vote(answer, currentUser));
+				answer.setVotesNumber(answer.getVotesNumber()+1);
 			}
-		} catch (NoResultException nre) {
-			throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND, nre);
+			survey.setVoters(survey.getVoters()+1);
 		}
 	}
 }
