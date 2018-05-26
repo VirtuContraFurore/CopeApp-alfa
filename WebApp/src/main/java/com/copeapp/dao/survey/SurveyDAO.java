@@ -80,6 +80,21 @@ public class SurveyDAO {
 			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
 		}
 	}
+	
+	public static void surveyUpdate(User currentUser, Survey survey) {
+		boolean canAccess = false;
+		for (Role r : currentUser.getRoles()) { //TODO finire utility checkroles
+			if (r.getRole().equalsIgnoreCase("redattore") || r.getRole().equalsIgnoreCase("admin")) {
+				canAccess = true;
+			}
+		}
+		if (canAccess) {
+			Survey s = EntityManagerGlobal.getEntityManager().find(Survey.class, survey.getSurveyId());
+			s = DozerMapper.getMapper().map(survey, Survey.class);
+		} else {
+			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
+		}
+	}
 
 	public static ArrayList<SurveyMiniDTO> getSurveyMiniDTO(User currentUser, int lastSurveyNumber,
 		int numberToRetrieve, boolean isMine, String filterKey, boolean isActive) {
