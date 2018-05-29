@@ -16,7 +16,9 @@ import com.copeapp.dto.survey.SurveyResponseCreateDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
+import com.copeapp.exception.SurveyExcption;
 import com.copeapp.utilities.DozerMapper;
+import com.copeapp.utilities.HttpStatusUtility;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/rest/surveyupdate")
@@ -32,14 +34,18 @@ public class SurveyUpdate extends HttpServlet{
 		
 		SurveyRequestCreateDTO surveyRequest = om.readValue(request.getInputStream(), SurveyRequestCreateDTO.class);
 		
-		Survey survey = DozerMapper.getMapper().map(surveyRequest.getSurveyDTO(), Survey.class);
-		for (Answer a : survey.getAnswers()) {
-			a.setSurvey(survey);
+		Survey survey = null;
+		if (surveyRequest.getSurveyDTO().getSurveyId() != null && surveyRequest.getSurveyDTO().getSurveyId() != 0) {
+			survey = DozerMapper.getMapper().map(surveyRequest.getSurveyDTO(), Survey.class);
+			survey.setSurveyId(surveyRequest.getSurveyDTO().getSurveyId());
+			for (Answer a : survey.getAnswers()) {
+				a.setSurvey(survey);
+			}
+			SurveyDAO.surveyUpdate(currentUser, survey);
+			om.writeValue(response.getOutputStream(), new SurveyResponseCreateDTO(DozerMapper.getMapper().map(survey, SurveyDTO.class)));
+		} else {
+			throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "Non viene passato nessun identificatore");
 		}
-		SurveyDAO.surveyUpdate(currentUser, survey);
-		
-		om.writeValue(response.getOutputStream(), new SurveyResponseCreateDTO(DozerMapper.getMapper().map(survey, SurveyDTO.class)));
-		
 	}
 }
 

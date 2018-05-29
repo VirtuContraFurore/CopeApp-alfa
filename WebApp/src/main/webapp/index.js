@@ -2,6 +2,10 @@ app.controller("IndexCtrl", IndexCtrl);
 
 function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSidenav, $timeout, UserService){
 	
+	$scope.reload = function() {
+		$state.reload();
+	}
+	
 	//funzione globale cambio stato
 	$scope.goto = function(state){
 		$state.go(state);

@@ -67,17 +67,27 @@ public class SurveyDAO {
 	}
 	
 	public static void surveyUpdate(User currentUser, Survey survey) {
-		boolean canAccess = false;
-		for (Role r : currentUser.getRoles()) { //TODO finire utility checkroles
-			if (r.getRole().equalsIgnoreCase("redattore") || r.getRole().equalsIgnoreCase("admin")) {
-				canAccess = true;
+		Survey savedSurvey = EntityManagerGlobal.getEntityManager().find(Survey.class, survey.getSurveyId());
+		if (savedSurvey != null) {
+			Date currentDate = new Date();
+			if (savedSurvey.getOpenSurveyDate().getTime() > currentDate.getTime()) {
+				if (savedSurvey.getInsertUser().equals(currentUser) || MiscUtilities.isAdmin(currentUser.getRoles())) {
+					savedSurvey.setAnswers(survey.getAnswers());
+					savedSurvey.setAnswersNumber(survey.getAnswersNumber());
+					savedSurvey.setVoters(survey.getVoters());
+					savedSurvey.setCloseSurveyDate(survey.getCloseSurveyDate());
+					savedSurvey.setQuestion(survey.getQuestion());
+					savedSurvey.setOpenSurveyDate(survey.getOpenSurveyDate());
+					savedSurvey.setSurveyViewersRoles(survey.getSurveyViewersRoles());
+					savedSurvey.setSurveyVotersRoles(survey.getSurveyVotersRoles());
+				} else {
+					throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
+				}
+			} else {
+				throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, "Non puoi modificare sondaggi già pubblicati");
 			}
-		}
-		if (canAccess) {
-			Survey s = EntityManagerGlobal.getEntityManager().find(Survey.class, survey.getSurveyId());
-			s = DozerMapper.getMapper().map(survey, Survey.class);
 		} else {
-			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
+			throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "Non esistono sondaggi con questo id");
 		}
 	}
 

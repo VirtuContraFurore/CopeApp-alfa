@@ -1,19 +1,21 @@
-app.config(function($stateProvider) {
-	$stateProvider.state("createSurvey", {
-		url : "/createSurvey",
-		templateUrl : "surveys/createSurvey/createSurvey.html"
-	})
-});
-app.controller("CreateSurveyCtrl", CreateSurveyCtrl);
+app.controller("UpdateSurveyCtrl", UpdateSurveyCtrl);
 
-function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMenu, FileUploader) {
+function UpdateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMenu, FileUploader, 
+		question, startDate, expireDate, answers, selectedVoters, selectedViewers, answerNumber) {
 
-	$scope.question = "";
+	$scope.question = question;
+	$scope.startDate = new Date(startDate);
+	$scope.expireDate = new Date(expireDate);
+	$scope.answers = answers;
+	$scope.selectedVoters = selectedVoters;
+	$scope.selectedViewers = selectedViewers;
+	$scope.answerNumber = answerNumber;
+	$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	$scope.minPublishDate = $moment(new Date).add(0, 'days').startOf("day").toDate();
 	$scope.maxPublishDate = $moment(new Date).add(9, 'months').startOf("day").toDate();
 	$scope.startDate = $moment(new Date).add(0, 'days').startOf("day").toDate();
 	$scope.expireDate = $moment(new Date).add(1, "days").endOf("day").toDate();
-	
+
 	$scope.$watch("startDate", function(value) {
 		$scope.minCloseDate = $moment(value).add(1, 'days').endOf("day").toDate();
 		$scope.maxCloseDate = $moment(value).add(9, 'months').endOf("day").toDate();
@@ -74,11 +76,6 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 			$scope.roles = null;
 			$scope.serverErrorCallbackToast(reason);
 	})
-	$scope.selectedVoters = [];
-	$scope.selectedViewers = [];
-	$scope.answerNumber;
-	$scope.maxNumberOfAnswers = 0;
-	$scope.orderedTypes = [];
 	
 	$scope.currentImageIndex;
 	$scope.loadImage = function(index) {
@@ -94,6 +91,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
             }
         }]
 	});
+	
 	$scope.fileUploader.autoUpload = false;
 	$scope.fileUploader.queueLimit = 1;
 	$scope.fileUploader.onAfterAddingFile = function(item) {
@@ -135,10 +133,8 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	}
 	$scope.getField = function(index) {
-		return eval("surveyCreateForm.answer_"+index+".$error");
+		return eval("surveyUpdateeForm.answer_"+index+".$error");
 	}
-	
-	$scope.answers = [];
 	
 	$scope.resetAll = function() {
 		$scope.question = "";
@@ -149,7 +145,6 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		$scope.selectedViewers.length = 0;
 		$scope.answerNumber = null;
 		$scope.maxNumberOfAnswers = 0;
-		$scope.orderedTypes.length = 0;
 	}
 	
 	$scope.openAddMenu = function($mdMenu, ev) {
@@ -180,7 +175,6 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 	
 
 	$scope.uploadSurvey = function() {
-		
 		var response = $scope.checkValidity()
 		if (response != true) {
 			$scope.showSimpleToast(response[0], "bottom right", 2500);
@@ -212,8 +206,6 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 				}
 			});
 		}
-		
-		
 	}
 	
 }

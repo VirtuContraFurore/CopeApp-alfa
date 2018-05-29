@@ -20,5 +20,8 @@ public class SurveyMiniDTO {
 	@NonNull
 	private Date closeSurveyDate;
 	
+	@NonNull
+	private Date openSurveyDate;
+	
 	private Integer voters;
 }

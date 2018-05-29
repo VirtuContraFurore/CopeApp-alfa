@@ -33,6 +33,15 @@ public class MiscUtilities {
 		return false;
 	}
 	
+	public static boolean isRole(List<Role> roles, String role) {
+		for (Role r : roles) {
+			if (r.getRole().equalsIgnoreCase(role)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static boolean isAdmin(List<Role> roles) {
 		for (Role r : roles) {
 			if (r.getRole().equalsIgnoreCase("amministratore")) {

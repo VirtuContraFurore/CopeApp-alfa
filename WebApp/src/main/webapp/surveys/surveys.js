@@ -42,18 +42,35 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 		$scope.refreshFinished();
 		$scope.refreshMine();
 	});
-	$scope.modifySurvey = function(surveyId) {
-		surveyService.getSurveyById(surveyId).then(function(response) {
-			// gestire risposta del server
-		});
+	
+	$scope.canModifySurvey = function(openSurveyDate) {
+		if ($moment(new Date(openSurveyDate)).isBefore(new Date())) {
+			return false
+		} else {
+			return true
+		}
+	}
+	$scope.modifySurvey = function(surveyId, openSurveyDate) {
+		if ($moment(new Date(openSurveyDate)).isBefore(new Date())) {
+			$scope.showSimpleToast("Il sondaggio e' già stato pubblicato", "bottom right", 2500);
+		} else {
+			surveyService.getSurveyById($scope.user, surveyId).then(function(response) {
+				// gestire risposta del server
+			});
+		}
 	}
 
-	$scope.calculateExpireDate = function(date) {
-		var remainingTime = $moment(date).fromNow();
-		if (remainingTime.startsWith("tra")) {
-			remainingTime = "Scade " + remainingTime;
+	$scope.calculateExpireDate = function(closeDate, openDate) {
+		var TODAY = new Date();
+		var remainingTime = "";
+		if ($moment(TODAY).isBetween(closeDate, openDate)) {
+			remainingTime = "Scade " +$moment(closeDate).fromNow();
+		} else if ($moment(TODAY).isBefore(openDate)) {
+			remainingTime = "Apre " +$moment(openDate).fromNow();
+		} else if ($moment(TODAY).isAfter(closeDate)) {
+			remainingTime = "Scaduto " +$moment(closeDate).fromNow();
 		} else {
-			remainingTime = "Scaduto " + remainingTime;
+			remainingTime = "Invalid date"
 		}
 		return remainingTime;
 	}
