@@ -1,6 +1,6 @@
 app.controller("UpdateSurveyCtrl", UpdateSurveyCtrl);
 
-function UpdateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMenu, FileUploader, 
+function UpdateSurveyCtrl($scope, $moment, $state, surveyService, commonsService, $mdMenu, FileUploader, 
 		question, startDate, expireDate, answers, selectedVoters, selectedViewers, answerNumber) {
 
 	$scope.question = question;
@@ -24,8 +24,6 @@ function UpdateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		}
 	})
 
-	//TODO giochicchiare con le impostazioni per la versione desktop https://www.tinymce.com/docs/configure/
-	//TODO cambiare colori al tutto usando questo tool http://skin.tinymce.com/?_ga=2.96845919.1922290377.1525292558-662263511.1524315199
 	$scope.tinymceOptions = {
 		theme : 'modern',
 		mobile : {
@@ -133,7 +131,7 @@ function UpdateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 		$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	}
 	$scope.getField = function(index) {
-		return eval("surveyUpdateeForm.answer_"+index+".$error");
+		return eval("surveyUpdateForm.answer_"+index+".$error");
 	}
 	
 	$scope.resetAll = function() {
@@ -200,8 +198,8 @@ function UpdateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 						}
 					}
 					surveyService.uploadSurvey($scope.user, survey).then(function(response) {
-						$scope.goto("surveys");
-						$scope.showSimpleToast("Sondaggio salvato con ID : "+response.data.survey.surveyId, "bottom right", 2500);
+						$scope.reload();
+						$scope.showSimpleToast("Sondaggio "+response.data.survey.surveyId+" aggiornato!", "bottom right", 2500);
 					}, $scope.serverErrorCallbackToast)
 				}
 			});
