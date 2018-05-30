@@ -50,7 +50,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 			return true
 		}
 	}
-	$scope.modifySurvey = function(surveyId, openSurveyDate) {
+	$scope.modifySurvey = function(ev, surveyId, openSurveyDate) {
 		if ($moment(new Date(openSurveyDate)).isBefore(new Date())) {
 			$scope.showSimpleToast("Il sondaggio e' già stato pubblicato", "bottom right", 2500);
 		} else {
@@ -70,18 +70,16 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 						showSimpleToast : $scope.showSimpleToast,
 						showActionToast : $scope.showActionToast
 					},
-					controller : updateSurveyCtrl,
-					templateUrl : 'surveys/surveyUpdate/updateSurvey.html',
+					controller : "UpdateSurveyCtrl",
+					templateUrl : 'surveys/updateSurvey/updateSurvey.html',
 					parent : angular.element(document.body),
 					targetEvent : ev,
 					clickOutsideToClose : true,
 					fullscreen : $scope.fullscreen
 				}).then(function() {
-					
-				}, function() {
-					$scope.serverErrorCallback();
+					//TODO niente
 				});
-			});
+			}, $scope.serverErrorCallback);
 		}
 	}
 

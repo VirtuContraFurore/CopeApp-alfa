@@ -53,7 +53,7 @@ public class MiscUtilities {
 	
 	public static String resizeImage(String image, int maxWidth, int maxHeight) throws IOException {
 		Pattern regex = Pattern.compile("(?<=data:image\\/)(.*)(?=;base64,)");
-		Matcher m = regex.matcher("FOO[BAR]");
+		Matcher m = regex.matcher(image);
 		String type = "";
 		if (m.find()) {
 			type = m.group(1);
@@ -63,8 +63,8 @@ public class MiscUtilities {
 		byte[] imageBta = Base64.getDecoder().decode(image.substring(image.indexOf(',')+1));
 		BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBta));
 		
-		int originalHeight = img.getHeight();
-		int originalWidth = img.getWidth();
+		double originalHeight = (double)img.getHeight();
+		double originalWidth = (double)img.getWidth();
 		double ratioHeight = maxHeight/originalHeight;
 		double ratioWidth = maxWidth/originalWidth;
 		Image imgScaled = null;
@@ -72,23 +72,23 @@ public class MiscUtilities {
 		
 		if (ratioHeight < 1 || ratioWidth < 1) {
 			if (ratioHeight < 1 && ratioWidth >= 1) {
-				imgScaled = img.getScaledInstance((int)Math.floor(originalWidth*ratioHeight), (int)Math.floor(originalHeight*ratioHeight), Image.SCALE_SMOOTH);
-				scaledImage = new BufferedImage((int)Math.floor(originalWidth*ratioHeight), (int)Math.floor(originalHeight*ratioHeight), BufferedImage.TYPE_INT_ARGB);
+				imgScaled = img.getScaledInstance((int)Math.ceil(originalWidth*ratioHeight), (int)Math.ceil(originalHeight*ratioHeight), Image.SCALE_SMOOTH);
+				scaledImage = new BufferedImage((int)Math.ceil(originalWidth*ratioHeight), (int)Math.ceil(originalHeight*ratioHeight), BufferedImage.TYPE_INT_ARGB);
 			} else if (ratioWidth < 1 && ratioHeight >= 1) {
-				imgScaled = img.getScaledInstance((int)Math.floor(originalWidth*ratioWidth), (int)Math.floor(originalHeight*ratioWidth), Image.SCALE_SMOOTH);
-				scaledImage = new BufferedImage((int)Math.floor(originalWidth*ratioWidth), (int)Math.floor(originalHeight*ratioWidth), BufferedImage.TYPE_INT_ARGB);
+				imgScaled = img.getScaledInstance((int)Math.ceil(originalWidth*ratioWidth), (int)Math.ceil(originalHeight*ratioWidth), Image.SCALE_SMOOTH);
+				scaledImage = new BufferedImage((int)Math.ceil(originalWidth*ratioWidth), (int)Math.ceil(originalHeight*ratioWidth), BufferedImage.TYPE_INT_ARGB);
 			} else if (ratioHeight < 1 && ratioWidth < 1) {
 				if (ratioHeight <= ratioWidth) {
-					imgScaled = img.getScaledInstance((int)Math.floor(originalWidth*ratioHeight), (int)Math.floor(originalHeight*ratioHeight), Image.SCALE_SMOOTH);
-					scaledImage = new BufferedImage((int)Math.floor(originalWidth*ratioHeight), (int)Math.floor(originalHeight*ratioHeight), BufferedImage.TYPE_INT_ARGB);
+					imgScaled = img.getScaledInstance((int)Math.ceil(originalWidth*ratioHeight), (int)Math.ceil(originalHeight*ratioHeight), Image.SCALE_SMOOTH);
+					scaledImage = new BufferedImage((int)Math.ceil(originalWidth*ratioHeight), (int)Math.ceil(originalHeight*ratioHeight), BufferedImage.TYPE_INT_ARGB);
 				} else {
-					imgScaled = img.getScaledInstance((int)Math.floor(originalWidth*ratioWidth), (int)Math.floor(originalHeight*ratioWidth), Image.SCALE_SMOOTH);
-					scaledImage = new BufferedImage((int)Math.floor(originalWidth*ratioWidth), (int)Math.floor(originalHeight*ratioWidth), BufferedImage.TYPE_INT_ARGB);
+					imgScaled = img.getScaledInstance((int)Math.ceil(originalWidth*ratioWidth), (int)Math.ceil(originalHeight*ratioWidth), Image.SCALE_SMOOTH);
+					scaledImage = new BufferedImage((int)Math.ceil(originalWidth*ratioWidth), (int)Math.ceil(originalHeight*ratioWidth), BufferedImage.TYPE_INT_ARGB);
 				}
 			}
 		} else {
-			imgScaled = img.getScaledInstance(originalWidth, originalHeight, Image.SCALE_SMOOTH);
-			scaledImage = new BufferedImage(originalWidth, originalHeight, BufferedImage.TYPE_INT_ARGB);
+			imgScaled = img.getScaledInstance((int)Math.ceil(originalWidth), (int)Math.ceil(originalHeight), Image.SCALE_SMOOTH);
+			scaledImage = new BufferedImage((int)Math.ceil(originalWidth), (int)Math.ceil(originalHeight), BufferedImage.TYPE_INT_ARGB);
 		}
 		
 		Graphics2D g2d = scaledImage.createGraphics();
@@ -96,7 +96,7 @@ public class MiscUtilities {
 	    g2d.dispose();
 	    
 	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    ImageIO.write(scaledImage, "png", baos );
+	    ImageIO.write(scaledImage, type, baos);
 	    
 	    return "data:image/"+type+";base64,"+Base64.getEncoder().encodeToString(baos.toByteArray());
 	}
