@@ -55,7 +55,32 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 			$scope.showSimpleToast("Il sondaggio e' già stato pubblicato", "bottom right", 2500);
 		} else {
 			surveyService.getSurveyById($scope.user, surveyId).then(function(response) {
-				// gestire risposta del server
+				$mdDialog.show({
+					locals : {
+						user : $scope.user,
+						question : response.data.question,
+						startDate : response.data.startDate,
+						expireDate : response.data.expireDate, 
+						answers : response.data.answers, 
+						selectedVoters : response.data.surveyVotersRoles, 
+						selectedViewers : response.data.surveyViewersRoles, 
+						answerNumber : response.data.answerNumber,
+						serverErrorCallback : $scope.serverErrorCallback,
+						serverErrorCallbackToast : $scope.serverErrorCallbackToast,
+						showSimpleToast : $scope.showSimpleToast,
+						showActionToast : $scope.showActionToast
+					},
+					controller : updateSurveyCtrl,
+					templateUrl : 'surveys/surveyUpdate/updateSurvey.html',
+					parent : angular.element(document.body),
+					targetEvent : ev,
+					clickOutsideToClose : true,
+					fullscreen : $scope.fullscreen
+				}).then(function() {
+					
+				}, function() {
+					$scope.serverErrorCallback();
+				});
 			});
 		}
 	}
