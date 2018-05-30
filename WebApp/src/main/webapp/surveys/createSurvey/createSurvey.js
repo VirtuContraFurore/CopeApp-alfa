@@ -92,6 +92,12 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
                 return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
             }
+        },
+        {
+        	name: 'sizeFilter',
+        	fn: function(item /*{File|FileLikeObject}*/, options) {  //TODO forse funziona
+                return item.file.size <= 1048576;
+            }
         }]
 	});
 	$scope.fileUploader.autoUpload = false;
