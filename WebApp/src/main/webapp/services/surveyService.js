@@ -41,7 +41,7 @@ function SurveyService($q, $http) {
 	this.uploadSurvey = function(user, survey) {
 		var req = {
 				method: 'POST',
-				url: 'http://localhost:8080/CopeApp/rest/surveycreate',
+				url: 'http://localhost:8080/CopeApp/rest/surveyupdate',
 				headers: {
 					'Content-Type': "application/json",
 					'Authorization': btoa(user.mail+":"+user.password)

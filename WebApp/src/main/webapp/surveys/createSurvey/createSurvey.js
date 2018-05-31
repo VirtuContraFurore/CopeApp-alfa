@@ -96,7 +96,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
         {
         	name: 'sizeFilter',
         	fn: function(item /*{File|FileLikeObject}*/, options) {  //TODO forse funziona
-                return item.file.size <= 1048576;
+                return item.size <= 1048576;
             }
         }]
 	});

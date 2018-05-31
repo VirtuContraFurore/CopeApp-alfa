@@ -1,8 +1,15 @@
 app.controller("UpdateSurveyCtrl", UpdateSurveyCtrl);
 
-function UpdateSurveyCtrl($scope, $moment, $state, surveyService, commonsService, $mdMenu, FileUploader, 
-		question, startDate, expireDate, answers, selectedVoters, selectedViewers, answerNumber) {
+function UpdateSurveyCtrl($scope, $mdDialog, $moment, $state, surveyService, commonsService, $mdMenu, FileUploader, 
+		user, question, startDate, expireDate, answers, selectedVoters, selectedViewers, answerNumber,
+		serverErrorCallback, serverErrorCallbackToast, showSimpleToast, showActionToast) {
 
+	$scope.user = user;
+	$scope.serverErrorCallback = serverErrorCallback;
+	$scope.serverErrorCallbackToast = serverErrorCallbackToast;
+	$scope.showSimpleToast = showSimpleToast;
+	$scope.showActionToast = showActionToast;
+	
 	$scope.question = question;
 	$scope.startDate = new Date(startDate);
 	$scope.expireDate = new Date(expireDate);
@@ -13,8 +20,8 @@ function UpdateSurveyCtrl($scope, $moment, $state, surveyService, commonsService
 	$scope.maxNumberOfAnswers = $scope.answers.length - 1;
 	$scope.minPublishDate = $moment(new Date).add(0, 'days').startOf("day").toDate();
 	$scope.maxPublishDate = $moment(new Date).add(9, 'months').startOf("day").toDate();
-	$scope.startDate = $moment(new Date).add(0, 'days').startOf("day").toDate();
-	$scope.expireDate = $moment(new Date).add(1, "days").endOf("day").toDate();
+	$scope.startDate = new Date(startDate);
+	$scope.expireDate = new Date(expireDate);
 
 	$scope.$watch("startDate", function(value) {
 		$scope.minCloseDate = $moment(value).add(1, 'days').endOf("day").toDate();
@@ -52,8 +59,16 @@ function UpdateSurveyCtrl($scope, $moment, $state, surveyService, commonsService
 			selected.push(...$scope.roles);
 		}
 	};
+	$scope.indexOf = function(item, list) {
+		for (var i = 0; i < list.length; i++) {
+		    if (list[i].roleId == item.roleId) {
+		        return i; 
+		    }
+		}
+		return -1;
+	}
 	$scope.toggle = function(item, list) {
-		var idx = list.indexOf(item);
+		var idx = $scope.indexOf(item, list);
 		if (idx > -1) {
 			list.splice(idx, 1);
 		} else {
@@ -62,7 +77,12 @@ function UpdateSurveyCtrl($scope, $moment, $state, surveyService, commonsService
 	};
 
 	$scope.exists = function(item, list) {
-		return list.indexOf(item) > -1;
+		for (var i = 0; i < list.length; i++) {
+		    if (list[i].roleId == item.roleId) {
+		        return true; 
+		    }
+		}
+	    return false;
 	};
 	
 	$scope.roles = [];
@@ -166,7 +186,7 @@ function UpdateSurveyCtrl($scope, $moment, $state, surveyService, commonsService
 	$scope.exit = function() {
 		$scope.showActionToast("Vuoi uscire? Perderai le modifiche.", "bottom right", 3000, "OK", function(response) {
 			if (response=="ok") {
-				$scope.goto("surveys");
+				$mdDialog.hide()
 			}
 		});
 	}
@@ -186,7 +206,7 @@ function UpdateSurveyCtrl($scope, $moment, $state, surveyService, commonsService
 							openSurveyDate: $scope.startDate,
 							closeSurveyDate: $scope.expireDate,
 							insertDate: new Date(),
-							insertUser: $scope.getUser(),
+							insertUser: $scope.user,
 							surveyVotersRoles: $scope.selectedVoters,
 							surveyViewersRoles: $scope.selectedViewers,
 							answers: $scope.answers,
@@ -198,6 +218,7 @@ function UpdateSurveyCtrl($scope, $moment, $state, surveyService, commonsService
 						}
 					}
 					surveyService.uploadSurvey($scope.user, survey).then(function(response) {
+						$mdDialog.hide();
 						$scope.reload();
 						$scope.showSimpleToast("Sondaggio "+response.data.survey.surveyId+" aggiornato!", "bottom right", 2500);
 					}, $scope.serverErrorCallbackToast)

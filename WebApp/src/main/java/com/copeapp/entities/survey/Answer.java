@@ -47,6 +47,8 @@ public class Answer {
 	@NonNull
 	private Integer votesNumber;
 	
+	private String answerType;
+	
 	@OneToMany(
 			fetch = FetchType.LAZY,
 			mappedBy = "answer",
