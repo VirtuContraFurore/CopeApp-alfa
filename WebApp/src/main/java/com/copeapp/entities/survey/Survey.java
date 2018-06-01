@@ -26,6 +26,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -36,9 +37,10 @@ import lombok.RequiredArgsConstructor;
 public class Survey {
 
 	@Id
+	@Setter
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="surveysGenerator")
 	@SequenceGenerator(name="surveysGenerator", sequenceName="surveys_sequence", allocationSize = 1, initialValue = 50)
-	private int surveyId;
+	private Integer surveyId;
 	
 	@NonNull
 	private String question;
@@ -83,7 +85,7 @@ public class Survey {
 	private List<Role> surveyViewersRoles;
 	
 	@NonNull
-	@OneToMany(mappedBy="survey", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="survey", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Answer> answers;
 	
 	@NonNull

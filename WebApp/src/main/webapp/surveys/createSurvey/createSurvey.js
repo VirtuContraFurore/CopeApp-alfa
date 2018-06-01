@@ -102,6 +102,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 	});
 	$scope.fileUploader.autoUpload = false;
 	$scope.fileUploader.queueLimit = 1;
+	$scope.fileUploader.removeAfterUpload = true;
 	$scope.fileUploader.onAfterAddingFile = function(item) {
 		var reader = new FileReader();
 		reader.readAsDataURL(item._file.slice(0, item._file.size));

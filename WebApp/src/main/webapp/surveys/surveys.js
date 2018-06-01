@@ -58,6 +58,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 				$mdDialog.show({
 					locals : {
 						user : $scope.user,
+						surveyId: response.data.surveyDTO.surveyId,
 						question : response.data.surveyDTO.question,
 						startDate : response.data.surveyDTO.openSurveyDate,
 						expireDate : response.data.surveyDTO.closeSurveyDate, 
@@ -76,8 +77,10 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 					targetEvent : ev,
 					clickOutsideToClose : true,
 					fullscreen : $scope.fullscreen
-				}).then(function() {
-					//TODO niente
+				}).then(function(response) {
+					if (response) {
+						$scope.reload();
+					}
 				});
 			}, $scope.serverErrorCallback);
 		}
@@ -123,10 +126,12 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 
 		$scope.deleteSurvey = function(surveyId) {
 			$scope.showActionToast("Sicuro di voler cancellare il sondaggio?", "bottom right", 3000, "OK", function(response) {
+						if (response=="ok") {
 							surveyService.deleteSurvey($scope.user, surveyId).then(
-									function() {
-										$scope.showSimpleToast("Sondaggio eliminato!", "bottom right", 2500);
-									}, $scope.serverErrorCallbackToast)
+								function() {
+									$scope.showSimpleToast("Sondaggio eliminato!", "bottom right", 2500);
+								}, $scope.serverErrorCallbackToast)
+						}
 					});
 		}
 	}

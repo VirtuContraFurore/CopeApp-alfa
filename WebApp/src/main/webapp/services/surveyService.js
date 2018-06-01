@@ -37,7 +37,6 @@ function SurveyService($q, $http) {
 		return $http(req);
 	}
 	
-	
 	this.uploadSurvey = function(user, survey) {
 		var req = {
 				method: 'POST',

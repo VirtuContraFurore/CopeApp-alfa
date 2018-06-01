@@ -1,7 +1,7 @@
 app.controller("UpdateSurveyCtrl", UpdateSurveyCtrl);
 
 function UpdateSurveyCtrl($scope, $mdDialog, $moment, $state, surveyService, commonsService, $mdMenu, FileUploader, 
-		user, question, startDate, expireDate, answers, selectedVoters, selectedViewers, answerNumber,
+		user, surveyId, question, startDate, expireDate, answers, selectedVoters, selectedViewers, answerNumber,
 		serverErrorCallback, serverErrorCallbackToast, showSimpleToast, showActionToast) {
 
 	$scope.user = user;
@@ -10,10 +10,17 @@ function UpdateSurveyCtrl($scope, $mdDialog, $moment, $state, surveyService, com
 	$scope.showSimpleToast = showSimpleToast;
 	$scope.showActionToast = showActionToast;
 	
+	$scope.surveyId = surveyId;
 	$scope.question = question;
 	$scope.startDate = new Date(startDate);
 	$scope.expireDate = new Date(expireDate);
+	for (var i = 0; i < answers.length; i++) {
+		if (answers[i].answerType == "DATE") {
+			answers[i].answerContent.answerText = $moment(answers[i].answerContent.answerText, "ddd DD/MM/YYYY").toDate();
+		}
+	}
 	$scope.answers = answers;
+	
 	$scope.selectedVoters = selectedVoters;
 	$scope.selectedViewers = selectedViewers;
 	$scope.answerNumber = answerNumber;
@@ -105,13 +112,30 @@ function UpdateSurveyCtrl($scope, $mdDialog, $moment, $state, surveyService, com
             name: 'imageFilter',
             fn: function(item /*{File|FileLikeObject}*/, options) {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+                if ('|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1) {
+        			return true;
+        		} else {
+        			$scope.showSimpleToast("Sono ammesse solo immagini", "bottom right", 2500);
+        			return false;
+        		}
+            }
+        },
+        {
+        	name: 'sizeFilter',
+        	fn: function(item /*{File|FileLikeObject}*/, options) {  //TODO forse funziona
+        		if (item.size <= 1048576) {
+        			return true;
+        		} else {
+        			$scope.showSimpleToast("Dimensione immagine massima: 10MB", "bottom right", 2500);
+        			return false;
+        		}
             }
         }]
 	});
 	
 	$scope.fileUploader.autoUpload = false;
-	$scope.fileUploader.queueLimit = 1;
+//	$scope.fileUploader.queueLimit = 1;
+	$scope.fileUploader.removeAfterUpload = true;
 	$scope.fileUploader.onAfterAddingFile = function(item) {
 		var reader = new FileReader();
 		reader.readAsDataURL(item._file.slice(0, item._file.size));
@@ -201,6 +225,7 @@ function UpdateSurveyCtrl($scope, $mdDialog, $moment, $state, surveyService, com
 				if ( response == 'ok' ) {
 					//castare le date in stringhe
 					var survey = {
+							surveyId: $scope.surveyId,
 							question: $scope.question,
 							answersNumber: $scope.answerNumber,
 							openSurveyDate: $scope.startDate,
@@ -213,14 +238,13 @@ function UpdateSurveyCtrl($scope, $mdDialog, $moment, $state, surveyService, com
 							voters: 0
 						}
 					for (var i = 0; i < survey.answers.length; i++) {
-						if (survey.answers[i].answerType == "DATA") {
+						if (survey.answers[i].answerType == "DATE") {
 							survey.answers[i].answerContent.answerText = $moment(survey.answers[i].answerContent.answerText).format("ddd DD/MM/YYYY");
 						}
 					}
 					surveyService.uploadSurvey($scope.user, survey).then(function(response) {
-						$mdDialog.hide();
-						$scope.reload();
-						$scope.showSimpleToast("Sondaggio "+response.data.survey.surveyId+" aggiornato!", "bottom right", 2500);
+						$mdDialog.hide(true);
+						$scope.showSimpleToast("Sondaggio aggiornato!", "bottom right", 2500);
 					}, $scope.serverErrorCallbackToast)
 				}
 			});

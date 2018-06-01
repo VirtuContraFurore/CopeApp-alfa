@@ -72,14 +72,13 @@ public class SurveyDAO {
 			Date currentDate = new Date();
 			if (savedSurvey.getOpenSurveyDate().getTime() > currentDate.getTime()) {
 				if (savedSurvey.getInsertUser().equals(currentUser) || MiscUtilities.isAdmin(currentUser.getRoles())) {
-					savedSurvey.setAnswers(survey.getAnswers());
-					savedSurvey.setAnswersNumber(survey.getAnswersNumber());
-					savedSurvey.setVoters(survey.getVoters());
-					savedSurvey.setCloseSurveyDate(survey.getCloseSurveyDate());
-					savedSurvey.setQuestion(survey.getQuestion());
-					savedSurvey.setOpenSurveyDate(survey.getOpenSurveyDate());
-					savedSurvey.setSurveyViewersRoles(survey.getSurveyViewersRoles());
-					savedSurvey.setSurveyVotersRoles(survey.getSurveyVotersRoles());
+					EntityManagerGlobal.getEntityManager().remove(savedSurvey);
+					survey.setSurveyId(null);
+					for (Answer a : survey.getAnswers()) {
+						a.setAnswerId(null);
+						a.getAnswerContent().setAnswerContentId(null);
+					}
+					EntityManagerGlobal.getEntityManager().persist(survey);
 				} else {
 					throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
 				}
