@@ -14,9 +14,19 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 	$scope.answerLeft;
 	$scope.insertUser;  //inserire campi mancanti per completare survey details
 	$scope.isLoading = true;
+	$scope.totalVotes = 0;
 	
 	$scope.data = [];
 	$scope.labels = [];	
+	
+	$scope.calculateTotalVotes = function() {
+		for (var i = 0; i < $scope.answers.length; i++) {
+			$scope.totalVotes = $scope.totalVotes + $scope.answers[i].votesNumber;
+		}
+	}
+	$scope.calculateAnswerPercentage = function(votesNumber) {
+		return (votesNumber/$scope.totalVotes)*100;
+	}
 	
 	surveyService.getSurveyById($scope.user, $scope.surveyId).then(	//prende il survey con l'id passato e usa le answers
 		function(value) {
@@ -26,6 +36,7 @@ function SurveyPageCtrl($scope, $sce, $mdDialog, surveyService, user, surveyId, 
 			$scope.maxAnswers = value.data.surveyDTO.answersNumber;
 			$scope.answerLeft = $scope.maxAnswers;
 			$scope.isVoted = value.data.hasVoted;
+			$scope.calculateTotalVotes();
 			if ($scope.isVoted) {
 				$scope.data.push($scope.answers[0].votesNumber);
 				$scope.labels.push($scope.answers[0].answerContent.answerText);

@@ -122,7 +122,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 			if (votes != null) {
 				$scope.activeSurveys[index].voters++;
 			}
-		}, $scope.serverErrorCallback);
+		});
 	}
 	$scope.deleteSurvey = function(surveyId) {
 		$scope.showActionToast("Sicuro di voler cancellare il sondaggio?", "bottom right", 3000, "OK", function(response) {
@@ -130,6 +130,7 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 						surveyService.deleteSurvey($scope.user, surveyId).then(
 							function() {
 								$scope.showSimpleToast("Sondaggio eliminato!", "bottom right", 2500);
+								$scope.reload();
 							}, $scope.serverErrorCallbackToast)
 					}
 				});
