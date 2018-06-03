@@ -242,7 +242,7 @@ function UpdateSurveyCtrl($scope, $mdDialog, $moment, $state, surveyService, com
 							survey.answers[i].answerContent.answerText = $moment(survey.answers[i].answerContent.answerText).format("ddd DD/MM/YYYY");
 						}
 					}
-					surveyService.uploadSurvey($scope.user, survey).then(function(response) {
+					surveyService.uploadSurvey($scope.user, survey, true).then(function(response) {
 						$mdDialog.hide(true);
 						$scope.showSimpleToast("Sondaggio aggiornato!", "bottom right", 2500);
 					}, $scope.serverErrorCallbackToast)

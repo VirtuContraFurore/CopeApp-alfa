@@ -101,7 +101,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
         }]
 	});
 	$scope.fileUploader.autoUpload = false;
-	$scope.fileUploader.queueLimit = 1;
+//	$scope.fileUploader.queueLimit = 1;
 	$scope.fileUploader.removeAfterUpload = true;
 	$scope.fileUploader.onAfterAddingFile = function(item) {
 		var reader = new FileReader();
@@ -212,7 +212,7 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
 							survey.answers[i].answerContent.answerText = $moment(survey.answers[i].answerContent.answerText).format("ddd DD/MM/YYYY");
 						}
 					}
-					surveyService.uploadSurvey($scope.user, survey).then(function(response) {
+					surveyService.uploadSurvey($scope.user, survey, false).then(function(response) {
 						$scope.goto("surveys");
 						$scope.showSimpleToast("Sondaggio salvato con ID : "+response.data.survey.surveyId, "bottom right", 2500);
 					}, $scope.serverErrorCallbackToast)

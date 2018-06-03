@@ -37,15 +37,27 @@ function SurveyService($q, $http) {
 		return $http(req);
 	}
 	
-	this.uploadSurvey = function(user, survey) {
-		var req = {
-				method: 'POST',
-				url: 'http://localhost:8080/CopeApp/rest/surveyupdate',
-				headers: {
-					'Content-Type': "application/json",
-					'Authorization': btoa(user.mail+":"+user.password)
-				},
-				data: {surveyDTO: survey}
+	this.uploadSurvey = function(user, survey, update) {
+		if (update) {
+			var req = {
+					method: 'POST',
+					url: 'http://localhost:8080/CopeApp/rest/surveyupdate',
+					headers: {
+						'Content-Type': "application/json",
+						'Authorization': btoa(user.mail+":"+user.password)
+					},
+					data: {surveyDTO: survey}
+			}
+		} else {
+			var req = {
+					method: 'POST',
+					url: 'http://localhost:8080/CopeApp/rest/surveycreate',
+					headers: {
+						'Content-Type': "application/json",
+						'Authorization': btoa(user.mail+":"+user.password)
+					},
+					data: {surveyDTO: survey}
+			}
 		}
 		return $http(req);
 	}

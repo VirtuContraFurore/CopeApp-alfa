@@ -89,12 +89,12 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 	$scope.calculateExpireDate = function(closeDate, openDate) {
 		var TODAY = new Date();
 		var remainingTime = "";
-		if ($moment(TODAY).isBetween(closeDate, openDate)) {
-			remainingTime = "Scade " +$moment(closeDate).fromNow();
-		} else if ($moment(TODAY).isBefore(openDate)) {
-			remainingTime = "Apre " +$moment(openDate).fromNow();
-		} else if ($moment(TODAY).isAfter(closeDate)) {
-			remainingTime = "Scaduto " +$moment(closeDate).fromNow();
+		if ($moment(TODAY).isBefore(new Date(closeDate)) && $moment(TODAY).isAfter(new Date(openDate))) {
+			remainingTime = "Scade " +$moment(new Date(closeDate)).fromNow();
+		} else if ($moment(TODAY).isBefore(new Date(openDate))) {
+			remainingTime = "Apre " +$moment(new Date(openDate)).fromNow();
+		} else if ($moment(TODAY).isAfter(new Date(closeDate))) {
+			remainingTime = "Scaduto " +$moment(new Date(closeDate)).fromNow();
 		} else {
 			remainingTime = "Invalid date"
 		}
@@ -123,16 +123,15 @@ function SurveysCtrl($scope, $sce, $moment, surveyService, $mdDialog) {
 				$scope.activeSurveys[index].voters++;
 			}
 		}, $scope.serverErrorCallback);
-
-		$scope.deleteSurvey = function(surveyId) {
-			$scope.showActionToast("Sicuro di voler cancellare il sondaggio?", "bottom right", 3000, "OK", function(response) {
-						if (response=="ok") {
-							surveyService.deleteSurvey($scope.user, surveyId).then(
-								function() {
-									$scope.showSimpleToast("Sondaggio eliminato!", "bottom right", 2500);
-								}, $scope.serverErrorCallbackToast)
-						}
-					});
-		}
+	}
+	$scope.deleteSurvey = function(surveyId) {
+		$scope.showActionToast("Sicuro di voler cancellare il sondaggio?", "bottom right", 3000, "OK", function(response) {
+					if (response=="ok") {
+						surveyService.deleteSurvey($scope.user, surveyId).then(
+							function() {
+								$scope.showSimpleToast("Sondaggio eliminato!", "bottom right", 2500);
+							}, $scope.serverErrorCallbackToast)
+					}
+				});
 	}
 }

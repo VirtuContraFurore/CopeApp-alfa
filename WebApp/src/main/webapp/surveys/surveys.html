@@ -12,7 +12,7 @@
 								{{activeSurvey.voters}}
 						</p>
 						<p class="md-subhead md-warn">  
-								{{calculateExpireDate(activeSurvey.closeSurveyDate)}}
+								{{calculateExpireDate(activeSurvey.closeSurveyDate, activeSurvey.openSurveyDate)}}
 						</p>
 						<md-button style="margin: auto;" ng-if="checkRoles('admin')" class="md-icon-button md-warn" ng-click="deleteSurvey(activeSurvey.surveyId)" >
 							<md-icon class="material-icons">delete_forever</md-icon>
@@ -32,7 +32,7 @@
 					<md-card-actions layout="row" style="margin: 0px; padding: 8px; border-top-width: 1px; border-top-style: solid; border-top-color: #00000042" child-align="end center">
 						<md-icon class="material-icons" style="margin-right: 8px;">how_to_vote</md-icon>
 						<p class="md-subhead" style="color: #0000008a;" flex md-truncate>{{finishedSurvey.voters}}</p>
-						<p class="md-subhead md-warn">{{calculateExpireDate(finishedSurvey.closeSurveyDate)}}</p>
+						<p class="md-subhead md-warn">{{calculateExpireDate(finishedSurvey.closeSurveyDate, finishedSurvey.openSurveyDate)}}</p>
 						<md-button style="margin: auto;" ng-if="checkRoles('admin')" class="md-icon-button md-warn">
 							<md-icon class="material-icons">delete_forever</md-icon>
 						</md-button>
