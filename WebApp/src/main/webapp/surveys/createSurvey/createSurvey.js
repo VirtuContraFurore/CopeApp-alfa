@@ -90,13 +90,23 @@ function CreateSurveyCtrl($scope, $moment, surveyService, commonsService, $mdMen
             name: 'imageFilter',
             fn: function(item /*{File|FileLikeObject}*/, options) {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+                if ('|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1) {
+        			return true;
+        		} else {
+        			$scope.showSimpleToast("Sono ammesse solo immagini", "bottom right", 2500);
+        			return false;
+        		}
             }
         },
         {
         	name: 'sizeFilter',
         	fn: function(item /*{File|FileLikeObject}*/, options) {  //TODO forse funziona
-                return item.size <= 1048576;
+        		if (item.size <= 1048576) {
+        			return true;
+        		} else {
+        			$scope.showSimpleToast("Dimensione immagine massima: 10MB", "bottom right", 2500);
+        			return false;
+        		}
             }
         }]
 	});

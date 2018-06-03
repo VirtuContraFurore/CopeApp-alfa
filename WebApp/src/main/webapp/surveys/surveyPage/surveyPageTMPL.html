@@ -20,8 +20,22 @@
 		<md-subheader style="background: white;">Risposte (voti rimasti: {{answerLeft}})</md-subheader>
 		<div layout="row" layout-wrap>
 			<div flex="50" ng-repeat="answer in answers">
-				<md-checkbox ng-checked="exists(answer.answerId)"
+				<md-checkbox ng-if="answer.answerType!='IMAGE'" ng-checked="exists(answer.answerId)"
 					ng-click="toggle(answer.answerId)"> {{answer.answerContent.answerText }} </md-checkbox>
+			</div>
+			<div flex="100" ng-repeat="answer in answers" layout="row" layout-align="start center">
+				<md-checkbox ng-if="answer.answerType=='IMAGE'" ng-checked="exists(answer.answerId)"ng-click="toggle(answer.answerId)">
+				</md-checkbox>
+				<md-grid-list flex
+				        md-cols-xs="2" md-cols-sm="2" md-cols-md="2" md-cols-gt-md="2"
+				        md-row-height-gt-md="1:1" md-row-height="1:1"
+				        md-gutter="12px" md-gutter-gt-sm="8px" >
+					    <md-grid-tile background-img="{{answer.answerContent.answerImage}}" md-rowspan="2" md-colspan="2" md-colspan-sm="2" md-colspan-xs="2">
+					    	<md-grid-tile-footer>
+					        	<h3>{{answer.answerContent.answerText }}</h3>
+					    	</md-grid-tile-footer>
+					    </md-grid-tile>
+				    </md-grid-list>
 			</div>
 		</div>
 	</md-dialog-content> 

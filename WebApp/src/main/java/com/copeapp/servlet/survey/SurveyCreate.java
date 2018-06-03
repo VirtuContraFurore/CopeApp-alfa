@@ -36,7 +36,7 @@ public class SurveyCreate extends HttpServlet{
 		for (Answer a : survey.getAnswers()) {
 			a.setSurvey(survey);
 			if (a.getAnswerContent().getAnswerImage() != null) {
-				a.getAnswerContent().setAnswerImage(MiscUtilities.resizeImage(a.getAnswerContent().getAnswerImage(), 100, 100));
+				a.getAnswerContent().setAnswerImage(MiscUtilities.resizeImage(a.getAnswerContent().getAnswerImage(), 1024, 1024));
 			}
 		}
 		SurveyDAO.surveyCreate(currentUser, survey);
