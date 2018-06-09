@@ -22,6 +22,7 @@ app.directive('backgroundImg', function() {
     return function(scope, element, attrs) {
         var url = attrs.backgroundImg;
         element.css({
+        	'background-position': '50% 50%',
             'background-image': 'url('+url+')',
             'background-size': 'cover'
         });

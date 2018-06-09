@@ -8,11 +8,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
+
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.Imaging;
+import org.apache.commons.imaging.ImagingConstants;
 
 import com.copeapp.entities.common.Role;
 
@@ -51,17 +57,24 @@ public class MiscUtilities {
 		return false;
 	}
 	
-	public static String resizeImage(String image, int maxWidth, int maxHeight) throws IOException {
+	public static String resizeImage(String image, int maxWidth, int maxHeight) throws IOException, ImageReadException {
+		
+		//TODO capire perchè con certe immagini diventano i colori negativi
 		Pattern regex = Pattern.compile("(?<=data:image\\/)(.*)(?=;base64,)");
 		Matcher m = regex.matcher(image);
 		String type = "";
 		if (m.find()) {
 			type = m.group(1);
+		} else if (image.isEmpty()) {
+			return image;
 		} else {
 			throw new IOException("base64 bad formatted");
 		}
 		byte[] imageBta = Base64.getDecoder().decode(image.substring(image.indexOf(',')+1));
-		BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBta));
+		
+		BufferedImage img = Imaging.getBufferedImage(imageBta);
+		
+//		BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBta));
 		
 		double originalHeight = (double)img.getHeight();
 		double originalWidth = (double)img.getWidth();
@@ -96,9 +109,10 @@ public class MiscUtilities {
 	    g2d.dispose();
 	    
 	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	    ImageIO.write(scaledImage, type, baos);
+	    System.out.println("type --> "+type);
+	    ImageIO.write(scaledImage, "png", baos);
 	    
-	    return "data:image/"+type+";base64,"+Base64.getEncoder().encodeToString(baos.toByteArray());
+	    return "data:image/png;base64,"+Base64.getEncoder().encodeToString(baos.toByteArray());
 	}
 	
 }
