@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.imaging.ImageReadException;
+
 import com.copeapp.dao.commons.UserDAO;
 import com.copeapp.dao.survey.SurveyDAO;
 import com.copeapp.dto.survey.SurveyDTO;
@@ -19,6 +21,7 @@ import com.copeapp.entities.survey.Survey;
 import com.copeapp.exception.SurveyExcption;
 import com.copeapp.utilities.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;
+import com.copeapp.utilities.MessageUtility;
 import com.copeapp.utilities.MiscUtilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -44,13 +47,17 @@ public class SurveyUpdate extends HttpServlet{
 				for (Answer a : survey.getAnswers()) {
 					a.setSurvey(survey);
 					if (a.getAnswerContent().getAnswerImage() != null) {
-						a.getAnswerContent().setAnswerImage(MiscUtilities.resizeImage(a.getAnswerContent().getAnswerImage(), 1024, 1024));
+						try {
+							a.getAnswerContent().setAnswerImage(MiscUtilities.resizeImage(a.getAnswerContent().getAnswerImage(), 1024, 1024));
+						} catch (ImageReadException e) {
+							throw new SurveyExcption(HttpStatusUtility.INTERNAL_SERVER_ERROR, MessageUtility.INTERNAL_SERVER_ERROR);
+						}
 					}
 				}
 				SurveyDAO.surveyUpdate(currentUser, survey);
 				om.writeValue(response.getOutputStream(), new SurveyResponseCreateDTO(DozerMapper.getMapper().map(survey, SurveyDTO.class)));
 			} else {
-				throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "L'ID del sodaggio risulta 0");
+				throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "L'ID del sondaggio risulta 0");
 			}
 		} else {
 			throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "Non viene passato nessun identificatore");
