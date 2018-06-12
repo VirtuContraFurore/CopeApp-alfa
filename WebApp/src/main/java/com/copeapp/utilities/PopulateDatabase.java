@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
+import com.copeapp.entities.common.Class;
 
 public class PopulateDatabase {
 	
@@ -24,6 +25,8 @@ public class PopulateDatabase {
 			roles.add(new Role("rappresentante", "Rappresentante"));
 			
 			for(Role r : roles) entityManager.persist(r);
+			
+			//TODO rifare il populate database
 			
 			User user0 = new User("FabioTex", "VincioGay", "Fabio", "Tessaro", "5", "F", roles, false);
 			user0.setMail("fabio.tessaro.porta@gmail.com");

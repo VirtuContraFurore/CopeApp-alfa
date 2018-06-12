@@ -129,6 +129,11 @@ function IndexCtrl($scope, $state, $moment, $mdToast, localStorageService, $mdSi
 		pageIcon: "description",
 		itemType: "page"
 	}, {
+		displayName: "Interrogazioni",
+		routerStatus: "interrogazioni",
+		pageIcon: "warning",
+		itemType: "page"
+	}, {
 		displayName: "divbar01",
 		routerStatus: "-",
 		pageIcon: "-",
