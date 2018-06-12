@@ -55,9 +55,8 @@ public class User {
 	private String lastname;
 	
 	@NonNull
-	@JoinColumn(name="classId")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Class classe;
+	//TODO joinnare classi
+	private List<Class> classe;
 	
 	@NonNull
 	@ManyToMany
