@@ -44,11 +44,14 @@ public class Class {
 	@ManyToMany
 	@JoinTable( name = "teachers_classes",
 				joinColumns = { @JoinColumn(name = "classId") },
-				inverseJoinColumns = { @JoinColumn(name = "teacherId") } )
-	private List<Teacher> teachers;
+				inverseJoinColumns = { @JoinColumn(name = "userId") } )
+	private List<User> teachers;
 	
 	@NonNull
-	@OneToMany(mappedBy="classe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	@ManyToMany
+	@JoinTable( name = "students_classes",
+				joinColumns = { @JoinColumn(name = "classId") },
+				inverseJoinColumns = { @JoinColumn(name = "userId") } )
 	private List<User> students;
 
 }
