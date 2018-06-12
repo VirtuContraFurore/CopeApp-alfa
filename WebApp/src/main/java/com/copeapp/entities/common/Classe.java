@@ -31,7 +31,7 @@ import lombok.Setter;
 @EqualsAndHashCode(of = "classId")
 @Entity
 @Table(name="classes")
-public class Class {
+public class Classe {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="classesGenerator")
@@ -47,7 +47,7 @@ public class Class {
 	@NonNull
 	private String indirizzo;
 	
-	@OneToMany(mappedBy="classe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(targetEntity = Student.class, mappedBy="classe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Student> students;
 	
 	@ManyToMany
