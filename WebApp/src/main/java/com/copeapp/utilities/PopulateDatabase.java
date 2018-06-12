@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
-import com.copeapp.entities.common.Class;
 
 public class PopulateDatabase {
 	

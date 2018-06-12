@@ -2,16 +2,13 @@ package com.copeapp.entities.common;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -28,31 +25,25 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "classId")
+@EqualsAndHashCode(of = "subjectId")
 @Entity
-@Table(name="classes")
-public class Class {
+@Table(name="subjects")
+public class Subject {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="classesGenerator")
-	@SequenceGenerator(name="classesGenerator", sequenceName="classes_sequence", allocationSize = 1, initialValue = 50)
-	private Integer classId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="subjectsGenerator")
+	@SequenceGenerator(name="subjectsGenerator", sequenceName="subjectsSequence", allocationSize = 1, initialValue = 50)
+	private Integer subjectId;
 	
 	@NonNull
-	private Integer number;
+	private String name;
 	
 	@NonNull
-	private Integer section;
-	
-	@NonNull
-	private String indirizzo;
-	
-	@OneToMany(mappedBy="classe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
-	private List<Student> students;
+	private String color;
 	
 	@ManyToMany
-	@JoinTable( name = "teachers_classes",
-				joinColumns = { @JoinColumn(name = "classId") },
+	@JoinTable( name = "teachers_subjects",
+				joinColumns = { @JoinColumn(name = "subjectId") },
 				inverseJoinColumns = { @JoinColumn(name = "userId") } )
 	private List<Teacher> teachers;
 

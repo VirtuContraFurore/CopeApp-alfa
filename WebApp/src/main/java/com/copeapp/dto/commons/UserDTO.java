@@ -29,10 +29,7 @@ public class UserDTO {
 	private String lastname;
 	
 	@NonNull
-	private String classe;
-	
-	@NonNull
-	private String sezione;
+	private List<ClassDTO> classe; 
 	
 	@NonNull
 	private List<RoleDTO> roles;

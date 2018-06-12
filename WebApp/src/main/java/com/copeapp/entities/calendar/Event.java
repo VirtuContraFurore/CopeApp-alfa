@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
 
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
-import com.copeapp.entities.common.Class;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,8 +60,7 @@ public class Event {
 	private List<Role> destinationRoles;
 	
 	@NonNull
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Class destinationClass;
+	private String type;
 	
 	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
