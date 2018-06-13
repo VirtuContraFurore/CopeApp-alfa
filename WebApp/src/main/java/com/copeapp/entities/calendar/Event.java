@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.copeapp.entities.common.Classe;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 
@@ -59,11 +60,19 @@ public class Event {
 				inverseJoinColumns = { @JoinColumn(name = "roleId") } )
 	private List<Role> destinationRoles;
 	
+	@ManyToMany
+	@JoinTable( name = "eventDestinationClasses_classes",
+				joinColumns = { @JoinColumn(name = "eventId") },
+				inverseJoinColumns = { @JoinColumn(name = "classId") } )
+	private List<Classe> destinationClasses;
+	
 	@NonNull
 	private String type;
 	
 	@NonNull
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date eventDate;
+	
+	//TODO eventContent
 	
 }

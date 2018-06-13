@@ -29,9 +29,6 @@ public class UserDTO {
 	private String lastname;
 	
 	@NonNull
-	private List<ClassDTO> classe; 
-	
-	@NonNull
 	private List<RoleDTO> roles;
 	
 	@NonNull

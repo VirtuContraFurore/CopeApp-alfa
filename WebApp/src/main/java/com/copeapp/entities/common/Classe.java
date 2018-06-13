@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -55,5 +56,10 @@ public class Classe {
 				joinColumns = { @JoinColumn(name = "classId") },
 				inverseJoinColumns = { @JoinColumn(name = "userId") } )
 	private List<Teacher> teachers;
+	
+	@NonNull
+	@JoinColumn(name="coordinator")
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Teacher coordinator;
 
 }
