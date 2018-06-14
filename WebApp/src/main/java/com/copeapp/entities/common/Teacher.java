@@ -7,26 +7,20 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="teachers")
-@PrimaryKeyJoinColumn(name = "teacherId", referencedColumnName = "userId")
 @DiscriminatorValue("teacher")
 public class Teacher extends User {
 	
@@ -53,14 +47,16 @@ public class Teacher extends User {
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Classe coordinatorOf;
 	
-	@NonNull
-//	@ElementCollection(targetClass = Subject.class) //Guarda che in realtà non è un errore NON CANCELLARE
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable( name = "teachers_subjects",
+				joinColumns = { @JoinColumn(name = "userId") },
+				inverseJoinColumns = { @JoinColumn(name = "subjectId") } )
 	private List<Subject> subjects;
 	
-	@NonNull
-	@ManyToMany
-//	@ElementCollection(targetClass = Classe.class) //Guarda che in realtà non è un errore NON CANCELLARE
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable( name = "teachers_classes",
+				joinColumns = { @JoinColumn(name = "userId") },
+				inverseJoinColumns = { @JoinColumn(name = "classId") } )
 	private List<Classe> classi;
 	
 }

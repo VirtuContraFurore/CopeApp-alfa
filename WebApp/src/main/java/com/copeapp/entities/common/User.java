@@ -32,9 +32,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name="users")
-@Inheritance(strategy = InheritanceType.JOINED)
-@EqualsAndHashCode(of = "userId")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "userType", discriminatorType = DiscriminatorType.STRING)
+@EqualsAndHashCode(of = "userId")
 public class User {
 
 	@Id

@@ -2,6 +2,7 @@ package com.copeapp.entities.common;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,8 +42,8 @@ public class Subject {
 	@NonNull
 	private String color;
 	
-	@ManyToMany
-	@JoinTable( name = "teachers_subjects",
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable( name = "subjects_teachers",
 				joinColumns = { @JoinColumn(name = "subjectId") },
 				inverseJoinColumns = { @JoinColumn(name = "userId") } )
 	private List<Teacher> teachers;

@@ -17,6 +17,9 @@ public class StartupOperations implements ServletContextListener {
 		if(EntityManagerFactoryGlobal.getInstance().getEmfactory().getProperties().get("hibernate.hbm2ddl.auto").equals("create")) {
 			PopulateDatabase.doPopulate();
 		}
+		if(EntityManagerFactoryGlobal.getInstance().getEmfactory().getProperties().get("hibernate.hbm2ddl.auto").equals("create-drop")) {
+			PopulateDatabase.doPopulate();
+		}
 	}
 	
 	@Override
