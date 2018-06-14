@@ -43,7 +43,7 @@ public class Classe {
 	private Integer number;
 	
 	@NonNull
-	private Integer section;
+	private String section;
 	
 	@NonNull
 	private String indirizzo;
