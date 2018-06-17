@@ -4,7 +4,6 @@ app.config(function($urlRouterProvider, localStorageServiceProvider, $mdDateLoca
 	$urlRouterProvider.otherwise(function($injector){
 		return "/home";
 	});
-	
 	localStorageServiceProvider.setPrefix('CopeApp');
 	localStorageServiceProvider.setDefaultToCookie(false);
 	$mdDateLocaleProvider.formatDate = function(date) {

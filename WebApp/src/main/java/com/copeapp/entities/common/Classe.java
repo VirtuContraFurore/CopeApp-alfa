@@ -51,6 +51,9 @@ public class Classe {
 	@OneToMany(targetEntity = Student.class, mappedBy="classe", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Student> students;
 	
+	@OneToMany(targetEntity = Student.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+	private List<Student> rappresentanti;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable( name = "classes_teachers",
 				joinColumns = { @JoinColumn(name = "classId") },
