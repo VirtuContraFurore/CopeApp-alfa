@@ -22,9 +22,7 @@ public class UserDAO {
 		query.setParameter("username", username);
 		User selectedUser;
 		try {
-
-			selectedUser = (User) query.getSingleResult();
-
+			selectedUser = query.getSingleResult();
 			if (selectedUser.getPassword().equals(password)) {
 				return selectedUser;
 			} else {
