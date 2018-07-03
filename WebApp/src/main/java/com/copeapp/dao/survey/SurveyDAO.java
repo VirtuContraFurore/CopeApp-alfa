@@ -28,11 +28,7 @@ public class SurveyDAO {
 				Long.class);
 		query.setParameter("surveyId", surveyId);
 		query.setParameter("userId", currentUser.getUserId());
-		if(query.getSingleResult() != 0) {
-			return true;
-		} 
-		return false;
-		
+		return (query.getSingleResult() != 0);
 	}
 	
 	public static Survey getSurveyById(int surveyId) {

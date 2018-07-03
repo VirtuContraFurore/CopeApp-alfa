@@ -29,4 +29,11 @@ public class ClasseDAO {
         query.setParameter("number", number);
         return query.getResultList();
     }
+
+    public static long countStudents(Classe classe){
+        TypedQuery<Long> query = EntityManagerGlobal.getEntityManager().createQuery(
+                "SELECT COUNT(DISTINCT s) FROM Student s INNER JOIN s.classe c WHERE (c.classId = := classId", Long.class);
+        query.setParameter("classId", classe.getClassId());
+        return query.getSingleResult();
+    }
 }
