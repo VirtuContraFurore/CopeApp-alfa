@@ -36,4 +36,8 @@ public class ClasseDAO {
         query.setParameter("classId", classe.getClassId());
         return query.getSingleResult();
     }
+
+    public static Classe selectClasseById(Integer id){
+        return EntityManagerGlobal.getEntityManager().find(Classe.class, id);
+    }
 }

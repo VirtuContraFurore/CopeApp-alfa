@@ -18,7 +18,7 @@ import com.copeapp.dto.survey.SurveyResponseCreateDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.exception.SurveyExcption;
+import com.copeapp.exception.SurveyException;
 import com.copeapp.utilities.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;
@@ -50,17 +50,17 @@ public class SurveyUpdate extends HttpServlet{
 						try {
 							a.getAnswerContent().setAnswerImage(MiscUtilities.resizeImage(a.getAnswerContent().getAnswerImage(), 1024, 1024));
 						} catch (ImageReadException e) {
-							throw new SurveyExcption(HttpStatusUtility.INTERNAL_SERVER_ERROR, MessageUtility.INTERNAL_SERVER_ERROR);
+							throw new SurveyException(HttpStatusUtility.INTERNAL_SERVER_ERROR, MessageUtility.INTERNAL_SERVER_ERROR);
 						}
 					}
 				}
 				SurveyDAO.surveyUpdate(currentUser, survey);
 				om.writeValue(response.getOutputStream(), new SurveyResponseCreateDTO(DozerMapper.getMapper().map(survey, SurveyDTO.class)));
 			} else {
-				throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "L'ID del sondaggio risulta 0");
+				throw new SurveyException(HttpStatusUtility.BAD_REQUEST, "L'ID del sondaggio risulta 0");
 			}
 		} else {
-			throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "Non viene passato nessun identificatore");
+			throw new SurveyException(HttpStatusUtility.BAD_REQUEST, "Non viene passato nessun identificatore");
 		}
 	}
 }

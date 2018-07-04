@@ -1,23 +1,18 @@
 package com.copeapp.dao.survey;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.TypedQuery;
-
 import com.copeapp.dto.survey.SurveyMiniDTO;
 import com.copeapp.entities.common.Role;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
 import com.copeapp.entities.survey.Vote;
-import com.copeapp.exception.SurveyExcption;
-import com.copeapp.utilities.DozerMapper;
-import com.copeapp.utilities.EntityManagerGlobal;
-import com.copeapp.utilities.HttpStatusUtility;
-import com.copeapp.utilities.MessageUtility;
-import com.copeapp.utilities.MiscUtilities;
+import com.copeapp.exception.SurveyException;
+import com.copeapp.utilities.*;
+
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class SurveyDAO {
 
@@ -38,7 +33,7 @@ public class SurveyDAO {
 	public static void surveyDelete(int surveyId, User currentUser) {
 		Survey survey = EntityManagerGlobal.getEntityManager().find(Survey.class, surveyId);
 		if (survey == null) {
-			throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "Ci hai provato e hai fallito miseramente, BESTIA!");
+			throw new SurveyException(HttpStatusUtility.BAD_REQUEST, "Ci hai provato e hai fallito miseramente, BESTIA!");
 		}
 		if (MiscUtilities.isAdmin(currentUser.getRoles()) || survey.getInsertUser().equals(currentUser)) {
 			survey.setDeleteDate(new Date());
@@ -58,7 +53,7 @@ public class SurveyDAO {
 			EntityManagerGlobal.getEntityManager().persist(survey);
 
 		} else {
-			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
+			throw new SurveyException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
 		}
 	}
 	
@@ -76,20 +71,19 @@ public class SurveyDAO {
 					}
 					EntityManagerGlobal.getEntityManager().persist(survey);
 				} else {
-					throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
+					throw new SurveyException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
 				}
 			} else {
-				throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, "Non puoi modificare sondaggi già pubblicati");
+				throw new SurveyException(HttpStatusUtility.UNAUTHORIZED, "Non puoi modificare sondaggi già pubblicati");
 			}
 		} else {
-			throw new SurveyExcption(HttpStatusUtility.BAD_REQUEST, "Non esistono sondaggi con questo id");
+			throw new SurveyException(HttpStatusUtility.BAD_REQUEST, "Non esistono sondaggi con questo id");
 		}
 	}
 
 	public static ArrayList<SurveyMiniDTO> getSurveyMiniDTO(User currentUser, int lastSurveyNumber,
 		int numberToRetrieve, boolean isMine, String filterKey, boolean isActive) {
 		TypedQuery<Survey> query;
-		ArrayList<SurveyMiniDTO> miniDTO = new ArrayList<SurveyMiniDTO>();
 		if (!isMine) {
 			String keyword = (filterKey.isEmpty()) ? "" : filterKey;
 			String active = "<"; //abbasso gli operatori ternari
@@ -117,7 +111,7 @@ public class SurveyDAO {
 		query.setFirstResult(lastSurveyNumber);
 		query.setMaxResults(numberToRetrieve);
 		List<Survey> surveys = query.getResultList();
-		miniDTO = new ArrayList<SurveyMiniDTO>();
+		ArrayList<SurveyMiniDTO> miniDTO = new ArrayList<>();
 		for (Survey s : surveys) {
 			if (MiscUtilities.checkRoles(currentUser.getRoles(), s.getSurveyViewersRoles())) {
 				miniDTO.add(DozerMapper.getMapper().map(s, SurveyMiniDTO.class));
@@ -129,13 +123,13 @@ public class SurveyDAO {
 	public static void voteSurvey(User currentUser, int surveyId, List<Integer> answersId) {
 		Survey survey = getSurveyById(surveyId);
 		if (survey == null) {
-			throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND);
+			throw new SurveyException(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND);
 		}
 		if (MiscUtilities.checkRoles(currentUser.getRoles(), survey.getSurveyVotersRoles())) {
 			for (Integer aId : answersId) {
 				Answer answer = EntityManagerGlobal.getEntityManager().find(Answer.class, aId);
 				if (answer == null) {
-					throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND);
+					throw new SurveyException(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND);
 				}
 				answer.getVotes().add(new Vote(answer, currentUser));
 				answer.setVotesNumber(answer.getVotesNumber()+1);

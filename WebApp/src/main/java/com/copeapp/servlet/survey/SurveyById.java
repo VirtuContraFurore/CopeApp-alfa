@@ -16,7 +16,7 @@ import com.copeapp.dto.survey.SurveyRequestByIdDTO;
 import com.copeapp.dto.survey.SurveyResponseByIdDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.exception.SurveyExcption;
+import com.copeapp.exception.SurveyException;
 import com.copeapp.utilities.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;
@@ -35,7 +35,7 @@ public class SurveyById extends HttpServlet{
 		User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
 		Survey requiredSurvey = SurveyDAO.getSurveyById(surveyRequestById.getSurveyId());  //igniorante
 		if (requiredSurvey == null) {
-			throw new SurveyExcption(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND);
+			throw new SurveyException(HttpStatusUtility.NOT_FOUND, MessageUtility.SURVEY_NOT_FOUND);
 		}
 		
 		SurveyResponseByIdDTO responseDTO;
@@ -46,7 +46,7 @@ public class SurveyById extends HttpServlet{
 			}
 			response.setStatus(HttpStatusUtility.OK);
 		} else {
-			throw new SurveyExcption(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
+			throw new SurveyException(HttpStatusUtility.UNAUTHORIZED, MessageUtility.UNAUTHORIZED);
 		}
 		objMap.writeValue(response.getOutputStream(),responseDTO);
 	}

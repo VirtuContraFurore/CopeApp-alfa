@@ -29,4 +29,7 @@ public class InterrogationCreateDTO {
     @NonNull
     private Integer daysBeforeClosing;
 
+    @NonNull
+    private Integer classeId;
+
     }

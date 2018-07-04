@@ -18,7 +18,7 @@ import com.copeapp.dto.survey.SurveyResponseCreateDTO;
 import com.copeapp.entities.common.User;
 import com.copeapp.entities.survey.Answer;
 import com.copeapp.entities.survey.Survey;
-import com.copeapp.exception.SurveyExcption;
+import com.copeapp.exception.SurveyException;
 import com.copeapp.utilities.DozerMapper;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MiscUtilities;
@@ -43,7 +43,7 @@ public class SurveyCreate extends HttpServlet{
 				try {
 					a.getAnswerContent().setAnswerImage(MiscUtilities.resizeImage(a.getAnswerContent().getAnswerImage(), 1024, 1024));
 				} catch (ImageReadException e) {
-					throw new SurveyExcption(HttpStatusUtility.INTERNAL_SERVER_ERROR, "Errore interno al server");
+					throw new SurveyException(HttpStatusUtility.INTERNAL_SERVER_ERROR, "Errore interno al server");
 				}
 			}
 		}

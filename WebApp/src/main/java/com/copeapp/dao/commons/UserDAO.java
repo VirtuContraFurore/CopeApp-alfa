@@ -1,10 +1,7 @@
 package com.copeapp.dao.commons;
 
-import java.util.Base64;
-
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-
+import com.copeapp.entities.common.Classe;
+import com.copeapp.entities.common.Student;
 import com.copeapp.entities.common.User;
 import com.copeapp.exception.CopeAppGenericException;
 import com.copeapp.exception.InvalidAuthTokenException;
@@ -12,6 +9,11 @@ import com.copeapp.exception.LoginException;
 import com.copeapp.utilities.EntityManagerGlobal;
 import com.copeapp.utilities.HttpStatusUtility;
 import com.copeapp.utilities.MessageUtility;
+
+import javax.persistence.NoResultException;
+import javax.persistence.TypedQuery;
+import java.util.Base64;
+import java.util.List;
 
 public class UserDAO {
 
@@ -46,5 +48,10 @@ public class UserDAO {
 					" ':' presenti in username o password");
 		}
 		return selectByUsername(tokens[0], tokens[1]);
+	}
+
+	public static boolean isRappresentanteByClass(Student student, Classe classe){
+		List<Student> rappresentanti = classe.getRappresentanti();
+		return (rappresentanti.contains(student));
 	}
 }

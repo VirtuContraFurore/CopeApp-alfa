@@ -3,6 +3,9 @@ package com.copeapp.dao.calendar;
 import com.copeapp.entities.calendar.Interrogation;
 import com.copeapp.entities.calendar.InterrogationDay;
 import com.copeapp.entities.common.*;
+import com.copeapp.exception.CalendarException;
+import com.copeapp.utilities.HttpStatusUtility;
+import com.copeapp.utilities.MessageUtility;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,18 +49,18 @@ public class InterrogationDayDAO {
         if (isValidInterrogationDay(interrogation, eventDate)){
             interrogationDay.setEventDate(eventDate);
         } else {
-            //TODO trow exception
+            throw new CalendarException(HttpStatusUtility.NOT_ACCEPTABLE, MessageUtility.INVALID_DATE);
         }
         if (minInterrogated>0 && maxInterrogated>=minInterrogated){
             interrogationDay.setMinInterrogated(minInterrogated);
             interrogationDay.setMaxInterrogated(maxInterrogated);
         } else {
-            //TODO trow exception
+            throw new CalendarException(HttpStatusUtility.NOT_ACCEPTABLE, MessageUtility.INVALID_NUMBER);
         }
         if (maxInterrogated>=studentsInterrogated.size() && InterrogationDAO.isValidStudent(interrogation, studentsInterrogated)){
             interrogationDay.setStudentsInterrogated(studentsInterrogated);
         } else {
-            //TODO trow exception
+            throw new CalendarException(HttpStatusUtility.NOT_ACCEPTABLE, MessageUtility.INVALID_STUDENS);
         }
         return interrogationDay;
     }
