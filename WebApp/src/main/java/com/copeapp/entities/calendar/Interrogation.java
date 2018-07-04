@@ -3,18 +3,24 @@ package com.copeapp.entities.calendar;
 import com.copeapp.entities.common.Classe;
 import com.copeapp.entities.common.Student;
 import com.copeapp.entities.common.Subject;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-public class Interrogazione {
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name="interrogations")
+public class Interrogation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="eventsGenerator")
     @SequenceGenerator(name="eventsGenerator", sequenceName="events_sequence", allocationSize = 1, initialValue = 50)
-    private Integer interrogazioneId;
+    private Integer interrogationId;
 
     @NonNull
     @ManyToMany
@@ -26,21 +32,21 @@ public class Interrogazione {
 
     @NonNull
     @ManyToMany // aggiungere allo user le sue interrogazioni?
-    private List<Student> studentiInterrogati;
+    private List<Student> studentsInterrogated;
 
     @NonNull
     @ManyToOne //TODO inverse join
-    private List<GiornoInterrogazione> dateInterrogazioni;
+    private List<InterrogationDay> daysOfInterrogation;
 
     @NonNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date inizioInterrogazioni;
+    private Date startInterrogation;
 
     @NonNull
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fineInterrogazioni;
+    private Date endInterrogation;
 
     @NonNull
-    private Integer giorniPrimaDellaChiusura;
+    private Integer daysBeforeClosing;
 
 }

@@ -1,33 +1,41 @@
 package com.copeapp.entities.calendar;
 
 import com.copeapp.entities.common.*;
-import lombok.NonNull;
+import lombok.*;
 
+import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GiornoInterrogazione extends Event {
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name="interrogationdays")
+public class InterrogationDay extends Event {
 
     @NonNull
     @ManyToMany
-    private List<Student> studentiInterrogati;
+    private List<Student> studentsInterrogated;
 
     @NonNull
     @ManyToMany
     private Subject subject;
 
     @ManyToOne //TODO inverse join
-    private Interrogazione interrogazione;
+    private Interrogation interrogation;
 
     @NonNull
     private Boolean isOpen;
 
-    public GiornoInterrogazione(User insertUser, Date insertDate, String type, Date eventDate, List<Student> studentiInterrogati, Subject subject){
+    public InterrogationDay(User insertUser, Date insertDate, String type, Date eventDate, List<Student> studentsInterrogated, Subject subject){
         super(insertUser, insertDate, type, eventDate);
-        this.studentiInterrogati = studentiInterrogati;
+        this.studentsInterrogated = studentsInterrogated;
         this.subject = subject;
         this.isOpen = false;
         setType("interrogazione");
@@ -36,14 +44,14 @@ public class GiornoInterrogazione extends Event {
         targetRole.add(new Role("prof", "Professore"));
         setDestinationRoles(targetRole);
         List<Classe> targetClasse = new ArrayList<>();
-        targetClasse.add(studentiInterrogati.get(0).getClasse());
+        targetClasse.add(studentsInterrogated.get(0).getClasse());
         setDestinationClasses(targetClasse);
     }
 
-    public GiornoInterrogazione(User insertUser, Date insertDate, String type, Date eventDate, List<Student> studentiInterrogati, Subject subject, Boolean isOpen) {
+    public InterrogationDay(User insertUser, Date insertDate, String type, Date eventDate, List<Student> studentsInterrogated, Subject subject, Boolean isOpen) {
         super(insertUser, insertDate, type, eventDate);
         this.isOpen = isOpen;
-        this.studentiInterrogati = studentiInterrogati;
+        this.studentsInterrogated = studentsInterrogated;
         this.subject = subject;
         this.isOpen = false;
         setType("interrogazione");
@@ -52,7 +60,7 @@ public class GiornoInterrogazione extends Event {
         targetRole.add(new Role("prof", "Professore"));
         setDestinationRoles(targetRole);
         List<Classe> targetClasse = new ArrayList<>();
-        targetClasse.add(studentiInterrogati.get(0).getClasse());
+        targetClasse.add(studentsInterrogated.get(0).getClasse());
         setDestinationClasses(targetClasse);
     }
     }
