@@ -10,7 +10,7 @@ import java.util.List;
 
 public class InterrogationDAO {
 
-    public static List<Student> selectInterrogatedStudentByDay(Interrogation interrogation, Date date){
+    public static List<Student> selectInterrogatedStudentsByDay(Interrogation interrogation, Date date){
         List<Student> listStudent = new ArrayList<>();
         for (InterrogationDay d : interrogation.getDaysOfInterrogation()){
             if (d.getEventDate() == date) { //TODO va il .equals() ?
@@ -18,5 +18,9 @@ public class InterrogationDAO {
             }
         }
         return listStudent;
+    }
+
+    public static boolean isValidStudent(Interrogation interrogation, List<Student> student){ //TODO gli studenti che sono già stati interrogati in un giorno precedente
+        return !(student.retainAll(interrogation.getStudentsInterrogated())); //TODO dovrebbe andare
     }
 }

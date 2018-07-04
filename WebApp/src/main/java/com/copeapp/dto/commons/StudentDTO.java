@@ -2,17 +2,15 @@ package com.copeapp.dto.commons;
 
 import com.copeapp.entities.common.Classe;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentDTO extends UserDTO {
-	
+
+	@NonNull
 	private Classe classe;
 
 }
