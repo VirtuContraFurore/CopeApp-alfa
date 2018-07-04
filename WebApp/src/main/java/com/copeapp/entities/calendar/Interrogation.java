@@ -31,11 +31,11 @@ public class Interrogation {
     private Subject subject;
 
     @NonNull
-    @ManyToMany // aggiungere allo user le sue interrogazioni?
+    @ManyToMany //TODO aggiungere allo user le sue interrogazioni?
     private List<Student> studentsInterrogated;
 
     @NonNull
-    @ManyToOne //TODO inverse join
+    @OneToMany(mappedBy="interrogation", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<InterrogationDay> daysOfInterrogation;
 
     @NonNull
