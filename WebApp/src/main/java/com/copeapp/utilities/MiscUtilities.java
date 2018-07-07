@@ -1,26 +1,19 @@
 package com.copeapp.utilities;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
+import com.copeapp.entities.common.Role;
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.Imaging;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
-
-import org.apache.commons.imaging.ImageReadException;
-import org.apache.commons.imaging.Imaging;
-import org.apache.commons.imaging.ImagingConstants;
-
-import com.copeapp.entities.common.Role;
 
 public class MiscUtilities {
 	
@@ -114,5 +107,4 @@ public class MiscUtilities {
 	    
 	    return "data:image/png;base64,"+Base64.getEncoder().encodeToString(baos.toByteArray());
 	}
-	
 }

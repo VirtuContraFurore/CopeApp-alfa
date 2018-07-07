@@ -31,8 +31,8 @@ public class InterrogationCreate extends HttpServlet {
 
         User currentUser = UserDAO.selectByBasicAuthTokenException(request.getHeader("Authorization"));
         ObjectMapper om = new ObjectMapper();
-
         InterrogationCreateDTO interrogationreq = om.readValue(request.getInputStream(), InterrogationCreateDTO.class);
+
         Classe currentClasse = ClasseDAO.selectClasseById(interrogationreq.getClasseId());
         if (InterrogationDAO.canCreateInterrogation(currentUser, currentClasse,  interrogationreq.getSubject())) {
             Interrogation interrogation = new Interrogation();
@@ -61,7 +61,6 @@ public class InterrogationCreate extends HttpServlet {
                 interrogationDays.add(InterrogationDayDAO.createInterrogationDay(currentUser, intDayCreate.getEventDate(), intDayCreate.getStudetsInterrogated(),
                         interrogation.getSubject(), interrogation, intDayCreate.getMinInterrogated(), intDayCreate.getMaxInterrogated()));
             }
-            interrogationDays.get(0).setIsOpen(true); //TODO per aprire il primo giorno
             interrogation.setDaysOfInterrogation(interrogationDays);
 
             EntityManagerGlobal.getEntityManager().getTransaction().begin();

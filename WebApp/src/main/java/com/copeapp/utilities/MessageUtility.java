@@ -13,4 +13,6 @@ public interface MessageUtility {
 	String INVALID_DATE = "Data non valida";
 	String INVALID_STUDENS = "Studenti non validi";
 	String INVALID_NUMBER = "Numero non valido";
+	String INVALID = "Invalido";
+	String EVENT_NOT_FOUND = "Evento non trovato";
 }

@@ -21,9 +21,6 @@ public class InterrogationDayDTO {
     private Interrogation interrogation;
 
     @NonNull
-    private Boolean isOpen;
-
-    @NonNull
     private Integer minInterrogated;
 
     @NonNull
