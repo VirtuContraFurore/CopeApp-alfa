@@ -31,7 +31,7 @@ public class Interrogation {
     private Subject subject;
 
     @NonNull
-    @ManyToMany //TODO aggiungere allo user le sue interrogazioni?
+    @ManyToMany //TODO aggiungere allo user le sue interrogazioni? AHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH
     private List<Student> studentsInterrogated;
 
     @NonNull
