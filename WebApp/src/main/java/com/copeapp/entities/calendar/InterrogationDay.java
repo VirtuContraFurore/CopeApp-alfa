@@ -20,7 +20,7 @@ public class InterrogationDay extends Event {
     private List<Student> studentsInterrogated;
 
     @NonNull
-    @ManyToMany
+//    @ManyToMany
     private Subject subject;
 
     @NonNull
